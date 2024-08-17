@@ -1,0 +1,16 @@
+# sourced by the various bootstrap functions
+
+if [ ! -e ../tmp/INSTALL.sh ] ; then
+    echo ../tmp/INSTALL.sh does not exist: execute ./icm_prepare
+    exit 1
+fi
+
+. ../tmp/INSTALL.sh
+
+if [ "${CXXFLAGS}" == "" ] ; then 
+    CXXFLAGS="--std=c++23 -Werror -Wall -O2"
+fi
+
+if [ "${CXX}" == "" ] ; then 
+    CXX="g++"
+fi

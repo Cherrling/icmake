@@ -1,17 +1,19 @@
 #include "scanner.h"
 
-#include <bobcat/string>
-#include <bobcat/mstream>
+#include "../../tmp/build/string/string"
+#include "../../tmp/build/mstream/mstream"
 
 #include "../../xerr/xerr.ih"
 
 #include "../tokens/tokens.h"
 #include "../opcode/opcode.h"
 
-using namespace std;
-using namespace FBB;
 
 // end of scanner.ih
 
 
 
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

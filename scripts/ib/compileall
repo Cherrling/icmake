@@ -1,4 +1,19 @@
+#ifdef MULTICOMP
+void c_compile(int prefix, string destDir, string srcDir, list cfiles)
+{
+    fprintf << (TMP_DIR '/' + multicomp[0]) << 
+                ": " << srcDir << ' ' << destDir << ' ' << prefix << '\n'; 
 
+    if (srcDir != "")
+        srcDir += "/";
+
+    for (int idx = listlen(cfiles); idx--; )
+    {
+        fprintf << (TMP_DIR '/' +  multicomp[0]) << cfiles[idx] << '\n';
+        g_compiled = 1;
+    }
+}
+#else
 void c_compile(int prefix, string destDir, string srcDir, list cfiles)
 {
     showCd(srcDir);
@@ -15,6 +30,7 @@ void c_compile(int prefix, string destDir, string srcDir, list cfiles)
         g_compiled = 1;
     }
 }
+#endif
 
 void std_cpp(int ignoreMain, string destDir, 
             int prefix, string srcDir, string library)
@@ -50,4 +66,23 @@ void compileAll(string libPath)
         
                                             // compile all files in g_cwd
     std_cpp(1, TMP_DIR + "/o", 0, ".", libPath);  
+
+#ifdef MULTICOMP
+    if (g_compiled)
+    {
+        string cmd = "icmake -m ";
+        for (int idx = 1, end = listlen(multicomp); idx != end; ++idx)
+            cmd += multicomp[idx] + ' ';
+        cmd += TMP_DIR '/' + multicomp[0] + " '" +
+                            g_compiler + " -c -o $2 $1'";
+        system(cmd);
+    }
+#endif
 }
+
+
+
+
+
+
+

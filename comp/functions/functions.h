@@ -17,12 +17,14 @@ struct Functions
         std::vector<ExprType> locals;   // types of this overload's local
                                         // variables
         std::string code;               // code of this overloaded function
+
+        Info(unsigned from, ExprType retType);                      // 1.cc
     };
 
-    typedef std::vector<Info> Overload;
+    using Overload = std::vector<Info>;
 
     private:
-        typedef std::unordered_map<std::string, Overload> FunMap;
+        using FunMap = std::unordered_map<std::string, Overload>;
     
         FunMap d_functions;
 

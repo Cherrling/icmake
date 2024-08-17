@@ -8,7 +8,7 @@
 
 #include <stack>
 
-#include <bobcat/pattern>
+#include "../../tmp/build/pattern/pattern"
 
 #include "../symtab/symtab.h"
 

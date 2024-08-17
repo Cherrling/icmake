@@ -5,7 +5,16 @@ void setGcompiler()
     // Same for matching options.
 
 #ifdef CXX
-    g_compiler = setOpt(CXX, "CXX") + " " + setOpt(CXXFLAGS, "CXXFLAGS");
+    list envOpts = getenv("ICMAKE_CPPSTD");
+    if (envOpts[0] == "0")
+    {
+        envOpts =  getenv("ICMAKE_CXXFLAGS");
+        if (envOpts[1])
+            printf << "ICMAKE_CXXFLAGS is deprecated. "
+                        "Use ICMAKE_CPPSTD instead\n";
+    }
+    g_compiler = setOpt(CXX, "CXX") + ' ' + 
+                    envOpts[1] + ' ' + setOpt(CXXFLAGS, "CXXFLAGS");
 #else
     #ifdef CC
         g_compiler = setOpt(CC, "CC") + " " + setOpt(CFLAGS, "CFLAGS");

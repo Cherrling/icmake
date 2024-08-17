@@ -1,0 +1,11 @@
+#!/bin/bash
+
+    # make ../bootstrap/build available in the current directory
+. ../buildscripts/build 
+
+    echo "
+Building tmp/usr/libexec/icmake/icm-spch"
+
+    # execute build installing the program in the destination dir,
+    # which is under TMP_DIR  
+build /usr/libexec/icmake/icm-spch

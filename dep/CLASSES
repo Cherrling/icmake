@@ -1,6 +1,6 @@
 # findidx                   only .h
-# log                       only .h
 # action                    only .h
 
+log
 options
 dependencies

@@ -7,12 +7,16 @@ string Handler::catArgs(unsigned begin, unsigned end) const
 
     for 
     (
-        char const *const *beginArgs = d_splitter.argv() + begin,
-                   *const *endArgs = d_splitter.argv() + end;
-            beginArgs != endArgs; 
-                ++beginArgs
+        char const *const *from = d_splitter.argv() + begin,
+                   *const *to = d_splitter.argv() + end;
+            from != to; 
+                ++from
     )
-        (ret += ' ') += *beginArgs;
-
+    {
+        string arg = *from; 
+        if (arg.find_first_of(" \t") != string::npos)
+            arg.insert(0, 1, '\'') += '\'';
+        (ret += ' ') += arg;
+    }
     return ret;
 }

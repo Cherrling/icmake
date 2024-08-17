@@ -8,17 +8,19 @@
 
 #include <filesystem>
 
-#include <bobcat/arg>
-#include <bobcat/string>
-#include <bobcat/exception>
+#include "../../tmp/build/arg/arg"
+#include "../../tmp/build/string/string"
+#include "../../tmp/build/exception/exception"
 
-#include "../../support/tools/tools.h"
+#include "../../tmp/build/tools/tools.h"
 
-using namespace std;
-using namespace FBB;
 
 #include "addbuffer.f"
 #include "precode.f"
 #include "postcode.f"
 
 
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

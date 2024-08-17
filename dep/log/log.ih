@@ -1,0 +1,13 @@
+#include "log.h"
+
+#include <ostream>
+
+#include "../../tmp/build/log/log"
+#include "../../tmp/build/level/level"
+
+extern FBB::Log g_log;
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

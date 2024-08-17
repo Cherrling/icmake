@@ -1,0 +1,153 @@
+#!/bin/bash
+
+. ./buildscripts/try
+
+usage()
+{
+    echo "
+Usage: $0 [strip] all|progs|scripts|man|skel|doc|etc|docdoc storageDir
+"
+    exit 1
+}
+
+[ -e tmp/ROOT ] || usage        # no tmp/ROOT then probably no icm_prepare
+                                # and icm_bootstrap
+
+. tmp/INSTALL.sh
+. scripts/prefixroot
+
+# optionally strip the binaries
+    if [ "$1" == "strip" ] ; then
+        STRIP=strip
+        shift
+    fi
+
+# the storageDir is unrelated to the root directory specified by tmp/ROOT
+# but is used to store the resulting files in a separate directory like
+# debian/icmake, which is used when constructing a Debian package
+# show the actual root directory, and the storageDir if it differs from root
+    if [ "$2" != "" ] ; then
+        storageDir=$2
+        echo "    ROOT DIRECTORY: '${ROOT}'; storageDir: ${storageDir}
+"
+        if [ ! -e ${storageDir} ] ; then
+            mkdir -p ${storageDir}
+        elif [ ! -d ${storageDir} ] ; then
+            echo $storageDir must be a directory
+            exit 1
+        fi
+    else
+        storageDir=${ROOT}
+        echo "ROOT DIRECTORY: ${ROOT}
+"
+    fi
+
+progs()
+{
+    echo programs:
+    # maybe strip the binaries
+
+    if [ "$STRIP" == "strip" ] ; then
+        try strip tmp/usr/bin/icmake tmp/usr/bin/icmbuild \
+                  tmp/usr/libexec/icmake/*
+        echo
+    fi
+
+    #  prepare the directories for the binaries and install the binaries
+
+
+    try mkdir -p $storageDir${BINDIR} $storageDir${LIBDIR}
+
+    try cp tmp${BINDIR}/icmake tmp${BINDIR}/icmbuild \
+                $storageDir${BINDIR}
+
+    # a possibly running icm-exec program must first be removed before
+    # a new icm-exec program can be installed
+
+    if [ -e $storageDir${LIBDIR}/icm-exec ] ; then
+        try rm $storageDir${LIBDIR}/icm-exec 
+    fi
+
+    try cp -r tmp${LIBDIR}/* $storageDir${LIBDIR}
+    echo
+}
+
+# argument: the directory to store, files are stored under $storageDir
+#   (called below, e.g., to install the man-pages)
+
+tarInstall()
+{
+    echo installing tmp${1} to $storageDir${1}
+    (cd tmp; tar cf - .$1) | (cd $storageDir; tar xf -)
+    [ "$?" -eq "0" ] || exit 1
+}
+
+scripts()
+{
+    echo scripts:
+    # prepare the directories used by scripts:
+        try mkdir -p $storageDir${BINDIR} $storageDir${LIBDIR} \
+                     $storageDir${DOCDIR} 
+
+    # convert icmstart.sh to storageDir/usr/bin/icmstart
+        try scripts/convert tmp/icmstart.sh $storageDir$BINDIR/icmstart
+        try chmod +x $storageDir$BINDIR/icmstart
+
+    # convert icmbuild.in to icmbuild
+        try scripts/convert tmp/icmbuild.in $storageDir$LIBDIR/icmbuild
+
+    # convert icmstart.in to docdir/icmstart.im
+    # compress the icmstart.im script in the documentation directory:
+        try scripts/convert tmp/icmstart.in tmp/icmstart.im
+        echo "    gzip -9cn tmp/icmstart.im > tmp${DOCDIR}/icmstart.im.gz"
+        gzip -9cn tmp/icmstart.im > tmp${DOCDIR}/icmstart.im.gz || exit 1
+
+    # compile icmstart.im to $storageDir$LIBDIR/icmstart.bim so icmstart can
+    # immediately be used w/o having to compile it first.
+        try tmp${LIBDIR}/icm-pp tmp/icmstart.im tmp/icmstart.pim
+        try tmp${LIBDIR}/icm-comp tmp/icmstart.pim \
+                                  $storageDir${LIBDIR}/icmstart.bim
+    echo
+}
+
+case $1 in
+    (all)
+        progs
+        scripts
+        tarInstall ${MANDIR}
+        tarInstall ${SKELDIR}
+        tarInstall ${DOCDIR}
+        tarInstall ${CONFDIR}
+        echo
+        echo "Done. Consider calling ./clean"
+        echo
+    ;;
+
+    (progs)
+        progs
+    ;;
+
+    (scripts)
+        scripts
+    ;;
+
+    (man)
+        tarInstall ${MANDIR}
+    ;;
+
+    (skel)
+        tarInstall ${SKELDIR}
+    ;;
+
+    (doc)
+        tarInstall ${DOCDIR}
+    ;;
+
+    (etc)
+        tarInstall ${CONFDIR}
+    ;;
+
+    (*)
+        usage
+    ;;
+esac

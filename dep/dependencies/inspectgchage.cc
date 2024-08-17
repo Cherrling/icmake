@@ -20,7 +20,7 @@ void Dependencies::inspectGchAge(size_t dir)
     
             if (Tools::younger(hdr, gch))   // hdr file is younger
             {
-                g_log << level(V4) << '`' << d_directory[dir] <<
+                log(V4) << '`' << d_directory[dir] <<
                             "': " << hdr << " younger " <<
                             hdrs[0] << ".gch: recompile\n";
     

@@ -1,20 +1,26 @@
-void cleanPrecomp(string msg)
+void rmPrecomp()
+{
+    printf << "removing .gch files\n";
+    echo(OFF);
+    exec("rm -rf " + g_gchDir);
+
+    for (int idx = listlen(g_classes); idx--; )
+    {
+        string class = g_classes[idx];
+        exec("rm -f " + class + '/' + class + IH ".gch");
+    }
+    #ifdef MAIN
+        exec("rm -f " + g_mainBase + IH ".gch");
+    #endif
+}
+
+void cleanPrecomp()
 {
     #ifdef PRECOMP
-        printf(msg);
-
-        echo(OFF);
-        exec("rm -rf " + g_gchDir);
-    
-        for (int idx = listlen(g_classes); idx--; )
-        {
-            string class = g_classes[idx];
-            exec("rm -f " + class + '/' + class + IH ".gch");
-        }
-
-        #ifdef MAIN
-            exec("rm -f " + g_mainBase + IH ".gch");
-        #endif
+        rmPrecomp();
+    #endif
+    #ifdef SPCH
+        rmPrecomp();
     #endif
     exit(0);
 }

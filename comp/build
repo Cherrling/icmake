@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# icm-spch and icm-multicomp must be available
+. ../buildscripts/multicomp
+
+    echo "
+Building tmp/usr/libexec/icmake/icm-comp"
+
+build /usr/libexec/icmake/icm-comp
+

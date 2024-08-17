@@ -3,8 +3,7 @@ Upstream-Name: icmake
 Upstream-Source: https://gitlab.com/fbb-git/icmake
 
 Files: *
-Copyright: 1992-2023, Frank B. Brokken (f.b.brokken@rug.nl) and
-                      Karel Kubat (karel@e-tunity.com)
+Copyright: 1992-2024, Frank B. Brokken (f.b.brokken@rug.nl)
 License: GPL-3
  On Debian systems the full text of the GNU General Public License can be found
  in the /usr/share/common-licenses/GPL-3' file.
@@ -15,7 +14,7 @@ Copyright: 2000,      Michael Meskes <meskes@topsystem.de>.
            2004-2023, Frank B. Brokken <f.b.brokken@rug.nl>
            2005,      Francesco Lovergine <frankie@debian.org>
            2005-2023, George Danchev <danchev@debian.org>
-           2005-2023, Tony Mancill <tmancill@debian.org>
-License: GPL-2+
+           2005-2024, Tony Mancill <tmancill@debian.org>
+License: GPL-3
  On Debian systems the full text of the GNU General Public License can be found
- in the /usr/share/common-licenses/GPL-2' file.
+ in the /usr/share/common-licenses/GPL-3' file.

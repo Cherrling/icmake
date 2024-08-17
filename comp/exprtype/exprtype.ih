@@ -2,5 +2,7 @@
 
 #include <ostream>
 
-using namespace std;
 
+#ifndef SPCH_
+using namespace std;
+#endif

@@ -1,0 +1,63 @@
+# loaded and called from program's build scripts once icm-spch
+# and icm-multicomp are available
+
+#   $1 is, e.g., /usr/libexec/icmake/icm-dep
+
+. ../buildscripts/precomp
+  
+jobs()
+{    
+    count=0     # use o-file numbers to avoid name collisions
+
+        # all directories to process
+
+    rm -f jobs
+
+    IFS='
+'    
+    for dir in `find ./ -mindepth 1 -maxdepth 1 -type d | sed 's;./;;'`
+    do
+        [ $dir == "xerr" ] && continue
+
+        cd $dir
+
+        ls *.cc > /dev/null 2>&1
+        if [ $? -eq 0 ] ; 
+        then
+            echo : $dir . $count >> ../jobs
+    
+            for file in *.cc            # compile all .cc files in $dir
+            do
+                echo $file >> ../jobs
+            done
+        fi 
+        cd ..
+        let count=$count+1          # next directory nr.
+    done
+    IFS=$ifs
+}
+
+build()
+{
+    precomp -n                  # construct the .gch file and soft-links
+    jobs                        # make the multicomp jobs file
+                                # use -O2
+    export ICMAKE_CPPSTD="${ICMAKE_CPPSTD} -O2"
+                                # multi-compile
+    ../tmp/usr/libexec/icmake/icm-multicomp -q jobs
+                                # created the o-files .tgz
+#    tar czf ../tmp/usr/share/icmake/ofiles.tgz *.o
+                                # clean up
+#    rm -rf spch *.o */*.gch tmp
+}   
+
+
+
+
+
+
+
+
+
+
+

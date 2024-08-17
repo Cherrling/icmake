@@ -1,0 +1,19 @@
+#include "compiler.h"
+#include "../../xerr/xerr.ih"
+
+#include <string>
+#include <iostream>
+#include <filesystem>
+
+#include "../../tmp/build/arg/arg"
+#include "../../tmp/build/exception/exception"
+#include "../../tmp/build/semaphore/semaphore"
+
+#include "../compilefork/compilefork.h"
+#include "../../tmp/build/tools/tools.h"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+namespace fs = filesystem;
+#endif

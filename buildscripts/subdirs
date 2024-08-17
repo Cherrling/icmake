@@ -1,0 +1,49 @@
+# sourced by the various icm_bootstrap shell scripts
+
+subdirs()
+{
+    echo Compiling in `pwd`
+
+    [ "`find ./  -mindepth 1 -maxdepth 1 -type d -name ORG`" != "" ] && return
+
+    count=0     # use o-file numbers to avoid name collisions
+
+    for subdir in \ `find ./  -mindepth 1 -maxdepth 1 -type d |sort` ; do
+
+        [ $subdir == "./xerr" ] && continue
+
+        try cd $subdir
+        srclist=`find -mindepth 1 -maxdepth 1 -type f -name '*.cc' \
+                                  -exec basename '{}' ';' | sort`
+
+        if [ "$srclist" != "" ]
+        then
+            for src in `find -mindepth 1 -maxdepth 1 -type f -name '*.cc' \
+                                    -exec basename '{}' ';' | sort` ; do
+                obj=../${count}${src%%.*}.o
+                if [ $src -nt ${obj} ] ; then 
+                    try ${CXX} ${CXXFLAGS} -o${obj} -c $src
+                fi
+            done
+        fi
+        try cd ..
+        let count=$count+1          # next directory nr.
+
+    done
+
+    for src in `find -mindepth 1 -maxdepth 1 -type f -name '*.cc' \
+                            -exec basename '{}' ';' | sort` ; do
+        obj=${src%%.*}.o
+        if [ $src -nt ${obj} ] ; then 
+            try ${CXX} ${CXXFLAGS} -o${obj} -c $src
+        fi
+    done
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+#define XERR
+#include "ihhandler.ih"
+
+IHhandler::
+{
+}

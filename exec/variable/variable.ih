@@ -3,8 +3,10 @@
 #include "../../xerr/xerr.ih"
 
 #include "../int/int.h"
-#include "../string/string.h"
+#include "../estring/estring.h"
 #include "../list/list.h"
 
-using namespace std;
 
+#ifndef SPCH_
+using namespace std;
+#endif

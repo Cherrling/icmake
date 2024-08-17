@@ -3,9 +3,10 @@
 
 #include <initializer_list>
 
-#include "../../support/header/header.h"
-#include "../../support/as/as.h"
+#include "../../tmp/build/header/header.h"
+#include "../../tmp/build/as/as.h"
 #include "../error/error.h"
 
+#ifndef SPCH_
 using namespace std;
-
+#endif

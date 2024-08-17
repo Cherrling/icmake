@@ -1,0 +1,3 @@
+icmake: executable-not-elf-or-script [usr/libexec/icmake/icmbuild]
+icmake: executable-not-elf-or-script [usr/libexec/icmake/icmstart.bim]
+icmake: groff-message an.tmac:<standard input>:398: warning: tbl preprocessor failed, or it or soelim was not run; table(s) likely not rendered (TE macro called with TW register undefined) [usr/share/man/man7/icmscript.7.gz:1]

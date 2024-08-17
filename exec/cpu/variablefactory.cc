@@ -11,7 +11,7 @@ Variable CPU::variableFactory()
 
         case e_str:
         xerr("e_str");
-        return new String;
+        return new EString;
 
         case e_list:
         xerr("e_list");

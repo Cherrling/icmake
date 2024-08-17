@@ -5,14 +5,14 @@ void Dependencies::directDependencies()
 {
     if (not d_options.mainIH().empty())     // start with main.ih, if present
     {
-        g_log << level(V4) << "Inspecting the main project directory\n";
+        log(V4) << "Inspecting the main project directory\n";
         dependency(0, d_options.mainIH());
     }
 
                                             // then visit all other dirs.
     for (size_t idx = 1; idx != d_size; ++idx)
     {
-        g_log << level(V4) << "Inspecting directory `" << 
+        log(V4) << "Inspecting directory `" << 
                                                 d_directory[idx] << "'\n";
 
         d_inspecting.clear();           // local headers being inspected

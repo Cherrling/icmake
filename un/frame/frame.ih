@@ -1,7 +1,9 @@
 #include "frame.h"
 
-#include "../../support/bimheader/bimheader.h"
+#include "../../tmp/build/bimheader/bimheader.h"
 #include "../../xerr/xerr.ih"
 
-using namespace std;
 
+#ifndef SPCH_
+using namespace std;
+#endif

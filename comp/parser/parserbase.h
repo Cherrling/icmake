@@ -81,31 +81,31 @@ struct TagOf<std::string>
 template <>
 struct TypeOf<Tag_::OPCODE>
 {
-    typedef Opcode::Byte type;
+    using type = Opcode::Byte;
 };
 
 template <>
 struct TypeOf<Tag_::TOKEN>
 {
-    typedef Tokens::Tokens_ type;
+    using type = Tokens::Tokens_;
 };
 
 template <>
 struct TypeOf<Tag_::ARGS>
 {
-    typedef Args type;
+    using type = Args;
 };
 
 template <>
 struct TypeOf<Tag_::SEMVAL>
 {
-    typedef SemVal type;
+    using type = SemVal;
 };
 
 template <>
 struct TypeOf<Tag_::STRING>
 {
-    typedef std::string type;
+    using type = std::string;
 };
 
 
@@ -212,7 +212,7 @@ void *Semantic<tg_>::vData() const
     // $$.get<INT> to be used.  
 class SType: private std::unique_ptr<Base>
 {
-    typedef std::unique_ptr<Base> BasePtr;
+    using BasePtr = std::unique_ptr<Base>;
 
     public:
         SType() = default;
@@ -416,14 +416,14 @@ class ParserBase: public Tokens
 
 // $insert tokens
 // $insert STYPE
-    typedef Meta_::SType STYPE_;
+    using STYPE_=  Meta_::SType;
 
 
     private:
                         // state  semval
-        typedef std::pair<size_t, STYPE_> StatePair;
+        using StatePair = std::pair<size_t, STYPE_>;
                        // token   semval
-        typedef std::pair<int,    STYPE_> TokenPair;
+        using TokenPair = std::pair<int,    STYPE_>;
 
         int d_stackIdx = -1;
         std::vector<StatePair> d_stateStack;

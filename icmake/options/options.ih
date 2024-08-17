@@ -1,0 +1,19 @@
+#include "options.h"
+#include "../../xerr/xerr.ih"
+
+#include <cstring>
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <getopt.h>
+
+#include <iostream>
+#include <algorithm>
+
+#include "../../tmp/build/exception/exception"
+#include "../../tmp/build/stat/stat"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

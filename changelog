@@ -1,3 +1,133 @@
+icmake (12.01.00)
+
+  * Icmake is now completely independent from bobcat.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 23 Apr 2024 11:09:42 +0200
+
+icmake (12.00.01)
+
+  * The man-pages are prebuilt in ./doc to avoid Yodl-dependency when
+    building the icmake package.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 05 Apr 2024 10:50:37 +0200
+
+icmake (12.00.00)
+
+  * The icmake construction no longer depends on the availability of the
+    (possibly bootstrapped) bobcat library. Bootstrapping is no longer
+    required.
+
+  * The /usr/libexec/icmake/icm-spch support program recognizes #, as well as
+    // as the beginning of eoln comment
+
+  * When icmstart optionally installs a directory it also requests whether the
+    directory name should be added to the CLASSES file
+
+  * The icmake man-page received some cosmetic changes
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 03 Apr 2024 20:28:35 +0200
+
+icmake (11.01.02)
+
+  * Repaired a failing comparison between signed/unsigned values only
+    appearing in 32-bit architectures.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 25 Jan 2024 13:48:37 +0100
+
+icmake (11.01.01)
+
+ * Repaired an issue when converting to 11.00.00 with 'icmake -c ...'
+
+ * For backward compatibility ICMAKE_CXXFLAGS is still recognized by
+   icmbuild and support programs.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 24 Jan 2024 11:23:14 +0100
+
+icmake (11.01.00)
+
+ * The environment variable ICMAKE_CXXFLAGS was replaced by ICMAKE_CPPSTD
+
+ * Earlier FTBFS problems in a clean chroot environment were caused by not
+   having defined the ICMAKE_CXXFLAGS environment variable
+
+ * Cosmetics on some man-pages.
+
+ * Internal redesign: all filesystem functions used by at least two functions
+   are now defined in support/tools
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 19 Jan 2024 15:25:05 +0100
+
+icmake (11.00.00)
+
+ * New major version supports using Single Pre-Compiled Headers and
+   multi-threaded compilation, significantly reducing the compilation time of
+   the source files of projects compared to situations where these facilities
+   are not used. The icmake and icmconf manuals were updated accordingly.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 14 Jan 2024 13:53:39 +0100
+
+icmake (10.06.01)
+
+ * icm_bootstrap was slightly modified: when the man-pages are available in
+   the ./doc directory Yodl isn't called to create them. Pre-built man-pages
+   are only used when constructing the icmake_*.orig.tar.gz tar file, to allow
+   the debian package to be constructed w/o being dependent on Yodl, as that
+   would introduce a circular dependency.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 29 Sep 2023 11:08:28 +0200
+
+icmake (10.06.00)
+
+ * Updated the QUICKINSTALL file and repaired bugs / improved the comment in
+   icm_prepare, icm_bootstrap and icm_install scripts.
+
+ * The CPPENVOPTS environment variable is no longer used. Instead use the
+   ICMAKE_CXXFLAGS environment variable (cf. the icmconf(7) man-page).
+
+  * The icm_prepare, icm_bootstrap, and icm_install scripts received a major
+    upgrade
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 25 Sep 2023 10:56:51 +0200
+
+icmake (10.05.01)
+
+ * Repaired typo in icmstript.yo
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 17 Sep 2023 12:47:32 +0200
+
+icmake (10.05.00)
+
+  * When compiling C++ programs the icmconf file by default specifies the
+    options
+        -Werror -Wall -O2
+    As before, additional options can be added to the CXXFLAGS specification
+    in the icmconf file, but it's also possible to define additional options
+    in the environment variable CPPENVOPTS (cf. the icmconf(7) man-page).
+
+  * This is the last entry in gitlab's 'master' branch. This version and
+    future versions will be committed to gitlab's 'main' branch.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 17 Sep 2023 11:02:43 +0200
+
+icmake (10.04.01)
+
+  * Processed Tony Mancill's merge request to fix Matthias Klose's debian bug
+    report #1037691.
+
+  * Updated the C++ standard version in ./c++std to --std=c++23.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 24 Jun 2023 09:06:15 +0200
+
+icmake (10.04.00)
+
+  * Replaced 'typedef' definitions by 'using' declarations
+
+  * Input file lists are now sorted (following a gitlab merge request by
+    Bernhard M. Wiedemann), resulting in icmake offering reproducible builds
+    (cf https://reproducible-builds.org/).
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 23 Mar 2023 11:01:19 +0100
+
 icmake (10.03.03)
 
   * Updated the usr/share/icmake files: the parser/ and scanner/ files are
@@ -67,10 +197,10 @@ icmake (10.00.00)
 
   * Added a new manpage: icmscript(7), describing the syntaxis, construction
     and predefined support functions and other characteristics of icmake
-    scripts. 
+    scripts.
 
   * Added new options --no-process (-N), --unassemble (-u), and --verbose (-V)
-    to icmake, 
+    to icmake,
 
   * Icmake's option --summary) (-F) has been discontinued.
 
@@ -85,7 +215,7 @@ icmake (10.00.00)
 
   * Changed the organization of the class-dependencies matrices shown by
     'icmake -d' (icm_dep), simplifying visual inspection of circular
-    class-dependencies 
+    class-dependencies
 
   * Fixed a flaw in handling precompiled headers in the std. icmbuild script
     causing precompilation of modified headers at the second icmbuild run.
@@ -100,7 +230,7 @@ icmake (9.03.01)
   * Fixed unintended termination of /usr/lib/icmake/icmbuild caused by
     non-existing .gch files (when PRECOMP was specified; this happened
     when a directory only contained a header, but no sources).
-    
+
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 13 Jan 2020 10:08:17 +0100
 
 icmake (9.03.00)
@@ -116,7 +246,7 @@ icmake (9.03.00)
   * Added icmbuild commands cleantmp and cleangch
 
   * icmbuild options -c can only be specified when building libraries or
-    programs 
+    programs
 
   * Stripping (-s) can only be specified when installing
 
@@ -133,7 +263,7 @@ icmake (9.03.00)
     generator (and vice versa)
 
   * The standard icmake skeleton files specify namespace Icmake instead of
-    the previously used namespace Icmbuild. 
+    the previously used namespace Icmbuild.
 
   * All manpages received a full overhaul
 
@@ -158,7 +288,7 @@ icmake (9.02.07)
     terminal (stdin) configuration when terminated by ctrl-C).
 
   * The man-pages contain warnings that path names containing blanks are not
-    supported. 
+    supported.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 15 Mar 2018 20:55:48 +0100
 
@@ -209,7 +339,7 @@ icmake (9.02.00)
     script in LIBDIR (cf. INSTALL)
 
   * Man-pages were updated
-  
+
   * Cosmetic changes to icmake --help's output
 
   * The name of the optional configuration file YEAR was changed to YEARS
@@ -217,7 +347,7 @@ icmake (9.02.00)
 
   * `icmconf' was added to /etc/icmake/icmstart.rc
 
-  * As mentioned in icmake's man-page the program `icmun' is mainly used in 
+  * As mentioned in icmake's man-page the program `icmun' is mainly used in
     some specific situations. In icmake's daily practice it isn't
     used. Therefore it was moved from the standard binary programs directory
     to icmake's LIB directory (commonly /usr/lib/icmake).
@@ -229,7 +359,7 @@ icmake (9.02.00)
 icmake (9.01.00)
 
   * Man-pages weren't properly updated at 9.00.00. This was fixed in this
-    release. 
+    release.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 03 Sep 2016 15:10:43 +0200
 
@@ -260,7 +390,7 @@ icmake (9.00.00)
  * Repaired a bug in substr that could segfault.
 
  * Man-pages updated. Icmbuild(1) contains a description of the icm-dep
-   program. 
+   program.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 23 Jul 2016 20:55:33 +0200
 
@@ -269,7 +399,7 @@ icmake (8.01.00)
 * Added builtin functions 'strchr', 'listfind', and 'listunion'. See 'man
    icmake' for details.
 
-* Fixed a bug in icmake's option handling due to which options could not be 
+* Fixed a bug in icmake's option handling due to which options could not be
   forwarded to called scripts.
 
 * Fixed a bug in the compilation of ternary expressions: the condition wasn't
@@ -278,7 +408,7 @@ icmake (8.01.00)
 
 * The 'icmstart' script was modified, improving control over which files
   should initially be installed (see 'man icmstart' and 'man icmstart.rc' for
-  details. 
+  details.
 
 * Icmake's predefined function stat(P_NOCHECK, entry) returns, if `entry'
   does not exist, a list having two elements: list[0] == 0, list[1] == -1.
@@ -289,7 +419,7 @@ icmake (8.01.00)
 * The main() function must have return type 'void' (this was already required
   in earlier versions, but is now enforced).
 
-* When defining executable icmake scripts using 
+* When defining executable icmake scripts using
         #!/usr/bin/icmake -t
   -t. indicates that the temporary .bim file must be defined in icmake's
   temporary directory, using icmake's pid and the .bim suffix as its filename.
@@ -301,23 +431,23 @@ icmake (8.01.00)
   from 'icmconf' files.
 
 * Support for using 'grambuild' (superfluous since 2008) was removed from
-  'icmbuild' 
+  'icmbuild'
 
-* Updated the manpages and examples (examples now use -t. 
+* Updated the manpages and examples (examples now use -t.
     rather than -qt /tmp/...)
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 13 Feb 2016 13:40:10 +0100
 
 icmake (8.00.05)
 
- * Fixed typo in the icmconf manpage: 
-        #define PRECOMP           "-x c++-headers" 
+ * Fixed typo in the icmconf manpage:
+        #define PRECOMP           "-x c++-headers"
    must be
         #define PRECOMP           "-x c++-header"
 
  * Fixed a bug in the implementation of the '#undef IDENTIFIER' preprocessor
    directive causing intermittend errors on amd64 architectures: instead of
-   removing the entry from the table of defined identifiers the id of the 
+   removing the entry from the table of defined identifiers the id of the
    item to undefine is simply changed into an empty string. A bit of a kludge,
    but it solves the problem.
 
@@ -355,7 +485,7 @@ icmake (8.00.00)
 
   * This release adds several new builtin functions, which required a
     redefinition of the builtin function codes. Because of this existing .bim
-    files must be recompiled from their .im source files. 
+    files must be recompiled from their .im source files.
 
   * Martin Dorwig suggested several additions to icmake's run-time support
     functions. In particular facilities for formatted string construction and
@@ -366,7 +496,7 @@ icmake (8.00.00)
 
   * The functions fprintf and printf now support a format string as their
     first argument, in which %-notations refer to subsequent argument numbers
-    (see icmake(1) for details). 
+    (see icmake(1) for details).
 
   * The 16 bit offset limit was removed from fgets. Also, fgets's signature
     changed. See icmake(1) for details.
@@ -374,7 +504,7 @@ icmake (8.00.00)
   * Added the 'continue' statement/keyword to the flow constrol statements. It
     can be used inside while and for statements.
 
-  * Added the ternary operator (?:) to the set of supported operators. 
+  * Added the ternary operator (?:) to the set of supported operators.
 
   * Global variable initialization can now use expression statements, not just
     constant expressions.
@@ -401,8 +531,8 @@ icmake (8.00.00)
 
   * Fixed a bug in the icm-pp precompiler: multiple #defines of the same
     identifier are not accepted anymore. Multple #undefines are OK, but
-    an #undefine generates a warning if it doesn't refer to a currently 
-    #defined identifier. 
+    an #undefine generates a warning if it doesn't refer to a currently
+    #defined identifier.
 
   * Drive specifiers are not supported anymore
 
@@ -429,7 +559,7 @@ icmake (8.00.00)
  *  The -v option shows icmake's version to the standard output stream
     (terminating icmake).
 
- *  The -F flag shows which files, and flags are used by icmake, and which 
+ *  The -F flag shows which files, and flags are used by icmake, and which
     actions are going to be performed.
 
  *  The -T flag can be used to specify a non-default destination directory for
@@ -458,13 +588,13 @@ icmake (7.23.00)
 
   * Added the define
         //#define PRECOMP "-x c++-header"
-    to icmconf files. When activated, internal header files are precompiled 
+    to icmconf files. When activated, internal header files are precompiled
     when they are more recent than their precompiled versions.
 
   * Added the define
         #define IH ".ih"
     to icmconf files, specifying the extension of internal header files. It is
-    used by PRECOMP. 
+    used by PRECOMP.
 
   * Reorganized the #defines in the icmconf mold file so that related #defines
     are easily recognized.
@@ -511,7 +641,7 @@ icmake (7.21.01)
     CFLAGS. E.g., CFLAGS="-Wall -O2 -g".
 
   * Applied Colin Herbert's patches (to see Colin's patches use the prefix
-    https://gist.gitlab.com/ColinHebert/): 
+    https://gist.gitlab.com/ColinHebert/):
 
     Removed the redundant definition of __STDC_VERSION__ from lexer.c:
         1377507/raw/545a60cb39105c80d97e543dc77e00ab7ecbb5ff/lexer.c.diff
@@ -522,14 +652,14 @@ icmake (7.21.01)
   * The above changes were suggested by Florian Franzen. Thanks!
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 20 Jan 2014 11:00:27 +0100
-        
+
 icmake (7.21.00)
 
   * Repaired segfaults found in icmake, icm-exec, and icmun by Alexandre
     Reber.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 30 Jul 2013 16:49:58 +0200
-    
+
 icmake (7.20.00)
 
   * added missing '\n' to the strtok call in icmbuild's 'dependenciesOf'
@@ -549,7 +679,7 @@ icmake (7.19.00)
     flags as well. CC defines the C-compiler to use.
 
   * icmbuild script's COMPILER and COMPILER_OPTIONS variables should be
-    considered obsolete, and are overruled by 
+    considered obsolete, and are overruled by
         CXX and CXXFLAGS, defining the C++ compiler and flags
     or
         CC and CFLAGS, defining the C compiler and flags
@@ -583,24 +713,24 @@ icmake (7.17.00)
 icmake (7.16.01)
 
   * Removed erroneous -o from '-fPIC -o' in icmbuild at line 450 in
-    icmbuild.in 
+    icmbuild.in
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 28 Sep 2011 20:41:33 +0200
 
 icmake (7.16.00)
 
   * `icm_bootstrap' script now recognizes CFLAGS and LDFLAGS environment
-    variables for, resp. gcc and ld flags. 
+    variables for, resp. gcc and ld flags.
 
   * icmbuild script now correctly interprets class dependencies defined in
-    CLASSES and correctly interprets USE_ALL (see `man icmconf') 
+    CLASSES and correctly interprets USE_ALL (see `man icmconf')
 
   * `icmbuild' script now recognizes (configurable) CXXFLAGS and LDFLAGS for,
     resp. g++ and ld flags. Default values are defined in the program's
     'icmconf' file.
 
-  * By default the COMPILER setting now includes --std=c++0x and -Wall, 
-    preventing accidental omission by CXXFLAGS. 
+  * By default the COMPILER setting now includes --std=c++0x and -Wall,
+    preventing accidental omission by CXXFLAGS.
 
   * The default file name suggested for USE_ALL is 'a' (e.g., class/a)
 
@@ -632,9 +762,9 @@ icmake (7.14.1)
 icmake (7.14.0)
 
   * Repaired segfault error caused by calling an underfined function
-    (comp/callfun.c) 
+    (comp/callfun.c)
 
-  * Removed compiler warning about dangerous casts from comp/outcode.c and 
+  * Removed compiler warning about dangerous casts from comp/outcode.c and
     comp/patchup.c by defining a union for char[2] and int16_t, rather than
     casting the char[2] to int16_t.
 
@@ -651,7 +781,7 @@ icmake (7.14.0)
     using COMPILER (rather than gcc) to construct the shared library with.
 
   * added the `ALL' facility to icmbuild, allowing the specification of a
-    class dependency graph in the CLASSES file. 
+    class dependency graph in the CLASSES file.
 
   * Added the icmconf(7) man page
 
@@ -667,7 +797,7 @@ icmake (7.13.0)
 
  * the icmconf file has a (default not active) #define REFRESH that may be
    activated when a binary program is created. When active a new binary is
-   always created even if no source was compiled. This may be useful when 
+   always created even if no source was compiled. This may be useful when
    the program uses a library that is actively under development and is
    frequently changed.
 
@@ -690,7 +820,7 @@ icmake (7.12.4)
 
   * repaired lacking directory recognition in scripts/icmstart.im
   * removed `return 0;' from usr/share/icmake/main.cc as 0 is returned by
-    default 
+    default
   * replaced endl by `\n' in usr/share/icmake/usage.cc
   * changed the location of the main repository in make/about.c
 
@@ -732,9 +862,9 @@ icmake (7.12.1)
 
  * configuration files for icmstart are found in the following locations (in
    order, accepting the first file(s) found:
-        (1) determined by -c 
-        (2) in $HOME/.icmake 
-        (3) found in /etc/default/icmake. 
+        (1) determined by -c
+        (2) in $HOME/.icmake
+        (3) found in /etc/default/icmake.
 
   * the previously used `def/destinations' file is not used anymore.
 
@@ -754,7 +884,7 @@ icmake (7.11.1)
   * Updated icmbuild sources to 2008.
 
   * The Gnu g++ flags for the upcoming c++0x standard are now mentioned in
-    icmconf. 
+    icmconf.
 
 icmake (7.11)
 
@@ -783,20 +913,20 @@ icmake (7.10)
   * Removed Superfluous #defines from icm.h
 
     #define values may extend over multiple lines, using the \ character as
-    the last character on the line to indicate line-continuation. 
-    
+    the last character on the line to indicate line-continuation.
+
     Applied size_t where applicable, using unsigned otherwise to prevent
-    problematic behavior on some 64 bit architectures. 
+    problematic behavior on some 64 bit architectures.
 
     Changed many old-style classic C parameter lists into ANSI C style
-    parameter lists 
+    parameter lists
 
     Minor textual repairs to the manual pages.
 
     Added the option to compile with extensive compiler flags in the top-level
     build script.
 
-    MSDOS is no longer suported by specific code. 
+    MSDOS is no longer suported by specific code.
 
 icmake (7.02)
 
@@ -809,7 +939,7 @@ icmake (7.01)
 
   * The INSTALL file was updated. So were the scripts bootstrap (now named
     bootstrap.sh) and unix. Compilation warnings appearing on Mac OS-X were as
-    good as possible removed, some old files and directories 
+    good as possible removed, some old files and directories
     were removed or placed in a directory of their own.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 07 Feb 2007 15:50:33 +0100
@@ -821,18 +951,18 @@ icmake (7.00)
         [Above change: Mon, 05 Feb 2007 16:09:46 +0100]
 
     Defines (#define) may use other #defined variables to determine their
-    value. 
+    value.
 
     icmake's sources may use hexadecimal constants (0xdead)
 
     global and local variables may be immediately initialized by constants
     and/or available functions. Variables cannot be used for the
-    initialization. 
+    initialization.
 
     execute() function repaired: it never succeeded due to invalid return
     value
 
-    initial source may or may not have .im extension, as suggested in the 
+    initial source may or may not have .im extension, as suggested in the
     general usage info provided by icmake itself. If the specified initial
     source does not exist, an .im extension is attempted.
 
@@ -843,7 +973,7 @@ icmake (7.00)
 
     strlen/strupr/strlwr now defined as rss-functions, no longer as macros
 
-    strstr renamed to strfind. 
+    strstr renamed to strfind.
 
     substr() added, returning a substring from an existing string.
 
@@ -855,7 +985,7 @@ icmake (7.00)
     added icmbuild manual page
 
     added icmstart script to start an icmake maintenance project using
-    icmbuild 
+    icmbuild
     added icmstart manual page
 
     the `unix' script will regenerate the parser and the lexical scanner if
@@ -874,35 +1004,35 @@ icmake (7.00)
     my local icmake svn repository
 
     Added icmstart script to start an icmake project in some subdir
-    
+
     Global strings weren't initialized to empty strings. Now they are.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 04 Nov 2006 17:41:32 +0100
 
 icmake (6.30)
-    
+
     Debian patches up to 6.22-7 processed; more in general: the sources now
     compile free of warnings
 
     chdir("") now returns initial working directory
 
     Execution error on the powerpc repaired. Caused by strcmp() sometimes
-    returning a non-zero value having its lowest 16 bits equal to zero. Since 
+    returning a non-zero value having its lowest 16 bits equal to zero. Since
     icmake internally uses 16-bits int values, this results in a zero value
     following an int to int16 assignment. See, e.g.,  exec/string/compare.c
 
     During the process of repairing the above error, Icm-exec was completely
-    rewritten. 
+    rewritten.
 
     Lintian warning about an error in the icmake.1 manual page repaired
-    Lindian warning about the inappropriate executable mode of 
+    Lindian warning about the inappropriate executable mode of
     examples/defines.im repaired.
 
     Newer versions of icmake programs operate fine on existing (older) binary
     scripts as long as icmake's major version isn't upgraded. Newer versions
     of binary icmake files remain to be inexecutable with older icmake
-    versions. 
-    
+    versions.
+
     PRE-ANNOUNCING VERSION 7.00:
 
     A major upgrade (to version 7.00) will be released soon. As a prelude: it
@@ -914,16 +1044,16 @@ icmake (6.30)
 
     The distiction between distribution version and program version (see
     below) is removed. All programs will have the same version as the
-    distribution. 
+    distribution.
 
 NOTE:   The version referred to here is the version of the distribution,
         not of the icmake programs.
 
 6.22    Compiler warnings and the use of gets() removed from the sources
-        All programs now use the same version, which is defined in 
+        All programs now use the same version, which is defined in
         version.c, which is defined in the rss.
         Standard manpage (icmake.1) included in the distribution.
-    
+
 6.21    Elf binaries for unix
 
 6.20    Unix-icmake accepts the -t flag, to specify a temporary binary-
@@ -936,7 +1066,7 @@ NOTE:   The version referred to here is the version of the distribution,
 6.17b   DOS-distribution only: Dependencies on icce.h and sicce.lib
     removed from the distribution. Programs are *not* affected by
     this distribution.
-    
+
 6.17    Comment accepted in #define directives,
         Trailing info on #include lines ignored,
     Minor changes to documentation files.
@@ -945,7 +1075,3 @@ NOTE:   The version referred to here is the version of the distribution,
         this distribution are lost to future generations...
         This release never made sunsite or tsx-11. Only ftp.icce.rug.nl
     got it, and two sub-releases beyond.
-
-
-    
-    

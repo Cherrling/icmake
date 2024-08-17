@@ -21,9 +21,18 @@ void main(int argc, list argv, list envp)
         cleanTmp();
 
     if (g_command == _cleanGch)
-        cleanPrecomp("removing all precompiled headers\n");
+        cleanPrecomp();
         
+    #ifdef SPCH
+        precompileSPCH();
+    #endif        
+
     #ifdef PRECOMP
+        #ifdef SPCH
+            printf << "SPCH and PRECOMP cannot both be specified\n";
+            exit(0);
+        #endif
+
         md(g_gchDir);
     #endif
 

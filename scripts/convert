@@ -2,7 +2,7 @@
 
 # echo converting $1 to $2
 
-. scripts/conversions
+. scripts/prefixroot
 
 mkdir -p `dirname $2`
 
@@ -13,5 +13,6 @@ s,@MANDIR@,'${MANDIR}',g
 s,@LIBDIR@,'${LIBDIR}',g
 s,@CONFDIR@,'${CONFDIR}',g
 s,@DOCDIR@,'${DOCDIR}',g
-s,@DOCDOCDIR@,'${DOCDOCDIR}',g
 ' $1 > $2 
+
+# s,@DOCDOCDIR@,'${DOCDOCDIR}',g

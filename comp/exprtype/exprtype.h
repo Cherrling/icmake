@@ -3,7 +3,7 @@
 
 #include <iosfwd>
 
-#include "../../support/exprtype/exprtype.h"
+#include "../../tmp/build/exprtype/exprtype.h"
 
 unsigned const N_EXPR_TYPES = 4;    // #types used at e_mask
 

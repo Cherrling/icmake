@@ -9,8 +9,8 @@
 #include "../opcode/opcode.h"
 #include "../stringstore/stringstore.h"
 #include "../tokens/tokens.h"
-#include "../../support/as/as.h"
-#include "../../support/endian/endian.h"
+#include "../../tmp/build/as/as.h"
+#include "../../tmp/build/endian/endian.h"
 
 // e_int const values are directly stored in d_value
 // e_str const values are the offsets of strings in the string section

@@ -4,14 +4,14 @@
 #include <initializer_list>
 #include <unordered_set>
 
-#include "../../support/builtinfunctions/builtinfunctions.h"
+#include "../../tmp/build/builtinfunctions/builtinfunctions.h"
 
 #include "../exprtype/exprtype.h"
 
 struct Builtin: public BuiltinFunctions
 {
-    typedef std::initializer_list<ExprType> Args;   // argument types
-    typedef Args::const_iterator ArgsIter; 
+    using Args = std::initializer_list<ExprType>;   // argument types
+    using ArgsIter =  Args::const_iterator;
 
     private:
         struct Info                                 // Builtin function info:

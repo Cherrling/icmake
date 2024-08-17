@@ -1,7 +1,7 @@
 #define XERR
 #include "handler.ih"
 
-Handler::Handler(Splitter &splitter)
+Handler::Handler(Options &splitter)
 :
     d_splitter(splitter),
     d_verbose(d_splitter.verbose()),

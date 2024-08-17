@@ -27,6 +27,8 @@ Where:
     --no-prcoess (-N)   - implies -V. Child processes are not executed. To use
                           this option it must be specified before a -[dest]
                           option
+    --multicomp (-m)    - arguments following -m: --quiet (-q), --threads (-t)
+                          followed by 'jobs' and 'compiler' specs
     --no-version-check (-n) - when executing or unassembling .bim files the
                           icmake-versions used when constructing the .bim
                           files is not checked. 
@@ -35,6 +37,9 @@ Where:
                           pre-processed. The .pim file is the 2nd file
                           argument or, if not specified, the first filename
                           (using the extension .pim), is used.
+    --spch (-S)         - precompile a single precompiled header. All options
+                          and arguments following this option are forwarded to
+                          the icm-spch support program.
     --source (-s)       - uses --compile to compile the icmake source file
                           specified as first argument and then uses --execute
                           to execute the compiled .bim file.

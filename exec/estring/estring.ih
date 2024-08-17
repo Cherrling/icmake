@@ -1,0 +1,7 @@
+#include "estring.h"
+
+#include "../../xerr/xerr.ih"
+
+#ifndef SPCH_
+using namespace std;
+#endif

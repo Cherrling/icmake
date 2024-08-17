@@ -1,0 +1,8 @@
+#!/bin/bash
+
+. ../buildscripts/multicomp
+
+    echo "
+Building tmp/usr/libexec/icmake/icm-dep"
+
+build /usr/libexec/icmake/icm-dep

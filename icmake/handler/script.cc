@@ -20,6 +20,7 @@ int Handler::script()
         return 1;
 
     d_splitter.setArgv(d_splitter.endOpts(), &d_file2.front());
+
     return exec(&Handler::child);
 }
 

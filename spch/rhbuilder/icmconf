@@ -1,0 +1,2 @@
+#define LIBRARY           "rhbuilder"
+#include "../icmconf.lib"

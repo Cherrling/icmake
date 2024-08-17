@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include <bobcat/glob>
+#include "../../tmp/build/glob/glob"
 
-#include "../../support/builtinfunctions/builtinfunctions.h"
+#include "../../tmp/build/builtinfunctions/builtinfunctions.h"
 
 // see stack/README for a description of the organization of the stack.
 
@@ -86,7 +86,7 @@ class Builtin
         static void unionAdd(std::vector<std::string> &dest, 
                              std::string const &src);
 
-    // See ../../support/builtinfunctions/builtinfunctions.h
+    // See ../../tmp/build/builtinfunctions/builtinfunctions.h
     // 0
     void argHead();
     void argTail();

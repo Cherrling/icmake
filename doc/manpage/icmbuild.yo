@@ -35,9 +35,9 @@ manpagesynopsis()
 
 manpagedescription()
 
-Icb() is a small bf(C) program calling bf(icmake)(1) to do program maintenance
-as defined by the tt(icmbuild) script that's (commonly) found in
-tt(/usr/lib/icmake).
+Icb() is a small bf(C++) program calling bf(icmake)(1) to do program
+maintenance as defined by the tt(icmbuild) script that's (commonly) found in
+tt(/usr/libexec/icmake).
 
 tt(Icmbuild's) actions are tailored through a configuration file (tt(icmconf))
 which must be present in the directory where program maintenance is

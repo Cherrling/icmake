@@ -14,8 +14,8 @@
 
 #include <fstream>
 
-#include "../../support/endian/endian.h"
-#include "../../support/header/header.h"
+#include "../../tmp/build/endian/endian.h"
+#include "../../tmp/build/header/header.h"
 
 class Parser;
 class Scanner;

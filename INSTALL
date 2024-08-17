@@ -1,34 +1,31 @@
 INSTALLING ICMAKE
 =================
 
-                          Version 10.00.00 (and beyond).
-
-Icmake's programs are C++ programs since version 10.00.00.  Valentin Lefebvre
-noticed that in order to build icmake the bobcat library must be available,
-but icmake is used to construct the bobcat library. If neither icmake nor
-bobcat is available a bootstrapping procedure must be used. For this the
-'bobcatbootstrap' script can be used. See README.bobcatbootstrap for details.
-
+                          Version 12.01.00 (and beyond).
 
 1. Unpack the archive:
 ======================
 
+Instead of unpacking icmake can be cloned from
+https://gitlab.com/fbb-git/icmake. See also https://fbb-git.gitlab.io/icmake/.
+
+
 The installation files for Icmake comes as an archive, e.g.,
-"icmake_10.00.00.tar.gz". These archives unpack to several directories and
+"icmake_12.01.00.tar.gz". These archives unpack to several directories and
 files.
 
-The archive unpacks to a directory icmake-10.00.00 below the current
+The archive unpacks to a directory icmake-12.01.00 below the current
 directory. The version number in this directory may change to newer release
 versions.
 
-So, if you unpack icmake_10.00.00.tar.gz (or later versions) in the directory
-/usr/local/src, a directory /usr/local/src/icmake/icmake-10.00.00 is created, as
-well as other subdirectories below /usr/local/src/icmake/icmake-10.00.00
+So, if you unpack icmake_12.01.00.tar.gz (or later versions) in the directory
+/usr/local/src, a directory /usr/local/src/icmake/icmake-12.01.00 is created, as
+well as other subdirectories below /usr/local/src/icmake/icmake-12.01.00
 
 To unpack the archives, create an appropriate directory (e.g.,
 `/usr/local/src/icmake' E.g,
 
-                         tar xvzf icmake_10.00.00.tar.gz
+                         tar xvzf icmake_12.01.00.tar.gz
 
 The extraction of files from the archive should yield a lot of C source files
 in various directories. Icmake's default distribution does not contain
@@ -40,7 +37,7 @@ makefiles for the Unix-utility `make' anymore.
 
 Change to the directory into which the sources were unpacked. E.g., do
 
-                                cd icmake-10.00.00
+                              cd icmake-12.01.00
 
 This directory should contain this file (i.e., INSTALL). Icmake uses several
 support programs, which do not have to be stored in the PATH
@@ -48,6 +45,7 @@ diretories. Before starting the compilation, make sure their locations are
 in accordance with your local requirements:
 
     - Inspect (and optionally modify) the path-settings in INSTALL.im.
+
 In particular check:
 
     #define BINDIR      "usr/bin"
@@ -56,7 +54,6 @@ In particular check:
     #define LIBDIR      "usr/lib/icmake"
     #define CONFDIR     "etc/icmake"
     #define DOCDIR      "usr/share/doc/icmake"
-    #define DOCDOCDIR   "usr/share/doc/icmake-doc"
 
     These locations are all are relative to a specifiable base-directory.
     Meaning:
@@ -69,13 +66,10 @@ In particular check:
         CONFDIR     the system-wide configuration files (AUTHOR, VERSION, 
                     icmstart.rc)
         DOCDIR      various doc-files (e.g., changelog)
-        DOCDOCDIR   more extensive documentation (icmake.ps, examples)
-
 
     - Inspect (and optionally modify) the availability of the program
 mentioned in ./def/programs (they should be available on any Unix(like)
 systems). 
-
 
     - Prepare for the program construction by running the shell-script
         `icm_prepare' as follows: 
@@ -88,38 +82,28 @@ INSTALL.im with /; other base locations are also possible, e.g.,
 prepares for installation of all files in the specified locations, all below
 /tmp.
 
-    - Next run the shell-script `icm_bootstrap' as follows:
+    - Next run the shell-script `buildlib' as follows:
 
-                            ./icm_bootstrap x
+                            ./buildlib x
 
-This constructs the icmake files under the ./tmp directory, preparing for an
-installation under the directory specified at ./icm_prepare. It puts all
-icmake related files in
-    tmp/$BINDIR, tmp/$SKELDIR, tmp/$MANDIR, tmp/$LIBDIR, tmp/$CONFDIR,
-    tmp/$DOCDIR, tmp/$DOCDOCDIR
+This constructs the library used by the various icmake programs.
 
-NOTE:
+    - To create icmake and its support programs run
 
-There have been reports about failing compilations of the file
-./icm-comp/lexer.c.  This is usually caused by incompatibilities between the
-existing lexer.c file and the lex(1) run-time library. These problems are
-commonly solved after running in the directory ./icm-comp the command
-
-        ./updatescanner
-
+                            ./build all
 
 3. Install the files
 ====================
 
     You probably must do this as `root':
 
-                            ./icm_install [strip] all
+                            ./install [strip] all
 
     This installs all files under the root directory (which was initially
-specied when calling icm_bootstrap) When providing the strip arguments
-binaries will be stripped.
+specied when calling icm_bootstrap) When providing the strip argument
+binaries are stripped before being installed.
 
-    Note that by default unstripped binaries will be installed.
+    Note that by default unstripped binaries are installed.
     
     Separate parts may be installed as well. E.g.,
            ./icm_install [strip] progs / -  installs all executables
@@ -130,13 +114,11 @@ binaries will be stripped.
            ./icm_install etc /           -  installs the default icmstart.rc
                                                      related files
            ./icm_install doc /           -  installs the docs
-           ./icm_install docdoc /        -  installs the extended docs and
-                                                 examples 
 
 4. Clean up the garbage
 =======================
 
-                        rm -rf tmp
+                        ./clean
 
 5. Predefined symbols
 =====================

@@ -8,7 +8,7 @@ void Dependencies::recursiveUseAll(size_t dep)
     d_indicator[dep] = true;
 
     Tools::mustChangeDir(d_directory[dep]);
-    g_log << level(V4) << "add implied " << 
+    log(V4) << "add implied " << 
                         d_directory[dep] << '/' << d_useAll << '\n';
     touchUseAll();
     d_options.startDir();

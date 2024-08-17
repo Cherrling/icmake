@@ -1,64 +1,68 @@
+Preamble:
+=========
+
 Icmake's programs are C++ programs since version 10.00.00.  Valentin Lefebvre
-noticed that in order to build icmake the bobcat library must be available,
-but icmake is used to construct the bobcat library. If neither icmake nor
-bobcat is available a bootstrapping procedure must be used. For this the
-'bobcatbootstrap' script can be used. See README.bobcatbootstrap for details.
+noticed that in order to build icmake the bobcat library must be
+available. Since icmake 12.00.00 that dependency has been removed.
 
-
-If the bobcat library is already installed then the following procedure can be
-used to build the icmake programs:
-
+Initial installation of icmake from its sources:
+================================================
 
 0. After unpacking the icmake_XX.YY.ZZ.tar.gz icmake archive, make your
    current working directory equal to the directory in which you found this
    file. 
 
-1. Inspect and modify if necessary the current locations in INSTALL.im.
+1. Inspect and if necessary modify the current location specifications in
+   INSTALL.im. These locations specify where the icmake components (binaries,
+   man-pages, etc.) will eventually be installed.
 
 2. If you want the compiler to insert debugging code in the icmake programs
-   then define a CXXFLAGS environment variable. E.g., 
+   then the required options can be defined in the ICMAKE_CPPSTD  environment
+   variable. E.g.,  
 
-                CXXFLAGS="--std=c++20 -Wall -O2 -g"
+                ICMAKE_CPPSTD="--std=c++23 -g"
 
-3. To prepare for the compilations of the programs, run 
+   By default the -g flag is not specified
 
-                ./icm_prepare /
+3. Prepare the construction of the icmake software:
 
-3. Compile the various programs (x is a dummy argument required by
-   ./icm_bootstrap to run):
+                ./prepare /
 
-                ./icm_bootstrap x
+   where the argument / defines the root directory below which icmake's files
+   will be installed (by install, see 6).
 
-4. As root: install the programs and documentation:
+4. Construct libicmake.a:
 
-                ./icm_install strip all
+                ./buildlib /
 
-   (the elements of the installation are under tmp/etc and tmp/usr)
+5. Construct the icmake programs:
 
-    For debian, the following install commands are issued, installing under 
-    debian/icmake and debian/icmake-doc
+                ./build all
 
-        ./icm_install strip progs debian/icmake
-        ./icm_install scripts debian/icmake
-        ./icm_install skel debian/icmake
-        ./icm_install man debian/icmake
-        ./icm_install doc debian/icmake
-        ./icm_install etc debian/icmake
-        ./icm_install docdoc debian/icmake-doc
+6. Install the programs:
 
-                    
-5. Remove intermediate construction area:
-                rm -rf tmp
+                ./install strip all
 
+   The argument 'strip' is optional. When specified icmake's binaries will be
+   stripped before being installed. 
 
-Following these commands (referring to the #defines in INSTALL.im):
+7. Remove the intermediate construction directory:
+                ./clean
+
+------------------------------------------------------------------------ 
+
+The above steps install the icmake software under the directory specified as
+./prepare's argument (cf. step 3; capital directory names refer to the
+#defines in INSTALL.im). When specifying / as icm_prepare's argument the
+following elements are installed by ./install all:
     
     icmake is in /BINDIR
     skeleton files, installed by icmstart, are in /SKELDIR
     manual pages are in /MANDIR/man{1,7}
     icmake support programs are in /LIBDIR
-    confguration files, specifying which skeleton commands to install, are in
-        /CONFDIR
-    icmake documentation is installed in /DOCDIR and /DOCDOCDIR
+    confguration files, specifying which skeleton commands to install, 
+        are in /CONFDIR
+    additional icmake documentation is installed in /DOCDIR
+
 
 

@@ -10,35 +10,37 @@
 #include <iostream>
 #include <algorithm>
 
-#include <bobcat/onekey>
-#include <bobcat/stat>
-#include <bobcat/pattern>
-#include <bobcat/string>
+#include "../../tmp/build/onekey/onekey"
+#include "../../tmp/build/stat/stat"
+#include "../../tmp/build/pattern/pattern"
+#include "../../tmp/build/string/string"
 
-#include <bobcat/process>
-#include <bobcat/exception>
+#include "../../tmp/build/process/process"
+#include "../../tmp/build/exception/exception"
 
 #include "../../xerr/xerr.ih"
 
-#include "../../support/constants/constants.h"
-#include "../../support/tools/tools.h"
+#include "../../tmp/build/constants/constants.h"
+#include "../../tmp/build/tools/tools.h"
 
 //  not needed, but mentioned for reference purposes only: it defines the
 //  ordering of the builtin-functions in data.cc
-// #include "../../support/builtinfunction/builtinfunction.h"   
+// #include "../../tmp/build/builtinfunction/builtinfunction.h"   
 
-#include "../../support/opcodes/opcodes.h"
-#include "../../support/as/as.h"
+#include "../../tmp/build/opcodes/opcodes.h"
+#include "../../tmp/build/as/as.h"
 
 #include "../variable/variable.h"
 #include "../stack/stack.h"
 #include "../list/list.h"
 
-using namespace std;
-using namespace FBB;
 
 #include "youngerlist.f"
 #include "olderlist.f"
 
 
+#endif
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
 #endif

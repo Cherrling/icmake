@@ -1,4 +1,4 @@
-.TH "icmscript" "7" "1992\-2022" "icmake\&.10\&.03\&.03" "The icmake scripting language"
+.TH "icmscript" "7" "1992\-2024" "icmake\&.12\&.00\&.01" "The icmake scripting language"
 
 .PP 
 .SH "NAME"
@@ -203,22 +203,21 @@ modified,\fP and \fIcompile\fP are left as an exercise for the reader):
     void main(int argc, list argv)
     {
         if (argc == 1)
-            usage(argv[0])
+            usage(argv[0]);
+
+        if (list toCompile = modified(\(dq\&*\&.cc\(dq\&))
+        {
+            for (int idx = listlen(toCompile); idx\-\-; )
+                compile(toCompile[idx]);
+        }
+    }
+        
 .fi 
-;
-.PP 
-if (list toCompile = modified(\(dq\&*\&.cc\(dq\&))
-{
-for (int idx = listlen(toCompile); idx\-\-; )
-compile(toCompile[idx]);
-}
-}    
-)
 When executing an \fBicmake\fP script \fBicmake\(cq\&s\fP run\-time support system first
 initializes all all global variables in the order of their
-definitions\&. Followin this the function \fImain\fP is called\&. The script ens
-once once \fImain\fP returns or when the (predefined) function \fIexit\fP
-is called by the script)\&.
+definitions\&. Followin this the function \fImain\fP is called\&. The script ends
+once \fImain\fP returns or when the (predefined) function \fIexit\fP is called by
+the script\&.
 .PP 
 .SH "PREPROCESSOR DIRECTIVES"
 

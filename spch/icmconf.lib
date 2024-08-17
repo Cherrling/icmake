@@ -1,0 +1,12 @@
+#define CLS
+#define SOURCES             "*.cc"
+#define OBJ_EXT             ".o"
+#define TMP_DIR             "tmp"
+#define USE_ECHO              ON
+#define IH                  ".ih"
+#define CXX                 "g++"
+#define CXXFLAGS            "-Wall -Werror -O2 -fdiagnostics-color=never"
+#define ADD_LIBRARIES       ""
+#define ADD_LIBRARY_PATHS   ""
+
+#define DEFCOM     "library"

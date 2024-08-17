@@ -1,0 +1,14 @@
+#include "support.h"
+#include "../xerr/xerr.ih"
+
+#include <string>
+#include <fstream>
+
+#include "../../tmp/build/string/string"
+#include "../../tmp/build/tools/tools.h"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+namespace fs = filesystem;
+#endif

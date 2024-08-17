@@ -3,7 +3,7 @@
 
 Variable &Variable::operator=(string &&str)
 {
-    Variable tmp{ new String{ move(str) } };    
+    Variable tmp{ new EString{ move(str) } };    
     swap(tmp);
     return *this;
 }

@@ -2,8 +2,7 @@
 //  ==================================================================
 //
 //  The settings in this file are according to the Debian File Standard
-//  Change them according to your tastes if you think they should be
-//  different. 
+//  Change them according to your tastes if you want them to be different. 
 //
 //  All locations are relative to a specifiable base-directory.
 //
@@ -18,7 +17,10 @@
 
 
 // this file is included by icmake/handler/handler.im, so icmake knows
-// where its sub-programs live
+// where its sub-programs live. 
+
+// ** Do not define the locations as absolute directories: they must not **
+// ** start with /                                                       **
 
 
 #define BINDIR      "usr/bin"
@@ -27,3 +29,4 @@
 #define LIBDIR      "usr/libexec/icmake"
 #define CONFDIR     "etc/icmake"
 #define DOCDIR      "usr/share/doc/icmake"
+

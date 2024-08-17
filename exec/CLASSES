@@ -4,6 +4,6 @@ stack
 global
 variable
 int
-string
+estring
 list
 varbase

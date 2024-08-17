@@ -2,11 +2,9 @@ Source: icmake
 Section: devel
 Priority: optional
 Maintainer: Francesco Paolo Lovergine <frankie@debian.org>
-Uploaders: George Danchev <danchev@spnet.net>,
-           Frank B. Brokken <f.b.brokken@rug.nl>,
+Uploaders: Frank B. Brokken <f.b.brokken@rug.nl>,
            tony mancill <tmancill@debian.org>
-Build-Depends: debhelper-compat (= 13),
-               libbobcat-dev (>= 5.07.00)
+Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.6.2
 Homepage: https://fbb-git.gitlab.io/icmake
 Vcs-Browser: https://salsa.debian.org/debian/icmake
@@ -17,7 +15,6 @@ Package: icmake
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Suggests: icmake-doc
 Description: Intelligent C-like MAKEr, or the ICce MAKE utility
  Icmake is a hybrid between a 'make' utility and a 'shell script'
  language.  Originally, it was written to provide a useful tool for

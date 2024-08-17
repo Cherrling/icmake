@@ -1,3 +1,5 @@
+NOUSERMACRO(option command specification)
+
 includefile(release.yo)
 
 htmlbodyopt(text)(#27408B)
@@ -55,7 +57,13 @@ manpagedescription()
 as an alternative for bf(make)(1). It's a generic tool in that
 tt(icmake)-scripts, written in a language closely resembling the bf(C)
 programming language, can perform tasks that are traditionally the domain of
-scripting languages.
+scripting languages. See also section bf(ICMAKE V. 11.01.00) below an overview
+of the changes from version 10 to version 11.
+
+To summarize the changes: since icm() version 11.00.00 icm() offers Single
+Pre-Compiled Headers (SPCH) and multi-threaded source-file compilation,
+commonly reducing the construction times of projects to around 30-40% of the
+original construction times.
 
 Icm() allows programmers to use a programming language (closely resembling the
 well-known bf(C)-programming language) to define the actions that are required
@@ -70,57 +78,92 @@ icm() distribution: bf(icmstart)(1), initializing a directory for program
 development and bf(icmbuild)(1), handling the actual program maintenance. By
 default both scripts are  tailored to initializing and maintaining bf(C++)
 programs (or, after minimal adaptation, bf(C) programs), but can easily be
-adapted to other programming languages. Both bf(icmstart) and bf(icmbuild) can
-be run without explicitly calling icm().
+adapted to other programming languages.
 
-This man-page covers icm() (the program), and its support programs. Refer to
-the bf(icmstart)(1)) man-page for information about how a directory can be
+This man-page covers icm() (the program), and its main support programs. Refer
+to the bf(icmstart)(1) man-page for information about how a directory can be
 initialized (created) in which (by default) a bf(C++) or bf(C) program can be
-developed and refer to the bf(icmbuild)(1) man-page for information about how
-bf(icmbuild) can be used to handle program maintenance. Refer to the
-bv(icmscript)(7) man-page for a description of the syntax and facilities
-offered by bf(icmake's) scripting language.
+developed, and refer to the bf(icmbuild)(1) man-page for information about how
+bf(icmbuild) can be used to handle program maintenance. 
+
+The bf(icmscript)(7) man-page covers the syntax and facilities offered by
+bf(icmake's) scripting language, allowing you to write your own icm() scripts.
     
-Icm() does not offer an em(Integrated Development Environment) (IDE). Icm()
-merely performs tasks for which scripts can be written, and only a minimal set
-of pre-defined scripts (bf(icmstart) and bf(icmbuild)) that have shown their
-usefulness when developing and maintaining programs are included in
-bf(icmake's) distribution.
+Icm() should not be confused with an Integrated Development Environment
+(IDE). Icm() merely performs tasks for which scripts can be written, and a
+minimal set of pre-defined scripts (bf(icmstart) and bf(icmbuild)) that have
+proven their usefulness when developing and maintaining programs are included
+in bf(icmake's) distribution.
 
 In its standard activation modes, icm() uses the following support programs:
     itemization(
-    itt(icm-pp)     to pre-process the icmake file 
-    itt(icm-comp)   to byte-code compile the icm()  file(s)
+    itt(icm-pp)     to pre-process the icmake file,
+    itt(icm-comp)   to byte-code compile the icm()  file(s),
     it()tt(icm-dep) to handle class-dependencies (see the bf(ICM-DEP)
-        section in this man-page for more information about tt(icm-dep)).
-    it()tt(icm-exec) to execute the byte-code file
+        section in this man-page for more information about tt(icm-dep)),
+    it()tt(icm-exec) to execute the byte-code file.
     )
 
-In addition, primarily used for illustration, education, and debugging, the
-program tt(icmun) is available to disassemble compiled icm() byte-code (.bim)
+In addition, since version 11.00.00, icm() uses two new support programs:
+    itemization(
+    itt(icm-multicomp) to use multi-threaded source file compilation,
+    itt(icm-spch) to construct a project-wide Single Pre-Compiled
+        Hbeader file (SPCH).
+    )
+    Refer to the sections (below) bf(ICMAKE V. 11.00.00), bf(OPTIONS) (for
+descriptions of the options tt(--multicomp) and tt(spch)); 
+bf(MULTICOMP) and tt(SPCH) for, respectively, the descriptions of the
+tt(icm-multicomp) and tt(icm-spch) programs; and refer to the bf(icmconf)(7)
+man-page for details about the new tt(#define) directives tt(MULTICOMP, SPCH),
+and tt(SPCH_FILE).
+
+Furthermore, primarily used for illustration, education, and debugging, the
+program bf(icmun) is available to disassemble compiled icm() byte-code (.bim)
 files (`tt(bim-files)'). bf(Icmun) is not installed in a standard tt(PATH)
 directory but in tt(icmake's) tt(lib) directory, which commonly is
-tt(/usr/lib/icmake) (see also section bf(ICMUN) in this man-page). 
+tt(/usr/libexec/icmake) (see also section bf(ICMUN) below). 
 
 Traditional make-utilities recompile sources once header files are
 modified. When developing bf(C++) programs this is often not required, as
 adding new member functions to classes does not require you to recompile all
-source files of those classes. To handle class dependencies bf(icmbuld)(1) may
-optionally inspect class dependencies, (re)compiling sources of dependent
-classes when necessary. By default, class-dependencies are not interpreted,
-but they are when the tt(PRECOMP) and/or tt(USE_ALL) defines, found in the
-file tt(icmconf) file, are activated. Refer to the bf(icmconf)(7) man-page for
-details.
+source files of those classes. To handle class dependencies bf(icmbuld)(1)
+optionally inspects class dependencies, (re)compiling sources of dependent
+classes when necessary. By default, class-dependencies are not considered, but
+they are when the tt(USE_ALL, SPCH), and/or (deprecated since version
+11.00.00) tt(PRECOMP) tt(#define) directives, found in the tt(icmconf) file,
+are activated. Refer to the bf(icmconf)(7) man-page for details about these
+directives.
 
-This manpage describes icm()'s options in the next section, followed by two
+This manpage describes icm()'s options in section bf(OPTIONS), followed by 
 sections covering the support programs
     itemization(
-    itb(ICM-DEP) - the bf(icm-dep) dependency analyzer;
-    itb(ICMUN) - bf(icmake's) unassembler.
+    itb(ICM-DEP) the bf(icm-dep) dependency analyzer;
+    itb(ICM-MULTICOMP) the bf(icm-multicomp) multi-threaded compiler
+        program. 
+    itb(ICM-SPCH) the bf(icm-spch) SPCH construction support program
+    itb(ICMUN) bf(icmake's) unassembler.
     )
 
 Refer to the bf(icmscript)(7) man-page for a description of bf(icmake's)
 bf(C)-like scripting language.
+
+manpagesection(ICMAKE V. 11.01.00)
+
+    Since icm() version 11.00.00 icm() may construct and use Single
+Pre-Compiled Headers (SPCH) and also offers multi-threaded source-file
+compilations.
+
+The icm() support program bf(icm-spch) (callable via tt(icmake --spch ...),
+see section bf(ICM-SPCH) for details) handles the construction of SPCHs; the
+icm() support program bf(icm-multicomp) (callable via tt(icmake --multicomp
+...), see section bf(ICM-MULTICOMP) for details) handles multi-threaded
+source-file compilations. See also the bf(icmconf)(7) manpage.
+
+When developing bf(C++) programs the environment variable tt(ICMAKE_CXXFLAGS)
+is no longer used. Instead the environment variable tt(ICMAKE_CPPSTD) is
+used. Use this latter environment variable to have one point of maintenance
+specifying the version of the bf(C++) standard to use when compiling your
+sources.
 
 manpageoptions()
 
@@ -128,6 +171,9 @@ manpageoptions()
 beyond their associated long-option variants. Icm() defines em(action) options
 and em(non-action) options. The first action option that is encountered is
 used.
+
+    When using bf(icmbuild)(1) for program maintenance icm() is called
+automatically, and the user doesn't have to specify any icm() options.
 
     The following action options write some text to the standard output
 stream, whereafter icm() ends:
@@ -201,6 +247,19 @@ directories as the source files' directories.
     icmake -f -P source dest.bim
        )
 
+    it() lsoption(multicomp)(m) tt([options] jobs 'compiler-spec') nl()
+       The optional tt(options) are the options of the tt(icm-multicomp)
+        program: tt(--threads) (tt(-t)) and/or tt(--quiet) (tt(-q)). The
+        tt('compiler-spec') argument is the (quoted) compiler call
+        specification, using tt($1) to refer to the source file to compile, $2
+        to refer to the object file's path, like
+       center('/usr/bin/g++ -c -o $2 --Wall -Werror $1')
+       Threaded compilation is automatically used when the tt(#define
+        MULTICOMP) directive is specified in projects' tt(icmconf) files.nl()
+       Refer to section bf(ICM-MULTICOMP) (below) for a description of
+        tt(icm-spch's) usage and arguments.
+ 
+
     it() lsoption(preprocess)(p)  tt([options] source [pim-file]) nl()
        The file specified as first argument is pre-processed, producing a
         `tt(.pim)' file. If a second filename argument is provided then that
@@ -216,6 +275,14 @@ directories as the source files' directories.
         tt(one) and tt(two) (each having value 1), and produces the pim-file
         tt(dest.pim). Note that instead of using long options tt(--define)
         short options tt(-d) can also be used;
+
+    it() lsoption(spch)(S) tt(...) nl()
+       A SPCH is built. All options and arguments following tt(--spch) are
+        forwarded to the tt(icm-spch) support program.nl()
+       A SPCH is automatically constructed when the tt(#define SPCH) directive
+        is specified in projects' tt(icmconf) files.nl()
+       Refer to section bf(ICM-SPCH) (below) for a description of
+        tt(icm-spch's) usage and arguments.
 
     it() lsoption(source)(s)  tt([options] source [arguments]) nl()
        Icm() uses tt(--compile) to compile the icm() source file specified as
@@ -324,27 +391,31 @@ precompiled-header file dependencies. bf(Icm-dep) can be used for software
 projects that are developed as described in the url(C++
 Annotations)(https://fbb-git.gitlab.io/cppannotations/), section tt(Header
 file organization) in chapter tt(Classes). For those projects classes are
-developed in their own directories, which are direct sub-directory of
+developed in their own directories, which are direct sub-directories of
 the project's main program directory. Their class interfaces are provided
 in class-header files bearing the names of the class-directories, and all
 headers that are required by the class's sources are declared in a separate
-em(internal header) filed, commonly having extensions tt(.ih).
+em(internal header) files, commonly having extensions tt(.ih).
 
-Icm() automatically calls bf(icm-dep)d when tt(USE_ALL) or tt(PRECOMP) is
-specified in tt(icmconf) files.  By default it is called with arguments
+Icm() automatically calls bf(icm-dep) when tt(USE_ALL, SPCH), or tt(PRECOMP)
+is specified in tt(icmconf) files.  By default it is called with arguments
 tt(-V go). The tt(#define ICM_DEP) define-specification in the tt(icmconf)
 file can be used to specify a different set of options.
 
-When bf(icm-dep) is activated (i.e., its argument tt(go) is specified) then
-bf(icm-dep) determines directory dependencies, touching all files in
-directories that depend on directories containing modified files, and/or
-removing precompiled headers if they include headers from other directories
-that were modified. By providing another argument than tt(go) bf(icm-dep)
-performs a `dry run': it analyzes dependencies, but it won't remove or touch
-files.
+By default, when called by icm() directory dependencies are determined,
+touching all files in directories that depend on directories containing files
+whose names are specified by the tt(icmconf's #define USE_ALL) direcctive.
+
+When tt(icmconf) files contain the tt(#define SPCH) directive bf(icm-dep) does
+not inspect precompiled headers: Single Pre-Compiled Headers are automatically
+inspected (and updated when necessary) by tt(icm-precompile) (also
+automatically called by icm().
+
+By providing another argument than tt(go) bf(icm-dep) performs a `dry run': it
+analyzes dependencies, but it won't remove or touch files.
 
 Options of bf(icm-dep) may be specified immediately following icm()'s
-tt(--dependencies) option. bf(Icm-dep) supports the following options:
+tt(--dependencies) option. bf(Icm-dep) accepts the following options:
     itemization(
     it() lsvoption(classes)(c)(filename)nl()
        By default, bf(icm-dep) inspects dependencies of the directories
@@ -352,6 +423,13 @@ tt(--dependencies) option. bf(Icm-dep) supports the following options:
         file specifies tt(PARSER_DIR) and tt(SCANNER_DIR) then those
         directories are also considered.  Use this option to specify the file
         containing the names of directories to be inspected by bf(icm-dep).
+
+    it() loption(gch)nl() 
+       If tt(icmconf) files contain tt(#define PRECOMP) directives then
+        bf(icm-dep) checks whether precompiled headers must be refreshed.  If
+        an tt(icmconf) file does not contain a tt(#define PRECOMP)
+        diretive, but precompiled headers should nonetheless be
+        inspected, then option tt(--gch) can be specified;
 
     it() lsoption(help)(h)nl()
        bf(Icm-dep) writes a summary of its usage to the standard output and
@@ -363,7 +441,7 @@ tt(--dependencies) option. bf(Icm-dep) supports the following options:
         inspected;
 
     it() lsvoption(mainih)(m)(mainheader)nl()
-       In the tt(icmconf) file the tt(#define IH) parameter is used to specify
+       In the tt(icmconf) file the tt(#define IH) directive is used to specify
         the suffix of class header files that should be precompiled, assuming
         that their filenames are equal to the names of the directories which
         are listed in the tt(CLASSES) file. But tt(CLASSES) does not specify
@@ -371,30 +449,23 @@ tt(--dependencies) option. bf(Icm-dep) supports the following options:
         specify the name of the top-level header file to precompile. By
         default tt(main.ih) is used;
 
-    it() loption(gch)nl() 
-       If tt(icmconf) files contain tt(#define PRECOMP) specifications then
-        bf(icm-dep) checks whether precompiled headers must be refreshed.  If
-        an tt(icmconf) file does not contain a tt(#define PRECOMP)
-        specifications, but precompiled headers should nonetheless be
-        inspected, then option tt(--gch) can be specified;
-
     it() loption(no-gch)nl() 
-       If tt(icmconf) files contain tt(#define PRECOMP) specifications but 
+       If tt(icmconf) files contain tt(#define PRECOMP) directives but 
         bf(icm-dep) should not check whether precompiled headers must be
         refreshed then option tt(--no-gch) should be specified;
 
     it() loption(no-use-all)nl()
        If tt(icmconf) files contain tt(#define USE_ALL "filename")
-        specifications then all source files in directories containing files
+        directives then all source files in directories containing files
         named tt(filename) are recompiled. When specifying this option
         inspections of tt(`USE_ALL') specifications is suppressed;
 
     it() lvoption(use-all)(filename)nl()
        If tt(icmconf) files contain tt(#define USE_ALL "filename")
-        specifications then all source files in directories containing files
+        directives then all source files in directories containing files
         named tt(filename) are recompiled. Specify this option to inspect the
         presence of tt(filename) files if tt(icmconf) does not contain a
-        tt(`USE_ALL') specification;
+        tt(#define USE_ALL) directive;
 
     it() lsoption(verbose)(V)nl() 
        This option can be specified multiple times. The number of times it is
@@ -446,13 +517,294 @@ option tt(-VVV) are shown as:
     The second table immediately shows that there are no circular
 dependencies: its lower triangle remains empty. 
 
-manpagesection(icmun)
+manpagesection(ICM-MULTICOMP)
+
+Icm() supports multi-threaded source-file compilation, often significantly
+reducing the compilation time of the source files of projects. When using the
+standard icm() bf(icmbuild)(1) program multi-threaded compilation is
+automatically used when projects' tt(icmconf) files contain the tt(#define
+MULTICOMP) directive (cf. bf(icmconf)(7)). It can also be called independently
+from tt(icmconf) using icm()'s tt(--multicomp) (or tt(-m)) option.
+
+bf(Icm-multicomp) accepts the following options:
+    itemization(
+    it() lsoption(help)(h)nl()
+       bf(Icm-multicomp) writes a summary of its usage to the standard output
+        and terminates, returning 0 to the operating system;
+
+    it() lsoption(nr)(n)nl()
+       When compiling source files and option tt(--nr) is specified then the
+        thread number compiling a source file is written to the standard
+        output stream.
+
+    it() lsoption(quiet)(q)nl()
+       When this options is not specified then the path names of the compiled
+        object and source files are written to the standard output
+        stream. When it is specified once only the source files' directories
+        and filenames are written to the standard output stream, and when it
+        is specified more than once no information about the compiled files is
+        written to the standard output stream.
+
+    it() lsvoption(threads)(t)(nThreads)nl()
+       By default the computer's number of cores determines the number of
+        threads being used when compiling the source files. Optionally a
+        different number of threads can be requested using this option, e.g.,
+        tt(--threads 5).
+
+    it() lsoption(version)(v)nl() 
+       bf(Icm-multicomp) reports its version number to the standard output and
+        terminates, returning 0 to the operating system.
+    )
+
+bf(Icm-multicomp) needs one command-line argument and an optional second
+argument: 
+    itemization(
+    it() the first argument is the name of the file specifying which files
+        must be compiled. Use bf(icmbuild)(1) to write this file. It can also
+        be constructed otherwise. 
+       It ccontains groups of file specifications where each group starts with
+        a line like tt(: support tmp/o 5) where the 2nd element specifies the
+        location (directory) of the source files (use tt(.) to refer to the
+        project's top-level directory); the 3rd element specifies the
+        destination directory of the compiled files (which is created if not
+        existing); and the 4th element specifies the prefix to add in front of
+        the compiled object files.nl()
+       Following this line the remaining lines of a group specify the names of
+        the source files to compile.nl()
+       Once the compilation ends (either because all files were successfully
+        ccompiled, or because a compilation failed) the specification file is
+        removed;
+    it() the second argument is optional. By default the following
+        specification is used  (all on one line)
+       verb(
+    g++ -c -o $2 ${ICMAKE_CPPSTD} --Wall -Werror $1
+       )
+       In this specification tt($1) is replaced by the location of the source
+        file to compile and tt($2) is replaced by the location of the compiled
+        object file. If the environment variable tt(ICMAKE_CPPSTD) is defined
+        (specifying the bf(C++) standard to use, e.g.,
+        tt(ICMAKE_CPPSTD=--std=c++23)) then its value replaces
+        tt(${ICMAKE_CPPSTD}) in the specification.nl()
+       Alternatively, the command compiling source files can be provided as
+        second command-line argument, which should be quoted, like
+       verb(
+    'g++ -c -o $2 '${ICMAKE_CPPSTD}' --Wall -Werror $1'
+       ) 
+       or the second command-line argument can be tt(f:file), where tt(file)
+        is the name of a file whose first line contains the specification of
+        the command compiling source files (which must specify tt($1) and
+        tt($2) and optionally tt($ICMAKE_CPPSTD)).nl()
+       The tt(PATH) environment variable is used to locate
+        the compiler; the compiler's absolute path can also be used.
+    )
+    
+manpagesection(ICM-SPCH)
+
+quote(
+    bf(icmake --spch) calls bf(icm-spch).nl()
+    bf(icmake --spch) is followed by bf(icm-spch's) options and arguments.
+)
+
+Pre-compiled headers have been available for quite some time, and usually
+result in a significant reduction of the compilation time. Traditionally
+pre-compiled headers are defined for directories containing the sources of
+components of programs or libraries (e.g., in bf(C++) directories commonly
+contain the sources of classes). However, there is a disadvantage to this
+approach: the combined sizes of such separately constructed pre-compiled
+headers can be huge, often requiring many Giga-Bytes of disk space. But often
+headers of separate components themselves include identical (e.g.,
+system-based) header files, like (in bf(C++)) tt(iostream, string) and
+tt(vector). As a result, these separately constructed pre-compiled headers
+contain large identical sections. 
+
+bf(Icm-spch) accepts the following options (after covering the
+options, a more extensive description of bf(icm-spch) is provided):
+    itemization(
+    it() lsvoption(classes)(c)(file)nl()
+       this option can only be used in combination with the tt(--list) option.
+        tt(File) contains the list of directories inspected by the
+        tt(--list) option (by default CLASSES). The project's top directory is
+        automatically inspected unless the option tt(--no-topdir) is
+        specified;
+
+    it() lsvoption(guard)(g)(name)nl() 
+       this option can only be used in combination with the tt(--list) option.
+        tt(Name) is the name of the include-guards used in internal headers.
+        By default tt(name) is SPCH_;
+
+    it() lsoption(help)(h)nl()
+       bf(Icm-multicomp) writes a summary of its usage to the standard output
+        and terminates, returning 0 to the operating system;
+
+    it() lsvoption(internal)(i)(.ext)nl() 
+       this option can only be used in combination with the tt(--list) option.
+        tt(.ext) is the extension used for the internal headers (including the
+        dot) by default: tt(.ih);
+
+    it() lsvoption(keep)(k)(regex)nl() 
+       this option can only be used in combination with the tt(--list) option.
+        It keeps (and does not inspect) include-specification(s) in the
+        internal header matching (POSIX extended) regular expressions in
+        tt(regex).  Use tt((...)|(...))  to specify multiple regexes. Use
+        tt(f:file) to specify a file whose non-empty lines contain regexex;
+
+    it() lsoption(list)(l)nl()
+       write the filenames of the files to process when constructing a single
+        precompiled header (SPCH) to the file (tt(dest)) specified as the
+        command line argument. tt(Dest) must specify a filename (without
+        extension) in the current working directory.
+
+    it() lsoption(no-topdir)(n)nl()
+       this option can only be used in combination with the tt(--list) option.
+        Ignore the internal header found in the project's top directory. This
+        option is used when merely constructing a library instead of a
+        program;
+
+    it() lsvoption(precompile)(p)(file)nl() 
+       precompile tt(file) (which is the name of the file specified at the
+        option tt(--list)) to the SPCH file tt(dest), specified as
+        bf(icm-spch's) first command-line argument. If tt(dest) ends in / then
+        the SPCH is the file tt('dest'file.gch).nl()
+       By default the SPCH is constructed using the following command (all on
+        one line):
+       verb(
+    g++ -c -o $2 ${ICMAKE_CPPSTD} -Wall -Werror -O2 -x c++-header $1
+       )
+       Here, $1 refers to 'file', $2 refers to 'dest', and
+        tt($ICMAKE_CPPSTD) refers to the value of the tt(ICMAKE_CPPSTD)
+        environment variable (specifying the bf(C++) standard to use, e.g.,
+        ICMAKE_CPPSTD=--std=c++23).nl()
+       Alternatively, the command constructing the SPCH can be provided as
+        second command-line argument, which should be quoted like
+       verb(
+    'g++ -c -o $2 '${ICMAKE_CPPSTD}' -Wall -Werror -O2 -x c++-header $1'
+       )
+       or the second command-line argument can be tt(f:file), where tt(file)
+        is the name of a file whose first line specifies the command
+        constructing the SPCH (which must specify tt($1) and tt($2) and
+        optionally tt($ICMAKE_CPPSTD)).nl()
+       The tt(PATH) environment variable is used to locate
+        the compiler; the compiler's absolute path can also be used.
+
+COMMENT(
+    it() lsvoption(required)(r)(.ext)nl() 
+       this option can only be used in combination with the tt(--list) option
+        and not when option tt(--include) is specified. 
+       tt(.ext) is the extension used for the `required' headers (including
+        the dot). This option is currently only used for developmental
+        purposes and should in practice be avoided;
+END)
+
+    it() lsvoption(soft-links)(s)(file)nl() 
+       this option uses the same arguments as the arguments used with the
+        tt(--precompile) option. This option creates tt(.gch) soft-links from
+        the header files listed in tt(file) to the SPCH-file specified as the
+        program's command-line argument tt(dest);
+
+    it() lsoption(version)(v)nl() 
+       bf(Icm-multicomp) reports its version number to the standard output and
+        terminates, returning 0 to the operating system;
+
+    it() lsoption(warn)(w)nl() 
+       interactively warn when existing header files are about to be modified,
+        accepting or refusing the modifications. Once refused bf(icm-spch)
+        ends. 
+    )
+
+Pre-compiled headers have been available for quite some time, and usually
+result in a significant reduction of the compilation time. Using single
+precompiled headers results in a large reduction of required disk-space
+compared to using precompiled headers for separate directories.
+
+When using SPCHs almost identical precompiled headers for separate directories
+are avoided: only one precompiled header is constructed which is then used by
+all components of a project. As identical sections are avoided the sizes (and
+construction times) of SPCHs are much smaller, usually requiring only 5 to 10 %
+of the space (and construction time) ccompared to using separately constructed
+pre-compiled headers.
+
+When bfIicm-spch) is used for the first time on a project it visits the
+project's (internal) header files, and modifies them slightly to avoid
+namespace declarations inside the SPCH that might otherwise arise when
+identical names are defined in different namespaces. Suppose an internal
+header file looks like this:
+        verb(
+    #include "class.h"
+    #include <ctype>
+    #include <iostream>
+    using namespace std;
+    inline void Class::capitalize(string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+        )
+  then this header file is modified to
+        verb(
+    #include "class.h"
+    #include <ctype>
+    #include <iostream>
+    inline void Class::capitalize(string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+    #ifndef SPCH_
+    using namespace std;
+    #endif
+        )
+    The name tt(SPCH_) is the 'guard'-name, which can be configured using the
+tt(--guard) option, but notice that following this modification the header
+file cannot be compiled anymore since the inline function is now positioned
+above the namespace declaration. Definitions and declarations which are
+positioned above the tt(#ifndef SPCH_) declaration must therefore, where
+necessary, specify their appropriate namespaces. E.g., for
+tt(Class::capitalize) this means:
+        verb(
+    inline void Class::capitalize(std::string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+        )
+  The first line of the file specifying which
+headers to process  (which is specified as the command-line argument when
+using the tt(--list) option) contains the directive
+        verb(
+    #define SPCH_
+        )
+    and at the end the namespaces encountered when processing the internal
+headers are declared, e.g.,
+        verb(
+    using namespace std;
+        )
+
+To use SPCHs in combination with bf(icmbuild) specify tt(#define SPCH) and
+maybe tt(#define SPCH_FILE) in the tt(icmconf) file
+(cf. bf(icmconf)(7)). SPCHs can also be used independently from using
+bf(icmbuild) by using icm()'s tt(--spch) (or tt(-S)) option.
+
+bf(Icm-spch), except when calling it with the tt(--help) or tt(--version)
+options, always requires one command line argument (tt(dest)) (described at
+options tt(--list, --precompile) and tt(--soft-link)), and with option
+tt(--precompile) a second (optional) command-line argument may be specified
+(destribed at that option).
+
+
+
+When using bf(icm-spch) automatically (through bf(icmbuild)(1)) the following
+commands are issued (showing defaults):
+        verb(    icm-spch -l spch
+    icm-spch -p spch tmp/
+    icm-spch -s spch tmp/)
+        
+manpagesection(ICMUN)
 
     The bf(icmun) support program expects one argument, a bim-file. It
 disassembles the binary file an shows the assembler instructions and the
 structure of the bim-file. Note that in standard installations bf(icmun) is
 not located in one of the directories of the tt(PATH) environment variable,
-but it is available in the tt(/usr/lib/icmake) directory, and the command
+but it is available in the tt(/usr/libexec/icmake) directory, and the command
 tt(icmake -u bim-file) is normally used to unassemble the bim-file.
 
 As an illustration, assume the following script is compiled by icm() (e.g., by
@@ -464,7 +816,7 @@ calling tt(icmake -c demo.im)):
     }
         )
     the resulting tt(demo.bim) file can be processed by bf(icmun) (e.g.,
-calling tt(/usr/lib/icmake/icmun demo.bim). bf(Icmun) then writes the
+calling tt(/usr/libexec/icmake/icmun demo.bim)). bf(Icmun) then writes the
 following to the standard output fle:
 
         verb(
@@ -516,20 +868,20 @@ only and may have been configured differently:
         script handling standard program maintenance;
     it() bf(/usr/bin/icmstart): an icm()-script that is can be used to create
         the startup-files of new projects;
-    it() bf(/usr/lib/icmake/icm-comp): the compiler called by icm();
-    it() bf(/usr/lib/icmake/icm-exec): the byte-code interpreter called by
+    it() bf(/usr/libexec/icmake/icm-comp): the compiler called by icm();
+    it() bf(/usr/libexec/icmake/icm-exec): the byte-code interpreter called by
             icm(); 
-    it() bf(/usr/lib/icmake/icm-dep): the support program handling class- and
+    it() bf(/usr/libexec/icmake/icm-dep): the support program handling class- and
             precompiled header dependencies;
-    it() bf(/usr/lib/icmake/icm-pp): the preprocessor called by icm();
-    it() bf(/usr/lib/icmake/icmun): the icm() unassembler.
+    it() bf(/usr/libexec/icmake/icm-pp): the preprocessor called by icm();
+    it() bf(/usr/libexec/icmake/icmun): the icm() unassembler.
     )
 
 manpagesection(EXAMPLES)
     
     The distribution (usually in tt(/usr/share/doc/icmake)) contains a
 directory tt(examples) containing additional examples of icm() script. The
-tt(icmstart) script is an icm() script as is tt(/usr/lib/icmake/icmbuild),
+tt(icmstart) script is an icm() script as is tt(/usr/libexec/icmake/icmbuild),
 which is called by the tt(/usr/bin/icmbuild) program. See also the bf(EXAMPLE)
 section in the bf(icmscript)(7) man-page.
 

@@ -1,9 +1,11 @@
 #include "varbase.h"
 
 #include <string>
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 
 #include "../../xerr/xerr.ih"
 
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
+#endif

@@ -3,17 +3,19 @@
 #include <iomanip>
 #include <iostream>
 
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 
-#include "../../support/as/as.h"
-#include "../../support/tools/tools.h"
-#include "../../support/exprtype/exprtype.h"
-#include "../../support/bimheader/bimheader.h"
-#include "../../support/builtinfunctions/builtinfunctions.h"
-#include "../../support/opcodes/opcodes.h"
+#include "../../tmp/build/as/as.h"
+#include "../../tmp/build/tools/tools.h"
+#include "../../tmp/build/exprtype/exprtype.h"
+#include "../../tmp/build/bimheader/bimheader.h"
+#include "../../tmp/build/builtinfunctions/builtinfunctions.h"
+#include "../../tmp/build/opcodes/opcodes.h"
 
 #include "../../xerr/xerr.ih"
 
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
+#endif

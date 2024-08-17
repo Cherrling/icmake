@@ -3,7 +3,7 @@
 
 Variable &Variable::operator=(std::string const &str)
 {
-    Variable tmp{ new String{ str } };    
+    Variable tmp{ new EString{ str } };    
     swap(tmp);
     return *this;
 }

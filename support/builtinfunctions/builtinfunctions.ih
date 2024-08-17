@@ -1,8 +1,0 @@
-#include "builtinfunctions.h"
-
-#include <algorithm>
-#include <string>
-
-#include "../as/as.h"
-
-using namespace std;

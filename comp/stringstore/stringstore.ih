@@ -2,8 +2,10 @@
 #include "../../xerr/xerr.ih"
 
 #include <algorithm>
-#include <bobcat/mstream>
+#include "../../tmp/build/mstream/mstream"
 
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
+#endif

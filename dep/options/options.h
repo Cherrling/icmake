@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <filesystem>
 
-#include <bobcat/arg>
+#include "../../tmp/build/arg/arg"
 
 #include "../action/action.h"
 
@@ -20,18 +20,19 @@ class Options
     FBB::Arg const &d_arg;
 
     std::string d_cwd;
-    std::string d_classes{ "CLASSES" };
-    std::string d_icmconf{ "icmconf" };
-    std::string d_mainIH { "main.ih" };
-    std::string d_useAll { "\0"      }; // by default use the icmconf spec
+    std::string d_classes;
+    std::string d_icmconf;
+    std::string d_mainIH;
+    std::string d_useAll;               // by default use the icmconf spec
                                         // changed to the name of the USE_ALL
                                         // file or empty
-    std::string d_ih     { ".ih" };
+    std::string d_ih;
     std::string d_parser;
     std::string d_scanner;
 
-    Action d_gch = UNSPECIFIED;
-    Action d_go = DRY;
+    Action d_gch;
+    Action d_go;
+    Action d_spch;
 
     static FBB::Pattern s_icmconf;
     static std::unordered_map<std::string, void (Options::*)()> 
@@ -39,40 +40,36 @@ class Options
     public:
         Options();
 
-        Action go() const;
-        Action gch() const;
+        Action go() const;                                          // .f
+        Action gch() const;                                         // .f
+        Action spch() const;                                        // .f
 
-        void startDir() const;
-        std::string const &classes() const;
-        std::string const &scanner() const;
-        std::string const &parser() const;
-        std::string const &useAll() const;
-        std::string const &mainIH() const;
-        std::string const &dotIH() const;
+        void startDir() const;                                      // .f
 
-        size_t verbosity() const;
+        std::string const &classes() const;                         // .f
+        std::string const &scanner() const;                         // .f
+        std::string const &parser() const;                          // .f
+        std::string const &useAll() const;                          // .f
+        std::string const &mainIH() const;                          // .f
+        std::string const &dotIH() const;                           // .f
+
+        size_t verbosity() const;                                   // .f
 
     private:
+        void setGch();
+        void setUseAll();
         void setVerbosity() const;
 
         void scanIcmconf();
 
         void precomp();
         void ih();
-        void setUseAll();
+        void spch();
+        void icmUseAll();
         void parserDir();
         void scannerDir();
 };
 
-#include "go.f"
-#include "gch.f"
-#include "startdir.f"
-#include "classes.f"
-#include "scanner.f"
-#include "parser.f"
-#include "mainih.f"
-#include "dotih.f"
-#include "verbosity.f"
-#include "useall.f"
+#include "options.f"
         
 #endif

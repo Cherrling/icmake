@@ -5,30 +5,36 @@ INSTALL.im      definitions of pathnames used by icmake
 QUICKINSTALL    short description of required steps to install icmake
 VERSION         latest icmake version and year
 
-build           build-script that can be used once icmake has been installed
-icm_bootstrap   bootstrap script to prepare icmake installation
-icm_gitlab      internal use only
-icm_install     installation script     
-icm_prepare     script installing path-definitions: also called by 
-                icm_bootstrap
+build           script building icmake's programs and support programs
+buildlib        script constructing the libicmake.so.* library
+install         installation script: called by root. First as ./install lib,
+                next as ./install [strip] all
+prepare         script installing path-definitions. Must be called first when
+                building icmake
 
-doc/            documentation and man-pages (including Yodl manpage sources)
+buildscripts/   directory containing support scripts for the above
+                build..prepare scripts
+
 comp/           sources of the icm-comp icmake compiler    
 dep/            sources of the icm-dep dependency inspecting program
+doc/            documentation and man-pages (including Yodl manpage sources)
 exec/           sources of the icm-exec interpreter
-pp/             sources of the icm-pp preprocessor
 icmake/         sources of the icmake shell program
+multicomp/      sources of the icm-multicomp multi-threaded compiler
+pp/             sources of the icm-pp preprocessor
+spch/           sources of the icm-spch SPCH constructor
+support/        directory containing bobcat.tgz and support.tgz, containing
+                the required bobcat classes and icmake's own support classes
 un/             sources of the icmun unassembler
-support/        sources of functions shared by the icmake programs
 
 scripts/        scripts used to build icmake, source texts of icm* scripts
 legacy/         legacy files
 examples/       various examples of icmake scripts
 
-usr/            default skeletons in share/icmake
+usr/            default skeletons (usr/share/icmake)
 etc/            icmake/ contains default icmstart.rc, VERSION, AUTHOR, YEARS
 
-iuo/            internal use only: files used by my when working towards the
+iuo/            internal use only: files used by me when working towards the
                 next release 
 
 where-is-what   this file

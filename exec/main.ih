@@ -1,3 +1,5 @@
+#include "../xerr/xerr.ih"
+
 #include <libgen.h>
 #include <getopt.h>
 
@@ -5,17 +7,17 @@
 #include <string>
 #include <exception>
 
-#include <bobcat/arg>
+#include "../tmp/build/arg/arg"
 
-#include "../support/tools/tools.h"
-#include "../support/bimheader/bimheader.h"
+#include "../tmp/build/tools/tools.h"
+#include "../tmp/build/bimheader/bimheader.h"
+#include "../tmp/INSTALL.im"
 
 #include "cpu/cpu.h"
 
-#include "../xerr/xerr.ih"
+void usage(std::string const &progname);
 
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
-void usage(string const &progname);
-
+#endif

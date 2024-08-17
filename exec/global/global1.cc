@@ -17,7 +17,7 @@ Global::Global(BimHeader &hdr)
 
             case e_str:
                 xerr("string");
-                push_back(new String);
+                push_back(new EString);
             break;
 
             case e_list:

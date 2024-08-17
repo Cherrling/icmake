@@ -1,0 +1,8 @@
+#!/bin/bash
+
+. ../buildscripts/multicomp
+
+    echo "
+Building tmp/usr/libexec/icmake/icm-pp"
+
+build /usr/libexec/icmake/icm-pp

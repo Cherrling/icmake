@@ -1,0 +1,14 @@
+#include "classes.h"
+#include "../xerr/xerr.ih"
+
+#include "../../tmp/build/glob/glob"
+#include "../../tmp/build/mstream/mstream"
+
+#include "../options/options.h"
+#include "../../tmp/build/tools/tools.h"
+
+#ifndef SPCH_
+using namespace std;
+namespace fs = filesystem;
+using namespace FBB;
+#endif

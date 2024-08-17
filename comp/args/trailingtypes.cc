@@ -5,7 +5,8 @@
 bool Args::trailingTypes(Builtin::ArgsIter funBegin, Builtin::ArgsIter funEnd,
                          unsigned argBegin, unsigned argEnd) const
 {
-    if (funEnd - funBegin > argEnd - argBegin)  // too few trailing args
+                                                // too few trailing args
+    if (int argDiff = argEnd - argBegin; funEnd - funBegin > argDiff)  
         return false;
                                                 // check trailing args fm the
                                                 // last to the first

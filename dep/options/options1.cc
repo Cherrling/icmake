@@ -1,58 +1,44 @@
-//#define XERR
+#define XERR
 #include "options.ih"
 
 Options::Options()
 :
     d_arg(Arg::instance()),
-    d_cwd(filesystem::current_path().string())
+    d_cwd(filesystem::current_path().string()),
+    d_mainIH("main.ih"),
+    d_gch(UNSPECIFIED),
+    d_go(DRY),
+    d_spch(UNSPECIFIED)
+
 {
     setVerbosity();
 
-    d_arg.option(&d_classes, 'c');
+    if (not d_arg.option(&d_classes, 'c'))  // configured  CLASSES file
+        d_classes = "CLASSES";
 
-    if (d_arg.option(&d_icmconf, 'i'))
-        g_log << level(V2) << "icm-dep: using icmconf `" << d_icmconf << 
-                                                                        "'\n";
+    if (not d_arg.option(&d_icmconf, 'i'))  // configured icmconf file
+        d_icmconf = "icmconf";
+    else
+        log(V2) << "icm-dep: using icmconf `" << d_icmconf << "'\n";
 
-    if (d_arg.option(0, "gch"))
-    {
-        d_gch = GCH;
-        g_log << level(V2) << "icm-dep: inspecting .gch files\n";
-    }
+                                            // may set d_spch, 
+    scanIcmconf();                          // set scan icmconf 
 
     if (d_arg.option(&d_mainIH, 'm'))
-        g_log << level(V2) << "icm-dep: using main.ih `" << d_mainIH << "'\n";
+        log(V2) << "using main.ih `" << d_mainIH << "'\n";
 
-    if (d_arg.option(0, "no-use-all"))
-    {
-        g_log << level(V2) << "icm-dep: USE_ALL files are not inspected\n";
-        d_useAll.clear();
-    }
-    else if (d_arg.option(&d_useAll, "use-all"))
-        g_log << level(V2) << "icm-dep: using USE_ALL filename `" << 
-                                d_useAll << "'\n";
+    setGch();
+
+    setUseAll();    
 
     if (d_arg[0] == "go"s)
+    {
         d_go = GO;
 
-    if (not Tools::exists(d_classes))
-    {
-        g_log << level(V2) << "icm-dep: Classes file `" << d_classes << 
-                                                            "' not found\n";
-        throw 0;
-    }
-
-    scanIcmconf();
-
-    if (d_gch == UNSPECIFIED)
-    {
-        g_log << level(V1) << "icm-dep: .gch files are not handled\n";
-        d_gch = NO_GCH;
-    }
-
-    if (d_useAll[0] == 0)   
-    {
-        g_log << level(V1) << "icm-dep: USE_ALL files are not handled\n";
-        d_useAll.clear();
+        if (not Tools::exists(d_classes))
+        {
+            log(V2) << "classes file `" << d_classes << "' not found\n";
+            throw 0;
+        }
     }
 }

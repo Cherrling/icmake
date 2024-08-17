@@ -4,9 +4,11 @@
 #include <algorithm>
 
 #include "../error/error.h"
-#include "../../support/as/as.h"
+#include "../../tmp/build/as/as.h"
 #include "../semval/semval.h"
 #include "../functions/functions.h"
 
-using namespace std;
 
+#ifndef SPCH_
+using namespace std;
+#endif

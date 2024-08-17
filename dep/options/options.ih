@@ -2,14 +2,19 @@
 
 #include <algorithm>
 
-#include <bobcat/exception>
-#include <bobcat/pattern>
+#include "../../tmp/build/exception/exception"
+#include "../../tmp/build/pattern/pattern"
+#include "../../tmp/build/log/log"
 
 #include "../../xerr/xerr.ih"
-#include "../../support/as/as.h"
-#include "../../support/tools/tools.h"
+#include "../../tmp/build/as/as.h"
+#include "../../tmp/build/tools/tools.h"
 
 #include "../log/log.h"
 
+extern FBB::Log g_log;
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
+#endif

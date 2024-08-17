@@ -24,8 +24,12 @@ string const &Handler::file2(char const *extension)
         }
     }
 
-    if (absolute(file1) == absolute(d_file2))
+    if (Tools::absolute(file1) == Tools::absolute(d_file2))
         throw Exception{} << '`' << file1 << "' and `" << d_file2 << 
                             "' are the same files";
     return d_file2;
 }
+
+
+
+

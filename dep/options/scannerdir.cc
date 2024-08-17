@@ -9,5 +9,5 @@ void Options::scannerDir()
         return;
 
     d_scanner = value;
-    g_log << level(V2) << "scanner dir.: `" << d_scanner << "'\n";
+    log(V2) << "scanner dir.: `" << d_scanner << "'\n";
 }

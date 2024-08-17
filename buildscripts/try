@@ -1,0 +1,7 @@
+# sourced by the various icm_bootstrap shell scripts
+
+try()
+{
+    echo "    $*"
+    $* || exit 1
+}

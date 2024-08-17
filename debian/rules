@@ -6,11 +6,10 @@ export DH_VERBOSE=1
 export DEB_BUILD_HARDENING=1
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
-export CXXFLAGS = $(shell dpkg-buildflags --get CXXFLAGS)
-export CXXFLAGS += -Wall -D_FORTIFY_SOURCE=2
+export ICMAKE_CPPSTD = --std=c++23
 
-# Define the c++std to use by processing the upstream 'c++std' file
-export CXXFLAGS += $(shell cat c++std|sed -e 's/#define CPPSTD "//' -e 's/"//')
+export CXXFLAGS = $(shell dpkg-buildflags --get CXXFLAGS)
+export CXXFLAGS += ${ICMAKE_CPPSTD}  -Wall -D_FORTIFY_SOURCE=2
 
 export LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
 # export LDFLAGS += -Wl,bindnow
@@ -23,22 +22,21 @@ export CXX = g++
 
 override_dh_auto_clean:
 	rm -rf tmp
+	find . -type f -name '*.ih.gch' -delete
 	dh_auto_clean
 
 override_dh_auto_build:
 	# compile the package.
-	./icm_prepare   /
-	./icm_bootstrap /
+	./prepare   /
+	./buildlib  /
+	./build     all
 	dh_auto_build
 
 override_dh_auto_install:
 	# Add here commands to install the package into debian/icmake
-ifeq (,$(findstring nostrip, $(DEB_BUILD_OPTIONS)))
-	./icm_install strip progs debian/icmake
-endif
-	./icm_install scripts debian/icmake
-	./icm_install skel debian/icmake
-	./icm_install man debian/icmake
-	./icm_install doc debian/icmake
-	./icm_install etc debian/icmake
+	./install   all debian/icmake
 	dh_auto_install
+	# Do not ship the bobcat.tgz in the icmake binary package.
+	# The inclusion of the tarball in src:icmake is temporary until
+	# the bobcat-source package is in the archive.
+	rm -fv debian/icmake/usr/share/icmake/bobcat.tgz

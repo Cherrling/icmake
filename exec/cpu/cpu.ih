@@ -2,22 +2,24 @@
 
 #include <filesystem>
 
-#include <bobcat/exception>
-#include <bobcat/stat>
-#include <bobcat/arg>
+#include "../../tmp/build/exception/exception"
+#include "../../tmp/build/stat/stat"
+#include "../../tmp/build/arg/arg"
 
 #include "../../xerr/xerr.ih"
 
-#include "../../support/opcodes/opcodes.h"
-#include "../../support/bimheader/bimheader.h"
-#include "../../support/as/as.h"
-#include "../../support/builtinfunctions/builtinfunctions.h"
-#include "../../support/tools/tools.h"
+#include "../../tmp/build/opcodes/opcodes.h"
+#include "../../tmp/build/bimheader/bimheader.h"
+#include "../../tmp/build/as/as.h"
+#include "../../tmp/build/builtinfunctions/builtinfunctions.h"
+#include "../../tmp/build/tools/tools.h"
 
 #include "../int/int.h"
-#include "../string/string.h"
+#include "../estring/estring.h"
 #include "../list/list.h"
 
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
+#endif

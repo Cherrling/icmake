@@ -1,0 +1,16 @@
+#include "ihhandler.h"
+#include "../xerr/xerr.ih"
+
+#include <algorithm>
+#include <iterator>
+
+#include "../../tmp/build/string/string"
+#include "../../tmp/build/pattern/pattern"
+
+#include "../options/options.h"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+namespace fs = filesystem;
+#endif

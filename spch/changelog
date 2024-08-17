@@ -1,0 +1,68 @@
+precompile (0.91.00) (isn)
+
+precompile (0.90.20)
+
+  * the --keep option used f:filename to specify that regexes are defined in
+    filename's lines
+
+  * --keep is now available for --list's --internal and --required options
+
+  * --precompile recursively checks whether files specified using 
+    #include "..." are younger than the spch.gch file. If so, spch.gch is 
+    rebuilt
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 04 Jan 2024 11:24:40 +0100
+
+precompile (0.90.10)
+
+  * Fixed a flaw in determining the equal prefix of soft-link and destination
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 01 Jan 2024 21:50:11 +0100
+
+precompile (0.90.00)
+
+  * The initial pre-relase version is operational. The --keep option expects
+    regular expressions, the file CLASSES (optionally together with the
+    --no-topdir option) specifies the directories where .ih files live.
+    The man-page lags behind. For now the usage info should be used.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 01 Jan 2024 14:49:09 +0100
+
+precompile (0.04.00)
+
+  * The spch.gch file may be created in an absolute path
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 24 Dec 2023 14:57:11 +0100
+
+precompile (0.03.00)
+
+  * An error message is issued when no --all, --precompile or --soft-link
+    option is specified
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 24 Dec 2023 12:12:12 +0100
+
+precompile (0.02.00)
+
+  * Option --all-ih was changed to --all
+ 
+  * --all's dest program argument must be in the cwd and may not have the
+    extension .ih
+  
+  * The links to the SPCH now link back to a common parent dir.
+
+  * Updated the usage info.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 21 Dec 2023 16:27:00 +0100
+
+precompile (0.01.00)
+
+  * All defined options are now operational
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 18 Dec 2023 16:00:14 +0100
+
+precompile (0.00.00)
+
+  * Initial implementation
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 16 Dec 2023 17:23:47 +0100
+

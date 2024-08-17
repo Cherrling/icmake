@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-#include "../../support/opcodes/opcodes.h"
+#include "../../tmp/build/opcodes/opcodes.h"
 #include "../exprtype/exprtype.h"
 
 class Opcode: public Opcodes

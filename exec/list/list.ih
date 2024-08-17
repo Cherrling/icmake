@@ -6,5 +6,7 @@
 #include <sstream>
 
 #include "../../xerr/xerr.ih"
-using namespace std;
 
+#ifndef SPCH_
+using namespace std;
+#endif

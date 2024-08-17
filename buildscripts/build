@@ -1,0 +1,14 @@
+# loaded and called from the icmake programs's build scripts
+
+. ../buildscripts/flags
+. ../buildscripts/try
+. ../buildscripts/subdirs
+. ../buildscripts/maindir
+
+#   $1 is, e.g., /usr/libexec/icmake/icm-dep
+build()
+{
+    subdirs
+    maindir $1
+    rm -f *.o
+}

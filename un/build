@@ -1,0 +1,8 @@
+#!/bin/bash
+
+. ../buildscripts/multicomp
+
+    echo "
+Building tmp/usr/libexec/icmake/icmun"
+
+build /usr/libexec/icmake/icmun

@@ -10,7 +10,7 @@ try
         return 1;
     }
 
-    Splitter splitter(argc, argv);
+    Options splitter(argc, argv);
 
     if (done(*argv, splitter.actionOpt()))
         return 0;

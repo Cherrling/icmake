@@ -1,8 +1,12 @@
 #ifndef INCLUDED_LOG_
 #define INCLUDED_LOG_
 
-#include <bobcat/log>
-#include <bobcat/level>
+#include <iosfwd>
+
+namespace FBB
+{
+    class level;
+}
 
 enum LogLevel
 {
@@ -13,6 +17,6 @@ enum LogLevel
     V4 = 0,         // -VVVV specified (most elaborate)
 };
 
-extern FBB::Log g_log;
+std::ostream &log(LogLevel vx);
 
 #endif

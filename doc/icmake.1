@@ -1,4 +1,4 @@
-.TH "icmake" "1" "1992\-2022" "icmake\&.10\&.03\&.03" "A program maintenance utility"
+.TH "icmake" "1" "1992\-2024" "icmake\&.12\&.00\&.01" "A program maintenance utility"
 
 .PP 
 .SH "NAME"
@@ -15,7 +15,13 @@ icmake \- A program maintenance (\fImake\fP) utility using a
 as an alternative for \fBmake\fP(1)\&. It\(cq\&s a generic tool in that
 \fIicmake\fP\-scripts, written in a language closely resembling the \fBC\fP
 programming language, can perform tasks that are traditionally the domain of
-scripting languages\&.
+scripting languages\&. See also section \fBICMAKE V\&. 11\&.01\&.00\fP below an overview
+of the changes from version 10 to version 11\&.
+.PP 
+To summarize the changes: since \fBicmake\fP version 11\&.00\&.00 \fBicmake\fP offers Single
+Pre\-Compiled Headers (SPCH) and multi\-threaded source\-file compilation,
+commonly reducing the construction times of projects to around 30\-40% of the
+original construction times\&.
 .PP 
 \fBIcmake\fP allows programmers to use a programming language (closely resembling the
 well\-known \fBC\fP\-programming language) to define the actions that are required
@@ -30,65 +36,107 @@ construction of two \fBicmake\fP scripts, which are part of the standard
 development and \fBicmbuild\fP(1), handling the actual program maintenance\&. By
 default both scripts are  tailored to initializing and maintaining \fBC++\fP
 programs (or, after minimal adaptation, \fBC\fP programs), but can easily be
-adapted to other programming languages\&. Both \fBicmstart\fP and \fBicmbuild\fP can
-be run without explicitly calling \fBicmake\fP\&.
+adapted to other programming languages\&.
 .PP 
-This man\-page covers \fBicmake\fP (the program), and its support programs\&. Refer to
-the \fBicmstart\fP(1)) man\-page for information about how a directory can be
+This man\-page covers \fBicmake\fP (the program), and its main support programs\&. Refer
+to the \fBicmstart\fP(1) man\-page for information about how a directory can be
 initialized (created) in which (by default) a \fBC++\fP or \fBC\fP program can be
-developed and refer to the \fBicmbuild\fP(1) man\-page for information about how
-\fBicmbuild\fP can be used to handle program maintenance\&. Refer to the
-bv(icmscript)(7) man\-page for a description of the syntax and facilities
-offered by \fBicmake\(cq\&s\fP scripting language\&.
+developed, and refer to the \fBicmbuild\fP(1) man\-page for information about how
+\fBicmbuild\fP can be used to handle program maintenance\&. 
 .PP 
-\fBIcmake\fP does not offer an \fIIntegrated Development Environment\fP (IDE)\&. \fBIcmake\fP
-merely performs tasks for which scripts can be written, and only a minimal set
-of pre\-defined scripts (\fBicmstart\fP and \fBicmbuild\fP) that have shown their
-usefulness when developing and maintaining programs are included in
-\fBicmake\(cq\&s\fP distribution\&.
+The \fBicmscript\fP(7) man\-page covers the syntax and facilities offered by
+\fBicmake\(cq\&s\fP scripting language, allowing you to write your own \fBicmake\fP scripts\&.
+.PP 
+\fBIcmake\fP should not be confused with an Integrated Development Environment
+(IDE)\&. \fBIcmake\fP merely performs tasks for which scripts can be written, and a
+minimal set of pre\-defined scripts (\fBicmstart\fP and \fBicmbuild\fP) that have
+proven their usefulness when developing and maintaining programs are included
+in \fBicmake\(cq\&s\fP distribution\&.
 .PP 
 In its standard activation modes, \fBicmake\fP uses the following support programs:
 .IP o 
-\fIicm\-pp\fP     to pre\-process the icmake file 
+\fIicm\-pp\fP     to pre\-process the icmake file,
 .IP o 
-\fIicm\-comp\fP   to byte\-code compile the \fBicmake\fP  \fBs\fP
+\fIicm\-comp\fP   to byte\-code compile the \fBicmake\fP  \fBs\fP,
 .IP o 
 \fIicm\-dep\fP to handle class\-dependencies (see the \fBICM\-DEP\fP
-section in this man\-page for more information about \fIicm\-dep\fP)\&.
+section in this man\-page for more information about \fIicm\-dep\fP),
 .IP o 
-\fIicm\-exec\fP to execute the byte\-code file
+\fIicm\-exec\fP to execute the byte\-code file\&.
 
 .PP 
-In addition, primarily used for illustration, education, and debugging, the
-program \fIicmun\fP is available to disassemble compiled \fBicmake\fP byte\-code (\&.bim)
+In addition, since version 11\&.00\&.00, \fBicmake\fP uses two new support programs:
+.IP o 
+\fIicm\-multicomp\fP to use multi\-threaded source file compilation,
+.IP o 
+\fIicm\-spch\fP to construct a project\-wide Single Pre\-Compiled
+Hbeader file (SPCH)\&.
+Refer to the sections (below) \fBICMAKE V\&. 11\&.00\&.00\fP, \fBOPTIONS\fP (for
+descriptions of the options \fI\-\-multicomp\fP and \fIspch\fP); 
+\fBMULTICOMP\fP and \fISPCH\fP for, respectively, the descriptions of the
+\fIicm\-multicomp\fP and \fIicm\-spch\fP programs; and refer to the \fBicmconf\fP(7)
+man\-page for details about the new \fI#define\fP directives \fIMULTICOMP, SPCH\fP,
+and \fISPCH_FILE\fP\&.
+.PP 
+Furthermore, primarily used for illustration, education, and debugging, the
+program \fBicmun\fP is available to disassemble compiled \fBicmake\fP byte\-code (\&.bim)
 files (`\fIbim\-files\fP\(cq\&)\&. \fBIcmun\fP is not installed in a standard \fIPATH\fP
 directory but in \fIicmake\(cq\&s\fP \fIlib\fP directory, which commonly is
-\fI/usr/lib/icmake\fP (see also section \fBICMUN\fP in this man\-page)\&. 
+\fI/usr/libexec/icmake\fP (see also section \fBICMUN\fP below)\&. 
 .PP 
 Traditional make\-utilities recompile sources once header files are
 modified\&. When developing \fBC++\fP programs this is often not required, as
 adding new member functions to classes does not require you to recompile all
-source files of those classes\&. To handle class dependencies \fBicmbuld\fP(1) may
-optionally inspect class dependencies, (re)compiling sources of dependent
-classes when necessary\&. By default, class\-dependencies are not interpreted,
-but they are when the \fIPRECOMP\fP and/or \fIUSE_ALL\fP defines, found in the
-file \fIicmconf\fP file, are activated\&. Refer to the \fBicmconf\fP(7) man\-page for
-details\&.
+source files of those classes\&. To handle class dependencies \fBicmbuld\fP(1)
+optionally inspects class dependencies, (re)compiling sources of dependent
+classes when necessary\&. By default, class\-dependencies are not considered, but
+they are when the \fIUSE_ALL, SPCH\fP, and/or (deprecated since version
+11\&.00\&.00) \fIPRECOMP\fP \fI#define\fP directives, found in the \fIicmconf\fP file,
+are activated\&. Refer to the \fBicmconf\fP(7) man\-page for details about these
+directives\&.
 .PP 
-This manpage describes \fBicmake\fP\(cq\&s options in the next section, followed by two
+This manpage describes \fBicmake\fP\(cq\&s options in section \fBOPTIONS\fP, followed by 
 sections covering the support programs
 .IP o 
 \fBICM\-DEP\fP
 .br 
-\- the \fBicm\-dep\fP dependency analyzer;
+the \fBicm\-dep\fP dependency analyzer;
+.IP o 
+\fBICM\-MULTICOMP\fP
+.br 
+the \fBicm\-multicomp\fP multi\-threaded compiler
+program\&. 
+.IP o 
+\fBICM\-SPCH\fP
+.br 
+the \fBicm\-spch\fP SPCH construction support program
 .IP o 
 \fBICMUN\fP
 .br 
-\- \fBicmake\(cq\&s\fP unassembler\&.
+\fBicmake\(cq\&s\fP unassembler\&.
 
 .PP 
 Refer to the \fBicmscript\fP(7) man\-page for a description of \fBicmake\(cq\&s\fP
 \fBC\fP\-like scripting language\&.
+.PP 
+.SH "ICMAKE V\&. 11\&.01\&.00"
+
+.PP 
+Since \fBicmake\fP version 11\&.00\&.00 \fBicmake\fP may construct and use Single
+Pre\-Compiled Headers (SPCH) and also offers multi\-threaded source\-file
+compilations\&.
+.PP 
+The \fBicmake\fP support program \fBicm\-spch\fP (callable via \fIicmake \-\-spch \&.\&.\&.\fP,
+see section \fBICM\-SPCH\fP for details) handles the construction of SPCHs; the
+\fBicmake\fP support program \fBicm\-multicomp\fP (callable via \fIicmake \-\-multicomp
+\&.\&.\&.\fP, see section \fBICM\-MULTICOMP\fP for details) handles multi\-threaded
+source\-file compilations\&. See also the \fBicmconf\fP(7) manpage\&.
+.PP 
+When developing \fBC++\fP programs the environment variable \fIICMAKE_CXXFLAGS\fP
+is no longer used\&. Instead the environment variable \fIICMAKE_CPPSTD\fP is
+used\&. Use this latter environment variable to have one point of maintenance
+specifying the version of the \fBC++\fP standard to use when compiling your
+sources\&.
 .PP 
 .SH "OPTIONS"
 
@@ -97,6 +145,9 @@ Where available, single letter options are listed between parentheses
 beyond their associated long\-option variants\&. \fBIcmake\fP defines \fIaction\fP options
 and \fInon\-action\fP options\&. The first action option that is encountered is
 used\&.
+.PP 
+When using \fBicmbuild\fP(1) for program maintenance \fBicmake\fP is called
+automatically, and the user doesn\(cq\&t have to specify any \fBicmake\fP options\&.
 .PP 
 The following action options write some text to the standard output
 stream, whereafter \fBicmake\fP ends:
@@ -195,6 +246,21 @@ be specified to compile it\&. E\&.g\&.,
 
 .IP 
 .IP o 
+\fB\-\-multicomp\fP (\fB\-m\fP) \fI[options] jobs \(cq\&compiler\-spec\(cq\&\fP 
+.br 
+The optional \fIoptions\fP are the options of the \fIicm\-multicomp\fP
+program: \fI\-\-threads\fP (\fI\-t\fP) and/or \fI\-\-quiet\fP (\fI\-q\fP)\&. The
+\fI\(cq\&compiler\-spec\(cq\&\fP argument is the (quoted) compiler call
+specification, using \fI$1\fP to refer to the source file to compile, $2
+to refer to the object file\(cq\&s path, like
+\(cq\&/usr/bin/g++ \-c \-o $2 \-\-Wall \-Werror $1\(cq\&
+Threaded compilation is automatically used when the \fI#define
+MULTICOMP\fP directive is specified in projects\(cq\& \fIicmconf\fP files\&.
+.br 
+Refer to section \fBICM\-MULTICOMP\fP (below) for a description of
+\fIicm\-spch\(cq\&s\fP usage and arguments\&.
+.IP 
+.IP o 
 \fB\-\-preprocess\fP (\fB\-p\fP)  \fI[options] source [pim\-file]\fP 
 .br 
 The file specified as first argument is pre\-processed, producing a
@@ -214,6 +280,18 @@ then \fBicmake\fP pre\-processes \fIsource\fP, defines the pre\-processor symbol
 \fIone\fP and \fItwo\fP (each having value 1), and produces the pim\-file
 \fIdest\&.pim\fP\&. Note that instead of using long options \fI\-\-define\fP
 short options \fI\-d\fP can also be used;
+.IP 
+.IP o 
+\fB\-\-spch\fP (\fB\-S\fP) \fI\&.\&.\&.\fP 
+.br 
+A SPCH is built\&. All options and arguments following \fI\-\-spch\fP are
+forwarded to the \fIicm\-spch\fP support program\&.
+.br 
+A SPCH is automatically constructed when the \fI#define SPCH\fP directive
+is specified in projects\(cq\& \fIicmconf\fP files\&.
+.br 
+Refer to section \fBICM\-SPCH\fP (below) for a description of
+\fIicm\-spch\(cq\&s\fP usage and arguments\&.
 .IP 
 .IP o 
 \fB\-\-source\fP (\fB\-s\fP)  \fI[options] source [arguments]\fP 
@@ -348,27 +426,31 @@ precompiled\-header file dependencies\&. \fBIcm\-dep\fP can be used for software
 projects that are developed as described in the C++
 Annotations, section \fIHeader
 file organization\fP in chapter \fIClasses\fP\&. For those projects classes are
-developed in their own directories, which are direct sub\-directory of
+developed in their own directories, which are direct sub\-directories of
 the project\(cq\&s main program directory\&. Their class interfaces are provided
 in class\-header files bearing the names of the class\-directories, and all
 headers that are required by the class\(cq\&s sources are declared in a separate
-\fIinternal header\fP filed, commonly having extensions \fI\&.ih\fP\&.
+\fIinternal header\fP files, commonly having extensions \fI\&.ih\fP\&.
 .PP 
-\fBIcmake\fP automatically calls \fBicm\-dep\fPd when \fIUSE_ALL\fP or \fIPRECOMP\fP is
-specified in \fIicmconf\fP files\&.  By default it is called with arguments
+\fBIcmake\fP automatically calls \fBicm\-dep\fP when \fIUSE_ALL, SPCH\fP, or \fIPRECOMP\fP
+is specified in \fIicmconf\fP files\&.  By default it is called with arguments
 \fI\-V go\fP\&. The \fI#define ICM_DEP\fP define\-specification in the \fIicmconf\fP
 file can be used to specify a different set of options\&.
 .PP 
-When \fBicm\-dep\fP is activated (i\&.e\&., its argument \fIgo\fP is specified) then
-\fBicm\-dep\fP determines directory dependencies, touching all files in
-directories that depend on directories containing modified files, and/or
-removing precompiled headers if they include headers from other directories
-that were modified\&. By providing another argument than \fIgo\fP \fBicm\-dep\fP
-performs a `dry run\(cq\&: it analyzes dependencies, but it won\(cq\&t remove or touch
-files\&.
+By default, when called by \fBicmake\fP directory dependencies are determined,
+touching all files in directories that depend on directories containing files
+whose names are specified by the \fIicmconf\(cq\&s #define USE_ALL\fP direcctive\&.
+.PP 
+When \fIicmconf\fP files contain the \fI#define SPCH\fP directive \fBicm\-dep\fP does
+not inspect precompiled headers: Single Pre\-Compiled Headers are automatically
+inspected (and updated when necessary) by \fIicm\-precompile\fP (also
+automatically called by \fBicmake\fP\&.
+.PP 
+By providing another argument than \fIgo\fP \fBicm\-dep\fP performs a `dry run\(cq\&: it
+analyzes dependencies, but it won\(cq\&t remove or touch files\&.
 .PP 
 Options of \fBicm\-dep\fP may be specified immediately following \fBicmake\fP\(cq\&s
-\fI\-\-dependencies\fP option\&. \fBIcm\-dep\fP supports the following options:
+\fI\-\-dependencies\fP option\&. \fBIcm\-dep\fP accepts the following options:
 .IP o 
 \fB\-\-classes\fP=\fIfilename\fP (\fB\-c\fP)
 .br 
@@ -377,6 +459,15 @@ mentioned in the file \fICLASSES\fP\&. Furthermore, if the \fBicmconf\fP(7)
 file specifies \fIPARSER_DIR\fP and \fISCANNER_DIR\fP then those
 directories are also considered\&.  Use this option to specify the file
 containing the names of directories to be inspected by \fBicm\-dep\fP\&.
+.IP 
+.IP o 
+\fB\-\-gch\fP
+.br 
+If \fIicmconf\fP files contain \fI#define PRECOMP\fP directives then
+\fBicm\-dep\fP checks whether precompiled headers must be refreshed\&.  If
+an \fIicmconf\fP file does not contain a \fI#define PRECOMP\fP
+diretive, but precompiled headers should nonetheless be
+inspected, then option \fI\-\-gch\fP can be specified;
 .IP 
 .IP o 
 \fB\-\-help\fP (\fB\-h\fP)
@@ -394,7 +485,7 @@ inspected;
 .IP o 
 \fB\-\-mainih\fP=\fImainheader\fP (\fB\-m\fP)
 .br 
-In the \fIicmconf\fP file the \fI#define IH\fP parameter is used to specify
+In the \fIicmconf\fP file the \fI#define IH\fP directive is used to specify
 the suffix of class header files that should be precompiled, assuming
 that their filenames are equal to the names of the directories which
 are listed in the \fICLASSES\fP file\&. But \fICLASSES\fP does not specify
@@ -403,18 +494,9 @@ specify the name of the top\-level header file to precompile\&. By
 default \fImain\&.ih\fP is used;
 .IP 
 .IP o 
-\fB\-\-gch\fP
-.br 
-If \fIicmconf\fP files contain \fI#define PRECOMP\fP specifications then
-\fBicm\-dep\fP checks whether precompiled headers must be refreshed\&.  If
-an \fIicmconf\fP file does not contain a \fI#define PRECOMP\fP
-specifications, but precompiled headers should nonetheless be
-inspected, then option \fI\-\-gch\fP can be specified;
-.IP 
-.IP o 
 \fB\-\-no\-gch\fP
 .br 
-If \fIicmconf\fP files contain \fI#define PRECOMP\fP specifications but 
+If \fIicmconf\fP files contain \fI#define PRECOMP\fP directives but 
 \fBicm\-dep\fP should not check whether precompiled headers must be
 refreshed then option \fI\-\-no\-gch\fP should be specified;
 .IP 
@@ -422,7 +504,7 @@ refreshed then option \fI\-\-no\-gch\fP should be specified;
 \fB\-\-no\-use\-all\fP
 .br 
 If \fIicmconf\fP files contain \fI#define USE_ALL \(dq\&filename\(dq\&\fP
-specifications then all source files in directories containing files
+directives then all source files in directories containing files
 named \fIfilename\fP are recompiled\&. When specifying this option
 inspections of \fI`USE_ALL\(cq\&\fP specifications is suppressed;
 .IP 
@@ -430,10 +512,10 @@ inspections of \fI`USE_ALL\(cq\&\fP specifications is suppressed;
 \fB\-\-use\-all\fP=\fIfilename\fP
 .br 
 If \fIicmconf\fP files contain \fI#define USE_ALL \(dq\&filename\(dq\&\fP
-specifications then all source files in directories containing files
+directives then all source files in directories containing files
 named \fIfilename\fP are recompiled\&. Specify this option to inspect the
 presence of \fIfilename\fP files if \fIicmconf\fP does not contain a
-\fI`USE_ALL\(cq\&\fP specification;
+\fI#define USE_ALL\fP directive;
 .IP 
 .IP o 
 \fB\-\-verbose\fP (\fB\-V\fP)
@@ -491,14 +573,348 @@ option \fI\-VVV\fP are shown as:
 The second table immediately shows that there are no circular
 dependencies: its lower triangle remains empty\&. 
 .PP 
-.SH "icmun"
+.SH "ICM\-MULTICOMP"
+
+.PP 
+\fBIcmake\fP supports multi\-threaded source\-file compilation, often significantly
+reducing the compilation time of the source files of projects\&. When using the
+standard \fBicmake\fP \fBicmbuild\fP(1) program multi\-threaded compilation is
+automatically used when projects\(cq\& \fIicmconf\fP files contain the \fI#define
+MULTICOMP\fP directive (cf\&. \fBicmconf\fP(7))\&. It can also be called independently
+from \fIicmconf\fP using \fBicmake\fP\(cq\&s \fI\-\-multicomp\fP (or \fI\-m\fP) option\&.
+.PP 
+\fBIcm\-multicomp\fP accepts the following options:
+.IP o 
+\fB\-\-help\fP (\fB\-h\fP)
+.br 
+\fBIcm\-multicomp\fP writes a summary of its usage to the standard output
+and terminates, returning 0 to the operating system;
+.IP 
+.IP o 
+\fB\-\-nr\fP (\fB\-n\fP)
+.br 
+When compiling source files and option \fI\-\-nr\fP is specified then the
+thread number compiling a source file is written to the standard
+output stream\&.
+.IP 
+.IP o 
+\fB\-\-quiet\fP (\fB\-q\fP)
+.br 
+When this options is not specified then the path names of the compiled
+object and source files are written to the standard output
+stream\&. When it is specified once only the source files\(cq\& directories
+and filenames are written to the standard output stream, and when it
+is specified more than once no information about the compiled files is
+written to the standard output stream\&.
+.IP 
+.IP o 
+\fB\-\-threads\fP=\fInThreads\fP (\fB\-t\fP)
+.br 
+By default the computer\(cq\&s number of cores determines the number of
+threads being used when compiling the source files\&. Optionally a
+different number of threads can be requested using this option, e\&.g\&.,
+\fI\-\-threads 5\fP\&.
+.IP 
+.IP o 
+\fB\-\-version\fP (\fB\-v\fP)
+.br 
+\fBIcm\-multicomp\fP reports its version number to the standard output and
+terminates, returning 0 to the operating system\&.
+
+.PP 
+\fBIcm\-multicomp\fP needs one command\-line argument and an optional second
+argument: 
+.IP o 
+the first argument is the name of the file specifying which files
+must be compiled\&. Use \fBicmbuild\fP(1) to write this file\&. It can also
+be constructed otherwise\&. 
+It ccontains groups of file specifications where each group starts with
+a line like \fI: support tmp/o 5\fP where the 2nd element specifies the
+location (directory) of the source files (use \fI\&.\fP to refer to the
+project\(cq\&s top\-level directory); the 3rd element specifies the
+destination directory of the compiled files (which is created if not
+existing); and the 4th element specifies the prefix to add in front of
+the compiled object files\&.
+.br 
+Following this line the remaining lines of a group specify the names of
+the source files to compile\&.
+.br 
+Once the compilation ends (either because all files were successfully
+ccompiled, or because a compilation failed) the specification file is
+removed;
+.IP o 
+the second argument is optional\&. By default the following
+specification is used  (all on one line)
+.nf 
+
+    g++ \-c \-o $2 ${ICMAKE_CPPSTD} \-\-Wall \-Werror $1
+       
+.fi 
+In this specification \fI$1\fP is replaced by the location of the source
+file to compile and \fI$2\fP is replaced by the location of the compiled
+object file\&. If the environment variable \fIICMAKE_CPPSTD\fP is defined
+(specifying the \fBC++\fP standard to use, e\&.g\&.,
+\fIICMAKE_CPPSTD=\-\-std=c++23\fP) then its value replaces
+\fI${ICMAKE_CPPSTD}\fP in the specification\&.
+.br 
+Alternatively, the command compiling source files can be provided as
+second command\-line argument, which should be quoted, like
+.nf 
+
+    \(cq\&g++ \-c \-o $2 \(cq\&${ICMAKE_CPPSTD}\(cq\& \-\-Wall \-Werror $1\(cq\&
+       
+.fi 
+or the second command\-line argument can be \fIf:file\fP, where \fIfile\fP
+is the name of a file whose first line contains the specification of
+the command compiling source files (which must specify \fI$1\fP and
+\fI$2\fP and optionally \fI$ICMAKE_CPPSTD\fP)\&.
+.br 
+The \fIPATH\fP environment variable is used to locate
+the compiler; the compiler\(cq\&s absolute path can also be used\&.
+
+.PP 
+.SH "ICM\-SPCH"
+
+.PP 
+.RS 
+\fBicmake \-\-spch\fP calls \fBicm\-spch\fP\&.
+.br 
+\fBicmake \-\-spch\fP is followed by \fBicm\-spch\(cq\&s\fP options and arguments\&.
+.RE
+
+.PP 
+Pre\-compiled headers have been available for quite some time, and usually
+result in a significant reduction of the compilation time\&. Traditionally
+pre\-compiled headers are defined for directories containing the sources of
+components of programs or libraries (e\&.g\&., in \fBC++\fP directories commonly
+contain the sources of classes)\&. However, there is a disadvantage to this
+approach: the combined sizes of such separately constructed pre\-compiled
+headers can be huge, often requiring many Giga\-Bytes of disk space\&. But often
+headers of separate components themselves include identical (e\&.g\&.,
+system\-based) header files, like (in \fBC++\fP) \fIiostream, string\fP and
+\fIvector\fP\&. As a result, these separately constructed pre\-compiled headers
+contain large identical sections\&. 
+.PP 
+\fBIcm\-spch\fP accepts the following options (after covering the
+options, a more extensive description of \fBicm\-spch\fP is provided):
+.IP o 
+\fB\-\-classes\fP=\fIfile\fP (\fB\-c\fP)
+.br 
+this option can only be used in combination with the \fI\-\-list\fP option\&.
+\fIFile\fP contains the list of directories inspected by the
+\fI\-\-list\fP option (by default CLASSES)\&. The project\(cq\&s top directory is
+automatically inspected unless the option \fI\-\-no\-topdir\fP is
+specified;
+.IP 
+.IP o 
+\fB\-\-guard\fP=\fIname\fP (\fB\-g\fP)
+.br 
+this option can only be used in combination with the \fI\-\-list\fP option\&.
+\fIName\fP is the name of the include\-guards used in internal headers\&.
+By default \fIname\fP is SPCH_;
+.IP 
+.IP o 
+\fB\-\-help\fP (\fB\-h\fP)
+.br 
+\fBIcm\-multicomp\fP writes a summary of its usage to the standard output
+and terminates, returning 0 to the operating system;
+.IP 
+.IP o 
+\fB\-\-internal\fP=\fI\&.ext\fP (\fB\-i\fP)
+.br 
+this option can only be used in combination with the \fI\-\-list\fP option\&.
+\fI\&.ext\fP is the extension used for the internal headers (including the
+dot) by default: \fI\&.ih\fP;
+.IP 
+.IP o 
+\fB\-\-keep\fP=\fIregex\fP (\fB\-k\fP)
+.br 
+this option can only be used in combination with the \fI\-\-list\fP option\&.
+It keeps (and does not inspect) include\-specification(s) in the
+internal header matching (POSIX extended) regular expressions in
+\fIregex\fP\&.  Use \fI(\&.\&.\&.)|(\&.\&.\&.)\fP  to specify multiple regexes\&. Use
+\fIf:file\fP to specify a file whose non\-empty lines contain regexex;
+.IP 
+.IP o 
+\fB\-\-list\fP (\fB\-l\fP)
+.br 
+write the filenames of the files to process when constructing a single
+precompiled header (SPCH) to the file (\fIdest\fP) specified as the
+command line argument\&. \fIDest\fP must specify a filename (without
+extension) in the current working directory\&.
+.IP 
+.IP o 
+\fB\-\-no\-topdir\fP (\fB\-n\fP)
+.br 
+this option can only be used in combination with the \fI\-\-list\fP option\&.
+Ignore the internal header found in the project\(cq\&s top directory\&. This
+option is used when merely constructing a library instead of a
+program;
+.IP 
+.IP o 
+\fB\-\-precompile\fP=\fIfile\fP (\fB\-p\fP)
+.br 
+precompile \fIfile\fP (which is the name of the file specified at the
+option \fI\-\-list\fP) to the SPCH file \fIdest\fP, specified as
+\fBicm\-spch\(cq\&s\fP first command\-line argument\&. If \fIdest\fP ends in / then
+the SPCH is the file \fI\(cq\&dest\(cq\&file\&.gch\fP\&.
+.br 
+By default the SPCH is constructed using the following command (all on
+one line):
+.nf 
+
+    g++ \-c \-o $2 ${ICMAKE_CPPSTD} \-Wall \-Werror \-O2 \-x c++\-header $1
+       
+.fi 
+Here, $1 refers to \(cq\&file\(cq\&, $2 refers to \(cq\&dest\(cq\&, and
+\fI$ICMAKE_CPPSTD\fP refers to the value of the \fIICMAKE_CPPSTD\fP
+environment variable (specifying the \fBC++\fP standard to use, e\&.g\&.,
+ICMAKE_CPPSTD=\-\-std=c++23)\&.
+.br 
+Alternatively, the command constructing the SPCH can be provided as
+second command\-line argument, which should be quoted like
+.nf 
+
+    \(cq\&g++ \-c \-o $2 \(cq\&${ICMAKE_CPPSTD}\(cq\& \-Wall \-Werror \-O2 \-x c++\-header $1\(cq\&
+       
+.fi 
+or the second command\-line argument can be \fIf:file\fP, where \fIfile\fP
+is the name of a file whose first line specifies the command
+constructing the SPCH (which must specify \fI$1\fP and \fI$2\fP and
+optionally \fI$ICMAKE_CPPSTD\fP)\&.
+.br 
+The \fIPATH\fP environment variable is used to locate
+the compiler; the compiler\(cq\&s absolute path can also be used\&.
+.IP 
+.IP o 
+\fB\-\-soft\-links\fP=\fIfile\fP (\fB\-s\fP)
+.br 
+this option uses the same arguments as the arguments used with the
+\fI\-\-precompile\fP option\&. This option creates \fI\&.gch\fP soft\-links from
+the header files listed in \fIfile\fP to the SPCH\-file specified as the
+program\(cq\&s command\-line argument \fIdest\fP;
+.IP 
+.IP o 
+\fB\-\-version\fP (\fB\-v\fP)
+.br 
+\fBIcm\-multicomp\fP reports its version number to the standard output and
+terminates, returning 0 to the operating system;
+.IP 
+.IP o 
+\fB\-\-warn\fP (\fB\-w\fP)
+.br 
+interactively warn when existing header files are about to be modified,
+accepting or refusing the modifications\&. Once refused \fBicm\-spch\fP
+ends\&. 
+
+.PP 
+Pre\-compiled headers have been available for quite some time, and usually
+result in a significant reduction of the compilation time\&. Using single
+precompiled headers results in a large reduction of required disk\-space
+compared to using precompiled headers for separate directories\&.
+.PP 
+When using SPCHs almost identical precompiled headers for separate directories
+are avoided: only one precompiled header is constructed which is then used by
+all components of a project\&. As identical sections are avoided the sizes (and
+construction times) of SPCHs are much smaller, usually requiring only 5 to 10 %
+of the space (and construction time) ccompared to using separately constructed
+pre\-compiled headers\&.
+.PP 
+When bfIicm\-spch) is used for the first time on a project it visits the
+project\(cq\&s (internal) header files, and modifies them slightly to avoid
+namespace declarations inside the SPCH that might otherwise arise when
+identical names are defined in different namespaces\&. Suppose an internal
+header file looks like this:
+.nf 
+
+    #include \(dq\&class\&.h\(dq\&
+    #include <ctype>
+    #include <iostream>
+    using namespace std;
+    inline void Class::capitalize(string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+        
+.fi 
+then this header file is modified to
+.nf 
+
+    #include \(dq\&class\&.h\(dq\&
+    #include <ctype>
+    #include <iostream>
+    inline void Class::capitalize(string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+    #ifndef SPCH_
+    using namespace std;
+    #endif
+        
+.fi 
+The name \fISPCH_\fP is the \(cq\&guard\(cq\&\-name, which can be configured using the
+\fI\-\-guard\fP option, but notice that following this modification the header
+file cannot be compiled anymore since the inline function is now positioned
+above the namespace declaration\&. Definitions and declarations which are
+positioned above the \fI#ifndef SPCH_\fP declaration must therefore, where
+necessary, specify their appropriate namespaces\&. E\&.g\&., for
+\fIClass::capitalize\fP this means:
+.nf 
+
+    inline void Class::capitalize(std::string &text)
+    {
+        for (char &ch: text)
+            ch = toupper(ch);
+    }
+        
+.fi 
+The first line of the file specifying which
+headers to process  (which is specified as the command\-line argument when
+using the \fI\-\-list\fP option) contains the directive
+.nf 
+
+    #define SPCH_
+        
+.fi 
+and at the end the namespaces encountered when processing the internal
+headers are declared, e\&.g\&.,
+.nf 
+
+    using namespace std;
+        
+.fi 
+
+.PP 
+To use SPCHs in combination with \fBicmbuild\fP specify \fI#define SPCH\fP and
+maybe \fI#define SPCH_FILE\fP in the \fIicmconf\fP file
+(cf\&. \fBicmconf\fP(7))\&. SPCHs can also be used independently from using
+\fBicmbuild\fP by using \fBicmake\fP\(cq\&s \fI\-\-spch\fP (or \fI\-S\fP) option\&.
+.PP 
+\fBIcm\-spch\fP, except when calling it with the \fI\-\-help\fP or \fI\-\-version\fP
+options, always requires one command line argument (\fIdest\fP) (described at
+options \fI\-\-list, \-\-precompile\fP and \fI\-\-soft\-link\fP), and with option
+\fI\-\-precompile\fP a second (optional) command\-line argument may be specified
+(destribed at that option)\&.
+.PP 
+When using \fBicm\-spch\fP automatically (through \fBicmbuild\fP(1)) the following
+commands are issued (showing defaults):
+.nf 
+    icm\-spch \-l spch
+    icm\-spch \-p spch tmp/
+    icm\-spch \-s spch tmp/
+.fi 
+
+.PP 
+.SH "ICMUN"
 
 .PP 
 The \fBicmun\fP support program expects one argument, a bim\-file\&. It
 disassembles the binary file an shows the assembler instructions and the
 structure of the bim\-file\&. Note that in standard installations \fBicmun\fP is
 not located in one of the directories of the \fIPATH\fP environment variable,
-but it is available in the \fI/usr/lib/icmake\fP directory, and the command
+but it is available in the \fI/usr/libexec/icmake\fP directory, and the command
 \fIicmake \-u bim\-file\fP is normally used to unassemble the bim\-file\&.
 .PP 
 As an illustration, assume the following script is compiled by \fBicmake\fP (e\&.g\&., by
@@ -512,7 +928,7 @@ calling \fIicmake \-c demo\&.im\fP):
         
 .fi 
 the resulting \fIdemo\&.bim\fP file can be processed by \fBicmun\fP (e\&.g\&.,
-calling \fI/usr/lib/icmake/icmun demo\&.bim\fP\&. \fBIcmun\fP then writes the
+calling \fI/usr/libexec/icmake/icmun demo\&.bim\fP)\&. \fBIcmun\fP then writes the
 following to the standard output fle:
 .PP 
 .nf 
@@ -571,17 +987,17 @@ script handling standard program maintenance;
 \fB/usr/bin/icmstart\fP: an \fBicmake\fP\-script that is can be used to create
 the startup\-files of new projects;
 .IP o 
-\fB/usr/lib/icmake/icm\-comp\fP: the compiler called by \fBicmake\fP;
+\fB/usr/libexec/icmake/icm\-comp\fP: the compiler called by \fBicmake\fP;
 .IP o 
-\fB/usr/lib/icmake/icm\-exec\fP: the byte\-code interpreter called by
+\fB/usr/libexec/icmake/icm\-exec\fP: the byte\-code interpreter called by
 \fBicmake\fP; 
 .IP o 
-\fB/usr/lib/icmake/icm\-dep\fP: the support program handling class\- and
+\fB/usr/libexec/icmake/icm\-dep\fP: the support program handling class\- and
 precompiled header dependencies;
 .IP o 
-\fB/usr/lib/icmake/icm\-pp\fP: the preprocessor called by \fBicmake\fP;
+\fB/usr/libexec/icmake/icm\-pp\fP: the preprocessor called by \fBicmake\fP;
 .IP o 
-\fB/usr/lib/icmake/icmun\fP: the \fBicmake\fP unassembler\&.
+\fB/usr/libexec/icmake/icmun\fP: the \fBicmake\fP unassembler\&.
 
 .PP 
 .SH "EXAMPLES"
@@ -589,7 +1005,7 @@ precompiled header dependencies;
 .PP 
 The distribution (usually in \fI/usr/share/doc/icmake\fP) contains a
 directory \fIexamples\fP containing additional examples of \fBicmake\fP script\&. The
-\fIicmstart\fP script is an \fBicmake\fP script as is \fI/usr/lib/icmake/icmbuild\fP,
+\fIicmstart\fP script is an \fBicmake\fP script as is \fI/usr/libexec/icmake/icmbuild\fP,
 which is called by the \fI/usr/bin/icmbuild\fP program\&. See also the \fBEXAMPLE\fP
 section in the \fBicmscript\fP(7) man\-page\&.
 .PP 

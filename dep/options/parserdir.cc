@@ -9,5 +9,5 @@ void Options::parserDir()
         return;
 
     d_parser = value;
-    g_log << level(V2) << "parser dir.: `" << d_parser << "'\n";
+    log(V2) << "parser dir.: `" << d_parser << "'\n";
 }

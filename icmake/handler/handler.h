@@ -4,13 +4,13 @@
 #include <iosfwd>
 #include <string>
 
-#include <bobcat/process>
+#include "../../tmp/build/process/process"
 
-class Splitter;
+class Options;
 
 class Handler
 {
-    Splitter &d_splitter;
+    Options &d_splitter;
     FBB::Process d_process;
 
     unsigned d_idx;
@@ -23,7 +23,7 @@ class Handler
     static int (Handler::*s_action[])();
 
     public:
-        Handler(Splitter &splitter);
+        Handler(Options &splitter);
         int process();
 
     private:
@@ -31,7 +31,9 @@ class Handler
         int dependencies();
         int exec();                                                 // 1
         int forced();
+        int multicomp();
         int preprocess();
+        int spch();
         int source();
         int script();
         int unassemble();
@@ -42,7 +44,7 @@ class Handler
 
         int direct(std::string const &cmd);     // calls LIBDIR/cmd 
                                                 // using Process::DIRECT
-        int child(std::string const &cmd);      // same, uses PRocess::NONE
+        int child(std::string const &cmd);      // same, uses Process::NONE
 
         std::string const &file2(char const *extension);
 

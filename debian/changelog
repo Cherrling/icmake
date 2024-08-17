@@ -1,3 +1,92 @@
+icmake (12.01.00-1) unstable; urgency=medium
+
+  * New upstream version 12.01.00 is independent from bobcat: bootstrapping is
+    no longer required. A 'bobcat-source' package is not required anymore.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Tue, 23 Apr 2024 11:44:07 +0200
+
+icmake (12.00.01-1) unstable; urgency=medium
+
+  [ Frank B. Brokken ]
+  * New upstream version 12.00.01
+  * Remove the circular dependency between icmake and bobcat by
+    vendoring in the bobcat sources. (Closes: #1068068, #1051966)
+    This is a temporary measure to enable the bootstrap.  The long-term
+    solution is to create an arch-all bobcat-sources package that both
+    icmake and bobcat will use as a build-dep.
+  * The icmake manpages are now part of the upstream distribution,
+    avoiding yet another circular build-time dependency on Yodl.
+    Sources for these manpages are still available in the source package.
+
+  [ tony mancill ]
+  * Exclude /usr/share/icmake/bobcat.tgz from the icmake binary package.
+
+ -- tony mancill <tmancill@debian.org>  Sat, 06 Apr 2024 10:17:58 -0700
+
+icmake (11.01.02-1) unstable; urgency=medium
+
+  * Repaired a signed/unsigned comparison mismatch affecting 32-bit
+    architectures. (Closes: #1061475)
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 25 Jan 2024 13:50:50 +0100
+
+icmake (11.01.01-1) unstable; urgency=medium
+
+  * New major version supports using Single Pre-Compiled Headers and
+    multi-threaded compilation. Refer to the updated icmake(1) and icmconf(7)
+    man-pages for details.
+  * The environment variable ICMAKE_CXXFLAGS is replaced by the environment
+    variable ICMAKE_CPPSTD.
+  * Repaired an error in handling 'icmake -c ...' commands
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 24 Jan 2024 11:26:20 +0100
+
+icmake (10.06.01-1) unstable; urgency=medium
+
+  * New upstream version 10.06.01
+    Updates the QUICKINSTALL file, changes the environment variable
+    CPPENVOPTS to ICMAKE_CXXFLAGS and upgrades the icm_prepare,
+    icm_bootstrap, and icm_install scripts.
+  * The debian/rules file calls 'icm_install all' instead of installing
+    the icmake components separately
+  * Upstream version 10.05.01 introduces the CPPENVOPTS environment
+    variable which can be used to add additional options to the C++
+    compiler.  See the icmconf(7) man-page for details.
+
+  [ tony mancill ]
+  * Remove Suggests for icmake-doc, which no longer exists
+  * Remove George Danchev from Uploaders.  (Thank you George!)
+  * Add lintian overrides for icmake scripts
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 29 Sep 2023 11:17:05 +0200
+
+icmake (10.04.01-2) unstable; urgency=medium
+
+  * Fix debian/clean target to permit rebuilds (Closes: #1047954)
+
+ -- tony mancill <tmancill@debian.org>  Wed, 16 Aug 2023 21:34:18 -0700
+
+icmake (10.04.01-1) unstable; urgency=medium
+
+  * New upstream version 10.04.01
+    Fixes FTBFS with GCC-13 (Closes: #1037691)
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 24 Jun 2023 09:16:08 +0200
+
+icmake (10.04.00-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- tony mancill <tmancill@debian.org>  Sun, 11 Jun 2023 16:04:28 -0700
+
+icmake (10.04.00-1) experimental; urgency=medium
+
+  * New upstream release changed 'typedef' definitions into 'using'
+    declarations.
+  * Files processed by icmake are now sorted, offering reproducible builds.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 23 Mar 2023 11:04:55 +0100
+
 icmake (10.03.03-2) unstable; urgency=medium
 
   * Update autopkgtext for updated shunit2

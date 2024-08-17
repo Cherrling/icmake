@@ -1,20 +1,25 @@
+#include "../xerr/xerr.ih"
+
 #include <iostream>
 #include <string>
 #include <exception>
 
-#include <bobcat/arg> 
-#include <bobcat/log>
+#include "../tmp/build/arg/arg" 
+#include "../tmp/build/log/log"
 
-#include "../support/tools/tools.h"
+#include "../tmp/build/tools/tools.h"
 
 #include "action/action.h"
 #include "options/options.h"
 #include "dependencies/dependencies.h"
-#include "../xerr/xerr.ih"
 
+#include "../tmp/INSTALL.im"
+
+
+void copyright(std::string const &progname);
+void usage(std::string const &progname);
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
-void copyright(string const &progname);
-void usage(string const &progname);
-
+#endif

@@ -114,7 +114,7 @@ skeleton files directory):
 
     When the above source specifications are followed by a destination
 specification tt(destspec) (a file or non-absolute directory specification)
-then the source specification is installed as dest/destspec) below the
+then the source specification is installed as tt(dest/destspec) below the
 destination directory specified when calling bf(icmstart)(1). Examples:
         verb(
     CLASSES CLASSES             # skeletons/CLASSES is installed as 

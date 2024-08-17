@@ -1,4 +1,4 @@
-.TH "icmconf" "7" "1992\-2022" "icmake\&.10\&.03\&.03" "configuration file for \fBicmbuild\fP(1)"
+.TH "icmconf" "7" "1992\-2024" "icmake\&.12\&.00\&.01" "configuration file for \fBicmbuild\fP(1)"
 
 .PP 
 .SH "NAME"
@@ -13,9 +13,15 @@ program maintenance performed by the \fBicmbuild\fP(1) program and script\&. It
 can be used to activate and specify various directives that determine how the
 program or library maintenance is performed\&.
 .PP 
-The directives are biased towards the construction of a \fBC++\fP program, but
-program maintenance for other languages (e\&.g\&., \fBC\fP) can also easily be
-configured\&.
+Since icm() version 11\&.00\&.00 icm() offers Single Pre\-Compiled Headers (SPCH)
+and multi\-threaded source\-file compilation, commonly reducing the construction
+times of projects to around 30\-40% of the original construction times: refer
+to the \fI#define SPCH\fP and \fI#define MULTICOMP\fP directives below for
+details\&.
+.PP 
+\fIIcmconf\(cq\&s\fP directives are biased towards the construction of \fBC++\fP
+programs, but program maintenance for other languages (e\&.g\&., \fBC\fP) can also
+easily be configured\&.
 .PP 
 The \fBicmbuild\fP(1) script ignores empty lines and lines whose first non\-blank
 characters are two consecutive forward slashes (//)\&. Long lines can be split
@@ -32,7 +38,7 @@ already existing source files\&. Recompilation \fIis\fP required when the data
 member organization of classes is altered\&.
 .PP 
 To handle class dependencies in a more sensible way, \fBicmake\fP(1) checks
-class dependencies using its support program \fI/usr/lib/icmake/icm\-dep\fP,
+class dependencies using its support programs \fIicm\-dep\fP,
 visiting the classes listed in the \fICLASSES\fP file if \fIicmconf\(cq\&s USE_ALL\fP
 directive was specified\&. If a directory mentioned in the \fICLASSES\fP file
 contains a file having a name that\(cq\&s equal to the name specified at the
@@ -47,16 +53,18 @@ the command \fItouch data/a\fP\&. Subsequently, at the next \fIicmbuild\fP call 
 sources in \fI\&./data\fP as well as all sources in directories whose (header)
 files include \fIdata\&.h\fP are recompiled as well\&.
 .PP 
-Likewise, if \fIPRECOMP\fP was defined, then a similar action is performed for
-the precompiled headers: if a local header file that\(cq\&s (directly or
-indirectly) included by a class\(cq\&s internal header file has changed, then that
-class\(cq\&s precompiled header as well as all precompiled headers of dependent
-classes are recompiled\&.
+Likewise, if \fI#define SPCH\fP or (deprecated) \fI#define PRECOMP\fP was used,
+then a similar action is performed for the precompiled headers: if a local
+file that\(cq\&s (directly or indirectly) included by internal header
+files has changed, then (having specified \fISPCH\fP) the Single Pre\-Compiled
+Header (SPCH) file is recompiled or (deprecated: having specified \fIPRECOMP\fP
+the modified class headers  are recompiled)\&.
 .PP 
 The \fBicmbuild\fP(1) script itself does not inspect these dependencies, but
-calls \fI/usr/lib/icmake/icm\-dep\fP to perform the requird tests\&. The program
-\fIicm\-dep\(cq\&s\fP short usage summary is written to the standard output stream
-when calling \fIicmake \-d\fP (or directly: \fI/usr/lib/icmake/icm\-dep\fP)\&.
+calls the support programs \fIicm\-spch\fP and \fIicm\-dep\fP to perform the requird
+tests\&. The short usage descriptions of these programs are written to the
+standard output stream when calling, respectively \fIicmake \-S\fP and \fIicmake
+\-d\fP\&. 
 .PP 
 .SH "DEFINES IN ICMCONF "
 
@@ -72,7 +80,6 @@ the name of the program\(cq\&s library itself (specified at \fILIBRARY\fP)
 then those libraries should be specified here\&. E\&.g\&., when a program is
 linked against \fIlibbobcat\fP then the specification is:
 .nf 
-
     #define ADD_LIBRARIES  \(dq\&bobcat\(dq\&
     
 .fi 
@@ -108,16 +115,37 @@ it is not defined\&. Alternatively the \fI\-c\fP option can be passed to
 the C++ compiler to use\&. For a \fBC\fP compiler specify, e\&.g\&., \fI#define
 CC \(dq\&gcc\(dq\&\fP\&. Their settings are overruled by identically named
 environment variables\&. If only \fBC\fP files are compiled then
-\fI#define CXX\fP can be omitted;
+\fI#define CXX\fP can be omitted\&.
+.IP 
+By specifying, e\&.g\&., \fB#define CXX \(dq\&ccache g++\(dq\&\fP compilations use
+caching facilities, which may impressively reduce recompilation
+times\&. Refer to the \fBcccache\fP(1) man\-page for details\&.
 .IP 
 .IP o 
-\fB#define CXXFLAGS \(dq\&\-\-std=c++20 \-Wall \-O2\(dq\&\fP
+\fB#define CXXFLAGS \(dq\&\-Werror \-Wall \-O2\(dq\&\fP
 .br 
 \fBC++\fP compiler options to use (here showing the default
 options)\&. When the \fBC\fP compiler is used, use \fI#define CFLAGS\fP
 rather than \fICXXFLAGS\fP\&. Their settings are overruled by identically
 named environment variables\&. If only \fBC\fP files are compiled then
-\fI#define CXXFLAGS\fP can be omitted;
+\fI#define CXXFLAGS\fP can be omitted\&.
+.IP 
+Additional options can be defined by adding them to the CXXFLAGS
+definition\&. In addition, compilations use the environment
+variable \fIICMAKE_CPPSTD\fP to set the \fBC++\fP standard to use\&. E\&.g\&.,
+after defining 
+.nf 
+ 
+    ICMAKE_CPPSTD=\-\-std=c++23 
+       
+.fi 
+the compiler uses the options 
+.nf 
+
+    \-\-std=c++23 \-Werror \-Wall \-O2
+       
+.fi 
+
 .IP 
 .IP o 
 \fB//#define DEFCOM  \(dq\&\&.\&.\&.\(dq\&\fP
@@ -125,44 +153,43 @@ named environment variables\&. If only \fBC\fP files are compiled then
 a \fIDEFCOM\fP directive may be added to the \fIicmconf\fP file (the
 \fBicmstart\fP(1) script can do this for you)\&. It can be specified as:
 .nf 
-
     #define DEFCOM  \(dq\&program\(dq\&
         
 .fi 
 in which case \fIicmbuild\fP does program maintenance, or as
 .nf 
-
     #define DEFCOM  \(dq\&library\(dq\&
        
 .fi 
 in which case \fIicmbuild\fP does library maintenance\&.;
 .IP 
 .IP o 
-\fB//#define ICM_DEP           \(dq\&\-V go\(dq\&\fP
+\fB//#define ICM_DEP   \(dq\&\-V go\(dq\&\fP
 .br 
 the existence and implied existence of \fIUSE_ALL\fP files (see the
-description of the \fIUSE_ALL\fP directive), as well as the correct ages
-of precompiled headers can be checked by \fIicmake\(cq\&s\fP support program
-\fIicm_dep\fP\&. By default \fIicm_dep\fP is called with the shown
-default arguments\&. If \fIicm_dep\fP should not be called define
-\fIICM_DEP\fP as an empty string (\fI\(dq\&\(dq\&\fP)\&. \fBIcmake\fP(1)\(cq\&s man\-page
-contains a separate section about the \fIicm_dep\fP support program;
+description of the \fIUSE_ALL\fP directive)\&. When the (deprecated)
+\fIPRECOMP\fP directive is specified the recency of precompiled headers
+is ensured (see also the \fISPCH\fP description, below)\&. By default
+\fIicm_dep\fP is called with the shown default arguments\&. If \fIicm_dep\fP
+should not be called define \fIICM_DEP\fP as an empty string
+(\fI\(dq\&\(dq\&\fP)\&. \fBIcmake\fP(1)\(cq\&s man\-page contains a separate section about
+the \fIicm_dep\fP support program;
 .IP 
 .IP o 
-\fB//#define IH                  \(dq\&\&.ih\(dq\&\fP
+\fB//#define IH   \(dq\&\&.ih\(dq\&\fP
 .br 
 the extension used for internal header files\&. See \fI#define PRECOMP\fP
 below\&. If \fIPRECOMP\fP is specified ttIH) must also be specified;
 .IP 
 .IP o 
-\fB//#define LDFLAGS             \(dq\&\(dq\&\fP
+\fB//#define LDFLAGS   \(dq\&\(dq\&\fP
 .br 
 linker options to use\&. By default no options are passed to the
 linker\&. Its setting is overruled by an identically named environment
 variable;
 .IP 
 .IP o 
-\fB//#define LIBRARY           \(dq\&modules\(dq\&\fP
+\fB//#define LIBRARY   \(dq\&modules\(dq\&\fP
 .br 
 by defining this directive a local library is constructed\&. When a
 binary program is built it is linked against this library rather
@@ -178,7 +205,7 @@ in the project\(cq\&s main directory\&. Instead, move such files to a
 separate sub\-directory;
 .IP 
 .IP o 
-\fB//#define MAIN                \(dq\&main\&.cc\(dq\&\fP
+\fB//#define MAIN   \(dq\&main\&.cc\(dq\&\fP
 .br 
 the source file in which the \fIint main\fP function is defined\&. This
 directive is required when doing program (rather than library)
@@ -193,26 +220,69 @@ avoided by moving those source and header files to a separate
 sub\-directory;
 .IP 
 .IP o 
-\fB//#define NO_PRECOMP_WARNING\(dq\&\fP
+\fB//#define MULTICOMP   \(dq\&\&.\&.\&.\(dq\&\fP
 .br 
-when \fIPRECOMP\fP is defined (see below) a warning is issued when a
-class\-directory does not contain a \fIIH\fP file\&. Such warnings are
-suppressed by defining \fINO_PRECOMP_WARNING\fP\&. This option is
-only considered when \fIPRECOMP\fP has been defined;
+.br 
+Example: \fI#define MULTICOMP  \(dq\&jobs \-q\(dq\&\fP
+.IP 
+This directive activates threaded compilation of source files\&. When
+used its first word specifies the name of a file to contain
+information about which files must be compiled\&. This must be a plain
+filename, not containing directory specifiers (like \fI/\fP)\&.
+.IP 
+The filename may be followed by option specifications:
+.RS 
+.IP o 
+\fI\-\-nr\fP (or \fI\-n\fP)
+.br 
+when this option is specified the thread numbers compiling source
+files are written to the standard output stream\&.
 .IP 
 .IP o 
-\fB#define OBJ_EXT             \(dq\&\&.o\(dq\&\fP
+\fI\-\-quiet\fP (or \fI\-q\fP)
+.br 
+When this options is not specified then the path names of the
+compiled object and source files are written to the standard
+output stream\&. When it is specified once only the source files\(cq\&
+directories and filenames are written to the standard output
+stream, and when it is specified more than once no information
+about the compiled files is written to the standard output stream\&.
+.IP 
+.IP o 
+\fI\-\-threads nThreads\fP (or \fI\-t nThreads\fP)
+.br 
+by default the computer\(cq\&s number of cores determines the number of
+threads being used when compiling the source files\&. Optionally a
+different number of threads can be requested using this
+option\&.
+.br 
+E\&.g\&., \fI\-\-threads 5\fP\&.
+.RE
+
+.IP 
+.IP o 
+\fB//#define NO_PRECOMP_WARNING\(dq\&\fP
+.br 
+when \fIPRECOMP\fP (now deprecated) is defined (see below) a warning is
+issued when a class\-directory does not contain a \fIIH\fP file\&. Such
+warnings are suppressed by defining \fINO_PRECOMP_WARNING\fP\&. This
+option is only considered when \fIPRECOMP\fP has been defined;
+.IP 
+.IP o 
+\fB#define OBJ_EXT   \(dq\&\&.o\(dq\&\fP
 .br 
 this directive specifies the extension of object modules created by
 the compiler;
 .IP 
 .IP o 
-\fB//#define PRECOMP           \(dq\&\-x c++\-header\(dq\&\fP
+\fB//#define PRECOMP   \(dq\&\-x c++\-header\(dq\&\fP
 .br 
-define this directive to construct precompiled headers (in which case
-the \fIIH\fP) directive must also have been specified\&. Dependencies
-between (precompiled) headers are automatically considered\&.
-.PP 
+(deprecated, consider declaring \fI#define SPCH\fP instead) define this
+directive to construct class\-specific precompiled headers (in which
+case the \fIIH\fP) directive must also have been
+specified\&. Dependencies between (precompiled) headers are
+automatically considered\&.
+.br 
 Existing precompiled headers are removed by \fIicmbuild cleangch\fP (or
 \fIicmbuild clean\fP\&. When source files of other languages are compiled
 the \fIPRECOMP\(cq\&s \-x\fP argument must be adapted to those languages;
@@ -231,7 +301,7 @@ separately from the currrent project;
 this directive is only interpreted when \fILIBRARY\fP is also specified\&.
 If defined a shared library (extension \fI\&.so*\fP) is built in addition
 to a static library (extension \fI\&.a\fP);
-.PP 
+.br 
 The shared library receives \fIVERSION\fP as its version number while
 soft links using \fIVERSION\fP\(cq\&s (see below) major version number an no
 version number are also made available\&. E\&.g\&., if \fIVERSION\fP is
@@ -241,7 +311,7 @@ shared library becomes \fIlibdemo\&.so\&.1\&.02\&.03\fP, with
 soft\-linking to \fIlibdemo\&.so\&.1\fP;
 .PP 
 .IP o 
-\fB//#define SHAREDREQ \(dq\&\(dq\&\fP
+\fB//#define SHAREDREQ   \(dq\&\(dq\&\fP
 .br 
 when creating a shared library \fISHAREDREQ\fP specifies the names of
 libraries and library paths that are required by the constructed
@@ -254,19 +324,67 @@ specified\&. This directive is required (possibly as an empty string) if
 \fISHARED\fP is defined;
 .PP 
 .IP o 
-\fB#define SOURCES \(dq\&*\&.cc\(dq\&\fP
+\fB#define SOURCES   \(dq\&*\&.cc\(dq\&\fP
 .br 
 the pattern to locate sources in directories;
 .PP 
 .IP o 
-\fB#define TMP_DIR \(dq\&tmp\(dq\&\fP
+\fB//#define SPCH   \(dq\&\&.\&.\&.\(dq\&\fP
+.br 
+.br 
+Example: \fI#define SPCH \(dq\&\(dq\&\fP
+.PP 
+.RS 
+This directive activates using Single Pre\-Compiled Headers (refer
+to the \fBicmake\fP(1) man\-page for details)\&. The argument string
+can be empty, or it can contain a combination of the following
+specifications:
+.IP o 
+\fI\-\-keep regex\fP (or \fI\-k regex\fP)
+.br 
+keep (and do not inspect) include\-specification(s) in the internal
+header matching regular expressions in \fIregex\fP\&. If \fIregex\fP
+starts with \fIf:\fP (e\&.g\&., \fIf:regex\fP) then \fIregex\fP is the name
+of a file whose non\-empty line contains a \fIregex\fP\&.  Otherwise
+\fIregex\fP contains a (POSIX extended) regular expression, using
+\fI(\&.\&.\&.)|(\&.\&.\&.)\fP  when specifying multiple \fIregexes\fP\&.
+.br 
+Example: \fI\-k xerr/xerr\fP\&.
+.IP o 
+\fI\-\-no\-topdir\fP (or \fI\-n\fP)
+.br 
+Ignore the project\(cq\&s top directory\&. This option is used in projects
+merely constructing a library, instead of constructing a program
+(in which case the top\-level directory commonly contains a
+\fImain\&.ih\fP internal header file)\&.
+.RE
+
+.PP 
+.IP o 
+\fB//#define SPCH_FILE   \(dq\&\&.\&.\&.\(dq\&\fP
+.br 
+.br 
+Example: \fI#define SPCH_FILE \(dq\&specs\(dq\&\fP
+.PP 
+.RS 
+This directive can be used in combination with the \fI#define SPCH\fP
+directive\&. By default the headers used to construct the SPCH are
+written to the file \fIspch\fP\&. If that name should not be used then
+use the \fISPCH_FILE\fP directive to specify another filename\&. The
+specified name must be a plain filename, not containing directory
+specifiers (like \fI/\fP)\&.
+.RE
+
+.PP 
+.IP o 
+\fB#define TMP_DIR   \(dq\&tmp\(dq\&\fP
 .br 
 the directory in which intermediate results are stored\&. To avoid
 cross\-device communications it\(cq\&s probably best to define \fITMP_DIR\fP
 as a sub\-directory of the project\(cq\&s main directory;
 .PP 
 .IP o 
-\fB//#define USE_ALL \(dq\&a\(dq\&\fP
+\fB//#define USE_ALL   \(dq\&a\(dq\&\fP
 .br 
 when defining this directive \fIicmbuild\fP looks for directories
 containing files having the names defined by the \fIUSE_ALL\fP
@@ -276,7 +394,7 @@ directories under consideration are recompiled, after which the
 \fIUSE_ALL\fP files are removed;
 .PP 
 .IP o 
-\fB//#define USE_ECHO ON\fP
+\fB//#define USE_ECHO   ON\fP
 .br 
 when defined as \fION\fP (rather than \fIOFF\fP) (system) commands executed
 by \fIicmbuild\fP are echoed;
@@ -289,9 +407,8 @@ when defined (it is defined by default) a file \fIVERSION\fP is read by
 project\(cq\&s release years\&. The file \fIVERSION\fP must be available in the
 project\(cq\&s main directory and should contain lines like these:
 .nf 
-
-    VERSION=9\&.03\&.00
-    YEARS=1992\-2020
+    VERSION=11\&.01\&.00
+    YEARS=1992\-2024
       
 .fi 
 )
@@ -304,14 +421,14 @@ generator creating a parser class from a grammar specification\&. By default
 they\(cq\&re all commented out\&. 
 .PP 
 .IP o 
-\fB//#define PARSER_DIR \(dq\&\(dq\&\fP
+\fB//#define PARSER_DIR   \(dq\&\(dq\&\fP
 .br 
 the sub\-directory containing the parser\(cq\&s specification file\&. If the
 \fIPARSER_DIR\fP directory is specified then all other directives in
 this section must also be specified;
 .IP 
 .IP o 
-\fB//#define PARSFILES \(dq\&\(dq\&\fP
+\fB//#define PARSFILES   \(dq\&\(dq\&\fP
 .br 
 if the parser specification file named at \fIPARSSPEC\fP itself includes
 additional specification files, then patterns matching these
@@ -321,25 +438,25 @@ and could contain a subdirectory name (e\&.g\&. \fIspecs/*\fP)\&. When files
 matching the pattern are modified then a new parser is created;
 .IP 
 .IP o 
-\fB//#define PARSFLAGS \(dq\&\-V\(dq\&\fP
+\fB//#define PARSFLAGS   \(dq\&\-V\(dq\&\fP
 .br 
 the flags that are used when calling the program specified at
 \fIPARSGEN\fP;
 .IP 
 .IP o 
-\fB//#define PARSGEN \(dq\&bisonc++\(dq\&\fP
+\fB//#define PARSGEN   \(dq\&bisonc++\(dq\&\fP
 .br 
 the name of the program generating the parser;
 .IP 
 .IP o 
-\fB//#define PARSOUT \(dq\&parse\&.cc\(dq\&\fP
+\fB//#define PARSOUT   \(dq\&parse\&.cc\(dq\&\fP
 .br 
 the name of the file generated by the parser generator (used by
 \fIicmbuild\fP when checking the timestamps of parser specification
 \fBs\fP);
 .IP 
 .IP o 
-\fB//#define PARSSPEC \(dq\&grammar\(dq\&\fP
+\fB//#define PARSSPEC   \(dq\&grammar\(dq\&\fP
 .br 
 the name of the parser specification file\&. This file is
 expected in the directory specified by the \fIPARSER_DIR\fP directive\&.
@@ -353,14 +470,14 @@ generator creating a lexical scanner class from a set of regular
 expressions\&. By default they\(cq\&re all commented out\&. 
 .PP 
 .IP o 
-\fB#define SCANNER_DIR \(dq\&\(dq\&\fP
+\fB#define SCANNER_DIR   \(dq\&\(dq\&\fP
 .br 
 the subdirectory containing the scanner\(cq\&s specification file\&.  If the
 \fISCANNER_DIR\fP directory is specified then all other directives in
 this section must also be specified;
 .IP 
 .IP o 
-\fB#define SCANFILES \(dq\&\(dq\&\fP
+\fB#define SCANFILES   \(dq\&\(dq\&\fP
 .br 
 if the lexical scanner specification file named at \fISCANSPEC\fP itself
 includes additional specification files, then patterns matching these
@@ -371,25 +488,25 @@ matching the pattern are modified then a new lexical scanner is
 created\&. By default no additional specification files are used;
 .IP 
 .IP o 
-\fB#define SCANFLAGS \(dq\&\(dq\&\fP
+\fB#define SCANFLAGS   \(dq\&\(dq\&\fP
 .br 
 the flags that are used when calling the program specified at
 \fISCANGEN\fP;
 .IP 
 .IP o 
-\fB#define SCANGEN \(dq\&flexc++\(dq\&\fP
+\fB#define SCANGEN   \(dq\&flexc++\(dq\&\fP
 .br 
 the name of the program generating the lexical scanner;
 .IP 
 .IP o 
-\fB#define SCANOUT  \(dq\&lex\&.cc\(dq\&\fP
+\fB#define SCANOUT   \(dq\&lex\&.cc\(dq\&\fP
 .br 
 the name of the file generated by the lexical scanner (which is used by
 \fIicmbuild\fP when checking the timestamps of scanner specification
 \fBs\fP)\&.
 .IP 
 .IP o 
-\fB#define SCANSPEC \(dq\&lexer\(dq\&\fP
+\fB#define SCANSPEC   \(dq\&lexer\(dq\&\fP
 .br 
 the name of the lexical scanner specification file\&. This file is
 expected in the directory specified by the \fISCANNER_DIR\fP directive\&.
@@ -422,15 +539,15 @@ optional user\-defined directory containing user\-defined specifications
 overruling the system\-wide definitions\&. This directory is the proper
 location for a file \fIAUTHOR\fP defining the \fIAUTHOR\fP directive with
 the user\(cq\&s name\&. E\&.g\&., my \fI\&.icmake/AUTHOR\fP file contains:
-.IP 
 .nf 
-#define AUTHOR  \(dq\&Frank B\&. Brokken (f\&.b\&.brokken@rug\&.nl)\(dq\&;
-
+    #define AUTHOR  \(dq\&Frank B\&. Brokken (f\&.b\&.brokken@rug\&.nl)\(dq\&;
+       
 .fi 
 
-.IP 
+.PP 
 .SH "SEE ALSO"
-\fBicmake\fP(1), \fBicmbuild\fP(1), \fBicmstart\fP(1), \fBicmstart\&.rc\fP(7)\&.
+\fBccache\fP(1), \fBicmake\fP(1), \fBicmbuild\fP(1), \fBicmstart\fP(1),
+\fBicmstart\&.rc\fP(7)\&. 
 .PP 
 .SH "BUGS"
 \fBicmbuild\fP(1) ends, displaying a fatal error message, if the current

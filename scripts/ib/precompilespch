@@ -1,0 +1,18 @@
+int precompileSpchGch()
+{
+    if (!exists("tmp/spch.gch"))
+        return 1;
+                                        // no precompilation is spch.gch is
+    system("icmake -S -p " + g_spchFile + " tmp/spch.gch");   // recent
+    return 0;
+}
+
+void precompileSPCH()
+{
+    if (!precompileSpchGch())
+        return;
+
+    system("icmake -S -i " + IH + ' ' + SPCH + " -l " + g_spchFile);
+    system("icmake -S -p " + g_spchFile + " tmp/spch.gch");
+    system("icmake -S -s " + g_spchFile + " tmp/spch.gch");
+}

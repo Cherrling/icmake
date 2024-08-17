@@ -1,16 +1,18 @@
 #include "global.h"
 
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 
 #include "../../xerr/xerr.ih"
 
 
-#include "../../support/exprtype/exprtype.h"
-#include "../../support/bimheader/bimheader.h"
+#include "../../tmp/build/exprtype/exprtype.h"
+#include "../../tmp/build/bimheader/bimheader.h"
 
 #include "../int/int.h"
-#include "../string/string.h"
+#include "../estring/estring.h"
 #include "../list/list.h"
 
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
+#endif

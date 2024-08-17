@@ -1,14 +1,19 @@
+#include "../xerr/xerr.ih"
+
 #include <iostream>
 #include <string>
 #include <algorithm>
 
-#include <bobcat/process>
+#include "../tmp/build/process/process"
 
-#include "../support/tools/tools.h"
-#include "../xerr/xerr.ih"
+#include "../tmp/build/tools/tools.h"
+#include "../tmp/INSTALL.im"
 
+void usage(std::string argv0);
+
+
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
-void usage(string argv0);
-
+#endif

@@ -5,7 +5,7 @@
 #include <filesystem>
 #include <algorithm>
 
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 
 #include "../../tmp/INSTALL.im"
 
@@ -16,10 +16,12 @@
 #include "../functions/functions.h"
 #include "../symtab/symtab.h"
 
-using namespace std;
-using namespace FBB;
 
 namespace Icmake
 {
     extern char version[];
 };
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

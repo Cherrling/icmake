@@ -4,7 +4,11 @@ void clean()
         cleanUseAll();
     #endif
 
-    system("rm -rf " TMP_DIR);
+    #ifdef SPCH
+        system("rm -rf " TMP_DIR ' ' + g_spchFile);
+    #else        
+        system("rm -rf " TMP_DIR);
+    #endif
 
-    cleanPrecomp("");                   // exits
+    cleanPrecomp();                   // exits
 }

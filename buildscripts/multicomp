@@ -1,0 +1,49 @@
+# loaded and called from program's build scripts once icm-spch
+# and icm-multicomp are available
+
+#   $1 is, e.g., /usr/libexec/icmake/icm-dep
+
+. ../buildscripts/precomp
+  
+
+build()
+{
+    precomp                     # construct the .gch file and soft-links
+
+    mkdir -p tmp/`dirname $1`
+
+    count=1                    # prefix before the object filenames
+  
+                               # construct the jobs-file for icm-multicomp
+    if [ -e CLASSES ] 
+    then
+IFS='
+'
+        for dir in `cat CLASSES` 
+        do
+            echo "$dir" | grep '^[[:blank:]]*#' > /dev/null
+            [ $? == 0 ] && continue
+    
+            cd $dir                 # go to the dir containing src files
+            echo ": $dir tmp $count" >> ../jobs
+            ls *.cc >> ../jobs
+            cd ..
+            let count=$count+1
+        done
+    fi         
+      
+    echo ": . tmp 0" >> jobs
+    ls *.cc >> jobs
+
+    opts=" -Wall -Werror"
+
+    ../tmp/usr/libexec/icmake/icm-multicomp -q jobs \
+        '/usr/bin/g++ -c -o $2 '${ICMAKE_CPPSTD}"${opts}"' $1' || exit 1
+ 
+    /usr/bin/g++ -o ../tmp/$1 tmp/*.o -L../tmp -licmake ${LDFLAGS} || exit 1
+
+    rm -rf jobs tmp *.gch */*.gch 
+}   
+
+
+

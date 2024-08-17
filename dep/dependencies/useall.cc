@@ -16,7 +16,7 @@ void Dependencies::useAll()
     for (size_t idx = 0; idx != d_size; ++idx)
         inspectUseAll(idx);
 
-    g_log << level(V4) << "UseALL inspection completed\n";
+    log(V4) << "UseALL inspection completed\n";
 }
 
 

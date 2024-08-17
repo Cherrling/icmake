@@ -4,6 +4,24 @@ void install_entry(string realSource, string dest, string realDest)
         return;
 
     md(get_path(realDest));
+
+    if ((int)stat(realSource)[0] & S_IFDIR)     
+    {
+        list parts = strtok(realDest, "/");     // components of realDest
+        int end = listlen(parts) - 1;
+
+        string dest = parts[ end ];             // the dest. class name
+
+        string dir;                             // the dir containing CLASSES
+        for (int idx = 0; idx != end; ++idx)
+            dir += '/' + parts[idx];
+
+        printf << "add " << dest << " to " << dir << "/CLASSES [yN] ? ";
+        if (getch() == 'y')
+            fprintf << dir + "/CLASSES" << dest << '\n';
+        printf << '\n';
+    }
+
     syscall("cp -rd " + realSource + " " + realDest);
 
 //    g_installed += (list)realDest;

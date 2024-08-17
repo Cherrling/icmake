@@ -1,5 +1,7 @@
-//#define XERR
+#define XERR
 #include "main.ih"
+
+#include "../tmp/INSTALL.im"
 
 namespace
 {

@@ -59,35 +59,55 @@
     // './icmbuild [-s] program'
     // When DEFCOM "library" is specified './icmbuild' is shorthand for 
     // './icmbuild [-s] library'
-    // The icmstart script may add a DEFCOM specification to this file.
+
+    // Note that the icmstart script may add a DEFCOM specification to this
+    // file, in which case you don't have to uncomment a DEFCOM line here:
 //#define DEFCOM "program"
 //#define DEFCOM "library"
 
 // COMPILATION AND LINKING RELATED DEFINES
 // =======================================
 
-    // The compiler to use. Define CC if a C compiler is used.
+    // The compiler to use. Define CC if a C compiler is used. 
 #define CXX                 "g++"
 //#define CC                  "gcc"
 
-    // The compiler options to use. Define CFLAGS if a C compiler is used
+    // The standard compiler options to use. Define CFLAGS if a C compiler is
+    // used. 
     // To suppress colored error messages add option -fdiagnostics-color=never
-    // To add debug-code to object files add option  -g
-#define CXXFLAGS            ${CPPSTD} " -Werror -Wall -O2"
+    // To add debug-code to object files add option -g 
+    //
+    // Additional options (e.g., --std=c++23) can also be defined in the 
+    // ICMAKE_CPPSTD environment variable
+#define CXXFLAGS            "-Werror -Wall -O2"
 //#define CFLAGS              " -Wall -O2"
 
     // The extension of internal header files. See PRECOMP below
 //#define IH                  ".ih"
 
-    // Uncomment to generate precompiled headers. When activated internal
-    // header files are precompiled when they are more recent than their 
-    // precompiled versions. PRECOMP requires IH
+    // Uncomment to generate a Single Precompiled Header (SPCH).  When
+    // activated internal header files are precompiled when they are more
+    // recent than the SPCH. SPCH requires IH
+//#define SPCH           ""
+    // Uncomment to specify a filename to contain the headers to process when
+    // generating an SPCH. By default the file 'spch' is used.
+//#define SPCH_FILE      "spch"
+
+    // (Deprecated) Uncomment to generate directory-specific precompiled
+    // headers. When activated internal header files are precompiled when they
+    // are more recent than their precompiled versions. PRECOMP requires IH
 //#define PRECOMP           "-x c++-header"
 
     // Uncomment to suppress warnings about non-existing IH files in 
-    // class-directories. This option is only interpreted when PRECOMP has
-    // also been defined
+    // class-directories. This option is only interpreted when PRECOMP
+    // (now deprecated) has also been defined
 //#define NO_PRECOMP_WARNING
+
+    // Uncomment to use threaded compilation. Th first word is the name of the
+    // file (under TMP_DIR) containing the information about the files to
+    // compile (defined when calling 'icmbuild'). Additional words can be used
+    // to specify icm_multicomp options
+//#define MULTICOMP           "jobs -q"
 
     // Uncomment to relink the binary, even when no sources were changed 
 //#define REFRESH

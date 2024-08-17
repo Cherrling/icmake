@@ -201,20 +201,20 @@ modified,) and tt(compile) are left as an exercise for the reader):
     void main(int argc, list argv)
     {
         if (argc == 1)
-            usage(argv[0]));
+            usage(argv[0]);
 
         if (list toCompile = modified("*.cc"))
         {
             for (int idx = listlen(toCompile); idx--; )
                 compile(toCompile[idx]);
         }
-    }    
+    }
         )
     When executing an icm() script bf(icmake's) run-time support system first
 initializes all all global variables in the order of their
-definitions. Followin this the function tt(main) is called. The script ens
-once once tt(main) returns or when the (predefined) function tt(exit)
-is called by the script).
+definitions. Followin this the function tt(main) is called. The script ends
+once tt(main) returns or when the (predefined) function tt(exit) is called by
+the script.
 
 manpagesection(PREPROCESSOR DIRECTIVES)
 

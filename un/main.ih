@@ -1,19 +1,23 @@
+#include "../xerr/xerr.ih"
+
 #include <iostream>
 #include <string>
 #include <exception>
 
-#include <bobcat/arg>
+#include "../tmp/build/arg/arg"
 
-#include "../support/bimheader/bimheader.h"
-#include "../support/tools/tools.h"
+#include "../tmp/build/bimheader/bimheader.h"
+#include "../tmp/build/tools/tools.h"
 
 #include "unassembler/unassembler.h"
 
-#include "../xerr/xerr.ih"
+#include "../tmp/INSTALL.im"
 
+
+void usage(std::string const &progname);
+void copyright(std::string const &progname);
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
-void usage(string const &progname);
-void copyright(string const &progname);
-
+#endif

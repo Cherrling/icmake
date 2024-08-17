@@ -3,11 +3,11 @@
 // $insert class.h
 #include "parser.h"
 
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 
 #include "../../xerr/xerr.ih"
 
-#include "../../support/as/as.h"
+#include "../../tmp/build/as/as.h"
 #include "../error/error.h"
 #include "../opcode/opcode.h"
 
@@ -17,7 +17,9 @@
 #include "exceptionhandler.f"
 #include "binary.f"
 
+
+
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
-
-
+#endif

@@ -1,0 +1,17 @@
+#include "compilefork.h"
+#include "../../xerr/xerr.ih"
+
+#include <iostream>
+#include <filesystem>
+
+#include "../../tmp/build/ifdstream/ifdstream"
+#include "../../tmp/build/process/process"
+#include "../../tmp/build/redirector/redirector"
+
+#include "../../tmp/build/tools/tools.h"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+namespace fs = filesystem;
+#endif

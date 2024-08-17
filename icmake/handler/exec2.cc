@@ -1,4 +1,4 @@
-//#define XERR
+#define XERR
 #include "handler.ih"
 
         // how is &direct or &child

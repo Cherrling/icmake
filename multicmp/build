@@ -1,0 +1,18 @@
+#!/bin/bash
+
+    # make ../buildscripts's build and precomp scripts available in the
+    # current directory  
+
+
+. ../buildscripts/precomp
+. ../buildscripts/build 
+
+    echo "
+Building tmp/usr/libexec/icmake/icm-multicomp"
+
+    # do the precompilation
+precomp
+
+    # execute build installing the program in the destination dir.
+build /usr/libexec/icmake/icm-multicomp
+find ./ -name '*.gch' -exec rm {} \;

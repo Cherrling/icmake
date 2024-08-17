@@ -1,0 +1,95 @@
+#!/bin/bash
+
+BASE=`pwd`      # .../src/icmake
+
+cd support
+. ../buildscripts/flags
+. ../buildscripts/try
+
+# show usage if no arguments were used
+    if [ "$#" == "0" ] ; then
+        echo "
+    Usage: buildlib <any argument>
+
+    Before calling this script 'prepare' must have been called.
+"                                     
+        exit 0
+    fi
+
+# check for the completion of icm_prepare
+    if [ ! -e ../tmp/INSTALL.sh ] ; then
+        echo tmp/INSTALL.sh does not exist. Execute ./icm_prepare to create it
+        exit 1
+    fi
+
+# define the directory names and the std. variables (AUTHOR etc.)
+    . ../tmp/INSTALL.sh
+        # now BINDIR, SKELDIR, .... etc have been defined
+        # the @SKELDIR@ etc. names in icmbuild and icmstart are converted by
+        # icm_install, calling scripts/convert
+
+# load the root directory name
+    . ../tmp/ROOT
+
+echo "
+    The final root directory is $ROOT, 
+    Files constructed by icm_bootstrap are located under ./tmp
+    Final files are installed under ${ROOT}, but may be stored elsewhere
+    by icm_install
+"
+
+compile()
+{
+    echo Compiling in `pwd`
+
+    [ "`find ./  -mindepth 1 -maxdepth 1 -type d -name ORG`" != "" ] && return
+
+    count=0     # use o-file numbers to avoid name collisions
+
+    for subdir in \ `find ./  -mindepth 1 -maxdepth 1 -type d |sort` ; do
+
+        [ $subdir == "./xerr" ] && continue
+
+        try cd $subdir
+
+        srclist=`find -mindepth 1 -maxdepth 1 -type f -name '*.cc' \
+                                  -exec basename '{}' ';' | sort`
+
+        if [ "$srclist" != "" ]
+        then
+            for src in `find -mindepth 1 -maxdepth 1 -type f -name '*.cc' \
+                                   -exec basename '{}' ';' | sort` 
+            do
+               obj=../${count}${src%%.*}.o
+              
+               if [ $src -nt ${obj} ] ; then 
+                    opts=" -o${obj} -c $src"
+                    try ${CXX} "${CXXFLAGS} ${opts}"
+                fi
+            done
+        fi
+
+        try cd ..
+        let count=$count+1          # next directory nr.
+    done
+}
+
+    #     # in 'support/'
+    # cp bobcat.tgz ../tmp/usr/share/icmake/
+    #  
+    # mkdir -p ../tmp/bobcat
+
+mkdir -p ../tmp/build
+cp -r xerr ../tmp/build
+
+try cd ${BASE}/tmp/build
+  
+tar xzf ../../support/bobcat.tgz
+tar xzf ../../support/support.tgz
+
+compile
+try ar rs ../libicmake.a *.o
+
+echo "
+Next: call './build all'
+"

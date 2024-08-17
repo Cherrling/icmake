@@ -11,9 +11,9 @@ int Handler::forced()
     TempStream pim{ d_splitter.pidName() };
 
     return 
-        child("icm-pp" + d_preOptions + ' ' + d_splitter.file1() + 
-                                        ' ' + pim.fileName()
+        child(
+            "icm-pp" + d_preOptions + ' ' + d_splitter.file1() + 
+            ' ' + pim.fileName()
         ) == 0
-        and
-        child("icm-comp " + pim.fileName() + ' ' + d_file2) == 0;
+        and child("icm-comp " + pim.fileName() + ' ' + d_file2) == 0;
 }

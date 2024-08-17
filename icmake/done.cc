@@ -1,19 +1,19 @@
 #define XERR
 #include "main.ih"
 
-bool done(char const *program, Splitter::Action action)
+bool done(char const *program, Options::Action action)
 {
     switch (action)
     {
-        case Splitter::ABOUT:
+        case Options::ABOUT:
             about(program);
         break;
 
-        case Splitter::HELP:
+        case Options::HELP:
             usage(program);
         break;
 
-        case Splitter::VERS:
+        case Options::VERS:
             version(program);
         break;
 

@@ -31,6 +31,9 @@ Files are only changed if the program argument 'go' is specified
 
 )_";
 
+//        --spch               - silently ignore the Single Pre-Compiled Header:
+//                               it is handled elsewhere.
+
 }
 
 void usage(std::string const &progname)

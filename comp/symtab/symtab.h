@@ -1,6 +1,7 @@
 #ifndef INCLUDED_SYMTAB_
 #define INCLUDED_SYMTAB_
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -21,7 +22,7 @@ struct Symtab
                                         // (xx, 0xc0xx, 0xbfxx)
     };
 
-    typedef std::vector<Var> VarVect;
+    using VarVect = std::vector<Var>;
 
     private:
         Functions &d_functions;

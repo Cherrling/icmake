@@ -1,0 +1,7 @@
+# sourced by the various icm_bootstrap shell scripts
+
+maindir()   # $1: destination program path, 
+{
+    opts="-L../tmp -licmake ${LDFLAGS}"
+    try ${CXX}  ${CXXFLAGS} -o ../tmp${1} *.o ${opts}
+}

@@ -6,7 +6,7 @@
 
 class Symtab: private std::unordered_map<std::string, std::string>
 {
-    typedef std::unordered_map<std::string, std::string> Map;
+    using Map = std::unordered_map<std::string, std::string>;
 
     public:
         bool contains(std::string const &ident) const;

@@ -1,3 +1,6 @@
+#ifndef INCLUDED_XERR_IH_
+#define INCLUDED_XERR_IH_
+
 // define X to activate the xerr/xerr2 macros:
 //      xerr(insertion) 
 //          inserts the '<<' concatenated elements into std::cerr
@@ -17,3 +20,5 @@
     #define xerr2(insertion, b) b
 #endif
 
+
+#endif

@@ -38,12 +38,12 @@ observation resulted in the construction of two tt(icmake)-tools:
 bf(icmstart)(1), initializing a directory for program development and
 bf(icmbuild)(1), handling the actual program maintenance. Both come predefined
 with tt(icmake's) distribution, to initialize and maintain bf(C++) programs
-(or, after minimal adaptation, bf(C)) programs). They can also easily be
+(or, after minimal adaptation, bf(C) programs). They can also easily be
 tailored to other programming languages. The tt(icmstart) script and
 tt(icmbuild) program can directly be called: tt(icmstart) is an tt(icmake)
 script, for which the command-shell calls tt(icmake); tt(icmbuild) is a small
 bf(C) program calling tt(icmake) to process the tt(icmbuild) script in
-(commonly) tt(/usr/lib/icmake).
+(commonly) tt(/usr/libexec/icmake).
 
 This man-page covers bf(icmstart); refer to the bf(icmbuild)(1)
 man-page for information about how tt(icmbuild) can be used.

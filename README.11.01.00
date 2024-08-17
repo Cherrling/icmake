@@ -1,0 +1,152 @@
+
+Optional changes when upgrading to icmake 11.01.00
+--------------------------------------------------
+
+- remove (or comment out)  #define PRECOMP and #define NO_PRECOMP_WARNING
+    declarations in icmconf files
+
+- start using Single Pre-Compiled Headers (SPCHs): add 
+    #define SPCH    ""
+  to icmconf files. If some header files should not be processed specify
+  regex(es) matching the #include specifications of those headers. E.g., 
+    #define SPCH    "-k xerr/xerr.ih"
+
+- consider using multi-threaded compilation of source files: add
+    #define MULTICOMP           "jobs -q"
+  to icmconf.
+
+- the environment variable ICMAKE_CXXFLAGS is no longer used. Instead use
+  ICMAKE_CPPSTD
+
+============================================================================
+
+When using SPCHs the inspected headers files are slightly modified. E.g., a
+header file may define an inline member function:
+
+    ...
+    using namespace std;
+    inline string const &Class::text() const
+    {
+        return d_text;
+    }
+
+When using SPCHs namespace declarations in SPCHs are avoided using
+modifications like
+    ...
+    inline string const &Class::text() const
+    {
+        return d_text;
+    }
+    #ifndef SPCH_
+    using namespace std;
+    #endif
+
+This will again compile once the required namespaces are explicitly specified
+in such headers:
+    ...
+    inline std::string const &Class::text() const
+    {
+        return d_text;
+    }
+    #ifndef SPCH_
+    using namespace std;
+    #endif
+
+============================================================================
+
+Following these modifications icmake uses SPCHs and multi-threaded source
+compilations.
+
+-----------------------------------------------------------------------------
+
+FYI: here are the usage infos of icm-spch (as shown by 'icmake -S') and
+icm-multicomp (as shown by 'icmake -m')
+
+========================================================
+icm-spch by Frank B. Brokken (f.b.brokken@rug.nl)
+icm-spch V11.00.00
+Copyright (c) GPL 1992-2024. NO WARRANTY.
+
+Usage: icm-spch [options] dest
+Where:
+    [options] - optional arguments (short options between parentheses):
+        --classes (-c) file    - 'file' contains the list of directories
+                                 inspected by the --list option (by default
+                                 CLASSES). The project's top directory is
+                                 automatically inspected unless the option
+                                 --no-topdir is specified.
+        --guard (-g) name      - 'name' is the name of include-guards in 
+                                 internal headers when --required is not
+                                 used. By default 'name' is SPCH_.
+        --help (-h)            - provide this help and end the program.
+        --internal (-i) .ext   - .ext is the extension used for the internal
+                                 headers (including the dot) by default: .ih
+        --keep (-k) regex      - keep (and do not inspect)
+                                 include-specification(s) in the internal 
+                                 header matching regular expressions in
+                                 'regex'. If 'regex' starts with 'f:' (e.g.,
+                                 f:regex) then regex is the name of a file 
+                                 whose non-empty line contains a regex.
+                                 Otherwise regex contains a (POSIX extended)
+                                 regular expression, using (...)|(...) when
+                                 specifying multiple regexes.
+        --list (-l)            - write the file 'dest' containing the
+                                 filenames of the files to process when
+                                 constructing a single precompiled header
+                                 (SPCH). 
+                                 'dest' specifies a filename (without
+                                 extension) in the CWD.
+        --no-topdir (-n)       - Ignore the project's top directory when
+                                 specifying the --list option.
+        --precompile (-p) file - precompile 'file', which is the filename
+                                 specified at the option --list to the SPCH
+                                 'dest'. If 'dest' ends in / then the SPCH is
+                                 the file tt('dest'file.gch).
+                                 To use a non-default C++ standard define the
+                                 environment variable ICMAKE_CPPSTD, e.g.,
+                                    ICMAKE_CPPSTD=--std=c++23
+        --required (-r) .ext   - .ext is the extension used by the required
+                                 headers (including the dot). There's no
+                                 default: if not specified the internal
+                                 headers are precompiled.
+        --soft-link (-s) file  - 'file' and 'dest' are identical to the ones
+                                 specified at option --precompile. --soft-link
+                                 creates .gch soft-links from the .ih files
+                                 listed in 'file' to the SPCH-file specified
+                                 as the program's argument 'dest'
+        --version (-v)         - show version information and end the program.
+        --warn (-w)            - warn when existing files are about to be
+                                 modified
+
+========================================================
+
+icm-multicomp by Frank B. Brokken (f.b.brokken@rug.nl)
+icm-multicomp V11.00.00
+Copyright (c) GPL 1992-2024. NO WARRANTY.
+
+Usage: icm-multicomp [options] jobs compiler
+Where:
+    [options] - optional arguments (short options between parentheses):
+        --help (-h)             - provide this help
+        --nr (-n)               - show the thread number compiling a source
+                                  file (not used when -qq is specified)
+        --quiet (-q)            - only show the source filenames. Use twice to
+                                  suppress listing the sourcefiles. 
+        --threads (-t) nThreads - number of compilation threads
+                                  (default 4 threads)
+        --version (-v)          - show version information and terminate
+
+    jobs     - the name of a file containing the specs of the files to
+               compile. Specs start with lines like ': support tmp/o 5' where
+               the 2nd element specifies the location of the source files; the
+               3rd element specifies the destination directory of the compiled
+               files; and the 4th element specifies the prefix to add in front
+               of the compiled object files. The names of the source files to
+               compile follow next. Non-existing destination directories are
+               created. 
+
+    compiler - the (quoted) compiler call specification. Use $1 to refer to
+               the source file, $2 to refer to the object file. E.g.,
+                  '/usr/bin/g++ -c -o $2 --std=c++23 -Wall -Werror $1'
+
+========================================================

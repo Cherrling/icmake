@@ -1,6 +1,0 @@
-//#define XERR
-#include "endian.ih"
-
-Endian::
-{
-}

@@ -25,7 +25,7 @@ void Dependencies::gchFiles()
     removeGch();                        // remove gch files indicated by 
                                         // d_indicator
 
-    g_log << level(V4) << "Precompiled header inspection completed\n";
+    log(V4) << "Precompiled header inspection completed\n";
     
 }
 

@@ -4,17 +4,14 @@
 #include <iostream>
 #include <filesystem>
 
-#include <bobcat/stat>
-#include <bobcat/exception>
-#include <bobcat/tempstream>
+#include "../../tmp/build/stat/stat"
+#include "../../tmp/build/exception/exception"
+#include "../../tmp/build/tempstream/tempstream"
 
 #include "../../tmp/INSTALL.im"
 
-#include "../splitter/splitter.h"
-
-using namespace std;
-using namespace FBB;
-using namespace filesystem;
+#include "../options/options.h"
+#include "../../tmp/build/tools/tools.h"
 
 inline void Handler::setPreOptions()
 {
@@ -27,3 +24,8 @@ inline void Handler::setExecOptions()
 }
 
 
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+using namespace filesystem;
+#endif

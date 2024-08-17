@@ -2,11 +2,11 @@
 
 #include <filesystem>
 
-#include <bobcat/exception>
+#include "../../tmp/build/exception/exception"
 // #include "bobcat/arg"
 
 #include "../../xerr/xerr.ih"
-#include "../../support/as/as.h"
+#include "../../tmp/build/as/as.h"
 
 #include "../variable/variable.h"
 #include "../int/int.h"
@@ -14,5 +14,7 @@
 
 extern char **environ;
 
+#ifndef SPCH_
 using namespace std;
 using namespace FBB;
+#endif

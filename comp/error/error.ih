@@ -4,7 +4,10 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
 
-extern string const &g_where;
+extern std::string const &g_where;
 extern size_t const &g_lineNr;
+
+#ifndef SPCH_
+using namespace std;
+#endif

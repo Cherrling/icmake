@@ -7,5 +7,5 @@ void Dependencies::find()
                                     // on other .ih files
     impliedDependencies();
 
-    g_log << level(V4) << "Header file inspection completed\n";
+    log(V4) << "Header file inspection completed\n";
 }

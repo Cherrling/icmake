@@ -11,7 +11,7 @@ void Dependencies::dependentGch(size_t idx)
     {
         if (d_dependency[dep][idx])     // if it depends on 'idx'
         {
-            g_log << level(V4) << '`' << d_directory[dep] << 
+            log(V4) << '`' << d_directory[dep] << 
                     "' depends on `" << d_directory[idx] << 
                     "': recompile\n";
 

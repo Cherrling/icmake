@@ -15,11 +15,11 @@ void Dependencies::dependency(size_t idx, string const &header)
     ifstream in{ header };
     if (not in)
     {
-        g_log << level(V4) << "cannot read '`" << header << "': skipped\n";
+        log(V4) << "cannot read '`" << header << "': skipped\n";
         return;
     }
 
-    g_log << level(V4) << "inspecting header `" << header << "'\n";
+    log(V4) << "inspecting header `" << header << "'\n";
     d_localHeader[idx].push_back(header);
 
     string line;

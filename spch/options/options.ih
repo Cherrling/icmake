@@ -1,0 +1,17 @@
+#include "options.h"
+#include "../xerr/xerr.ih"
+
+#include <iostream>
+#include <filesystem>
+
+#include "../../tmp/build/mstream/mstream"
+#include "../../tmp/build/pattern/pattern"
+#include "../../tmp/build/string/string"
+
+#include "../../tmp/build/tools/tools.h"
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+namespace fs = filesystem;
+#endif

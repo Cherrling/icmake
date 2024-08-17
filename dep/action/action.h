@@ -7,6 +7,7 @@ enum Action
     GO,
     NO_GCH,
     GCH,
+    SPCH,
     UNSPECIFIED,
 };
         

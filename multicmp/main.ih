@@ -1,0 +1,21 @@
+#include "../xerr/xerr.ih"
+
+#include <iostream>
+#include <string>
+#include <exception>
+#include <thread>
+
+#include "../tmp/build/arg/arg" 
+
+#include "compiler/compiler.h"
+#include "../tmp/build/tools/tools.h"
+
+#include "../tmp/INSTALL.im"
+
+void usage(std::string const &progname);
+int handleException();
+
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

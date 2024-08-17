@@ -15,7 +15,7 @@
 class ScannerBase
 {
                 // idx: rule, value: tail length (NO_INCREMENTS if no tail)
-    typedef std::vector<int> VectorInt;
+    using VectorInt = std::vector<int>;
 
     static size_t const s_unavailable = std::numeric_limits<size_t>::max();
 

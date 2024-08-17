@@ -12,10 +12,11 @@ Pattern Options::s_icmconf
 
 unordered_map<std::string, void (Options::*)()> Options::s_icmconfEntry = 
 {
-    { "PRECOMP",     &Options::precomp    },
     { "IH",          &Options::ih         },
-    { "USE_ALL",     &Options::setUseAll  },
     { "PARSER_DIR",  &Options::parserDir  },
+    { "PRECOMP",     &Options::precomp    },
     { "SCANNER_DIR", &Options::scannerDir },
+    { "SPCH",        &Options::spch       },
+    { "USE_ALL",     &Options::icmUseAll  },
 };
 

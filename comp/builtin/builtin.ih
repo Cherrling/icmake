@@ -1,7 +1,9 @@
 #include "builtin.h"
 #include "../../xerr/xerr.ih"
 
-#include "../../support/as/as.h"
+#include "../../tmp/build/as/as.h"
 
+
+#ifndef SPCH_
 using namespace std;
-
+#endif

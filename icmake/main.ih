@@ -1,20 +1,23 @@
 #include <iostream>
 #include <string>
 
-#include <bobcat/exception>
+#include "../tmp/build/exception/exception"
 
 #include "../xerr/xerr.ih"
-#include "../support/tools/tools.h"
+#include "../tmp/build/tools/tools.h"
 
-#include "splitter/splitter.h"
+#include "options/options.h"
 #include "handler/handler.h"
 
-using namespace std;
-using namespace FBB;
+#include "../tmp/INSTALL.im"
 
-bool done(char const *program, Splitter::Action action);
+bool done(char const *program, Options::Action action);
 
 void about(char const *program);
-void usage(string const &progname);
-void version(string const &progname);
+void usage(std::string const &progname);
+void version(std::string const &progname);
 
+#ifndef SPCH_
+using namespace std;
+using namespace FBB;
+#endif

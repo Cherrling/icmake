@@ -1,0 +1,2 @@
+#define LIBRARY           "process"
+#include "../icmconf.lib"
