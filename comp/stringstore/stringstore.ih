@@ -1,6 +1,7 @@
 #include "stringstore.h"
 #include "../../xerr/xerr.ih"
 
+#include <algorithm>
 #include <bobcat/mstream>
 
 using namespace std;

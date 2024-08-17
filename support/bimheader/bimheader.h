@@ -3,11 +3,14 @@
 
 #include <string>
 #include <fstream>
+#include <algorithm>
+
 #include <bobcat/exception>
 
+#include "../endian/endian.h"
 #include "../header/header.h"
 
-class BimHeader
+class BimHeader: private Endian
 {
     std::string d_bimName;
     std::ifstream d_in;

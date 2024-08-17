@@ -1,0 +1,6 @@
+// Adapt the following to the name/file you're using. These are the defaults:
+#include "parser.ih"
+
+Parser::
+{
+}

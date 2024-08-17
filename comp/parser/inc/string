@@ -14,6 +14,6 @@ string:
     string_
     {                               // store the string, return its SemVal
         $$ = SemVal{ e_str | e_const, 
-                     as<int>(StringStore::instance().offset($1)) };
+                     use<int>(StringStore::instance().offset($1)) };
     }
 ;

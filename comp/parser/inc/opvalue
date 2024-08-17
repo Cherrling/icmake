@@ -1,6 +1,6 @@
 opValue:
     {
-        $$ = as<Opcode::Byte>(d_scanner.expr());
+        $$ = use<Opcode::Byte>(d_scanner.expr());
     }
 ;
 

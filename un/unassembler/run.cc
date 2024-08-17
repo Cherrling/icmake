@@ -3,7 +3,7 @@
 
 void UnAssembler::run(string const &progname)
 {
-    Tools::usageTop(progname) <<hex << setfill('0');
+    Tools::usageTop(progname, false) <<hex << setfill('0');
 
     statistics();               // bim-file statistics
     varDump();                  

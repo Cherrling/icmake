@@ -73,7 +73,7 @@
     // The compiler options to use. Define CFLAGS if a C compiler is used
     // To suppress colored error messages add option -fdiagnostics-color=never
     // To add debug-code to object files add option  -g
-#define CXXFLAGS            " --std=c++2a -Wall -O2"
+#define CXXFLAGS            ${CPPSTD} " -Werror -Wall -O2"
 //#define CFLAGS              " -Wall -O2"
 
     // The extension of internal header files. See PRECOMP below

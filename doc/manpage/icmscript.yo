@@ -429,16 +429,20 @@ is returned.
        A string placed between two backticks is executed as a separate
         command. Different from the tt(exec) and tt(system) calls the backtick
         operator collects the standard output produced by `cmd' returning this
-        output as a list. The elements of the list contain the subsequent
-        lines of output (including a final newline, if present) produced by
-        `cmd'. An empty list indicates that the command could not be
-        executed.
+        output as a list. 
 
-       Note that a command that could be executed but that did not produce any
-        output returns a list containing one string elemen, which is
-        empty. The command's standard error stream output is ignored by the
-        backtick operator. However, standard shell redirection may be used to
-        collect the standard error stream's output. Example:
+        The elements of the list contain the subsequent lines of output
+        (including a final newline, if present) produced by `cmd'. A command
+        that could be executed but that did not produce any output returns a
+        list containing one string element, which is empty.  
+
+        An empty list indicates that the command could not be executed.
+
+        The command's standard error stream output is ignored by the backtick
+        operator. However, standard shell redirection may be used to collect
+        the standard error stream's output. 
+
+        Example:
        verb(
     printf << `"ls"`;   // prints the elements in 
                         // the current directory

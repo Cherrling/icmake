@@ -1,3 +1,14 @@
+Icmake's programs are C++ programs since version 10.00.00.  Valentin Lefebvre
+noticed that in order to build icmake the bobcat library must be available,
+but icmake is used to construct the bobcat library. If neither icmake nor
+bobcat is available a bootstrapping procedure must be used. For this the
+'bobcatbootstrap' script can be used. See README.bobcatbootstrap for details.
+
+
+If the bobcat library is already installed then the following procedure can be
+used to build the icmake programs:
+
+
 0. After unpacking the icmake_XX.YY.ZZ.tar.gz icmake archive, make your
    current working directory equal to the directory in which you found this
    file. 
@@ -7,7 +18,7 @@
 2. If you want the compiler to insert debugging code in the icmake programs
    then define a CXXFLAGS environment variable. E.g., 
 
-                CXXFLAGS="--std=c++2a -Wall -O2 -g"
+                CXXFLAGS="--std=c++20 -Wall -O2 -g"
 
 3. To prepare for the compilations of the programs, run 
 

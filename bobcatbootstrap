@@ -1,0 +1,221 @@
+#!/bin/bash
+
+##############################################################################
+# This script must be run as root. It starts at the end (below '# main:')
+#
+# If icmake and the bobcat library haven't yet been installed on your system 
+# execute the folllowing steps to install them.
+#
+# Once the following steps have been executed they don't need to be executed
+# again as from that point onward icmake and the bobcat library are available
+# on your system, and new versions can be constructed using the available 
+# icmake and bobcat versions.
+#   
+#   1. extract the bobcat tar to its construction directory
+#   2. copy this file to that directory
+#   3. chdir to bobcat's construction directory
+#   4. check and if needed modify the specifications of 
+#           hdrDest (default /usr/include/bobcat), 
+#           libDest (default /usr/lib),  
+#      and
+#           tmpDir (default /tmp/bobcat)
+#      below this comment-section
+#   5. call ./bobcatbootstrap
+#      this constructs ${libDest}/libbobcat.a 
+#      and installs the bobcat header files in 
+#      ${hdrDest}
+#   6. chdir to icmake's construction directory
+#   7. run ./icm_prepare ./icm_bootstrap, and ./icm_install as described in 
+#      icmake's QUICKINSTALL
+#
+#   Following this, icmake is available, using its dedicated bobcat library.
+#   Next construct and install the bobcat (shared) library as described in
+#   bobcat's INSTALL file.
+#   When the full library is installed, rebuild icmake so it'll use the 
+#   shared bobcat library by executing, in icmake's construction directory:
+#       ./build distclean
+#       ./icm_prepare /
+#       ./build                     (uses icmake, or use ./icm_bootstrap x)
+#       ./icm_install strip all
+#   as described in icmake's QUICKINSTALL file.
+#
+# These steps only have to be performed once. Thereafter, with new versions of
+# either bobcat or icmake, the then available versions of bobcat and icmake
+# can be used.
+##############################################################################
+
+    # installation directories of the final header files, library, and
+    # construction directory. 
+    # the directories are created if not yet existing, 
+    # tmpDir is recursively removed at the end of this script
+    #
+    # >> use absolute directory paths
+hdrDest=/usr/include/bobcat
+libDest=/usr/lib
+tmpDir=/tmp/bobcat
+
+
+dirs="arg exception glob level log mstream onekey pattern process stat \
+     string tempstream datetime fork gs ifdbuf iostream log logbuf mbuf \
+     ofdbuf pipe processenums selector signal eoibuf fswap iobuf eoi \
+     iuo redirector"
+
+
+    # recursively look for #include "name.f" file in the file specified as 
+    # its 1st argument, appending its content to the file specified as its
+    # 2nd argument
+processHeader()
+{
+    f_file=${1}
+    dest=${2}
+
+    echo "      appending ${f_file} to tmp/hdrs/${dest}"
+
+    while read -r line
+    do
+                                                # found a .f file ?
+        echo $line | grep '#include\s*".*.f"' > /dev/null   
+    
+                                                # if yes: cat the .f file
+        if [ $? -eq 0 ] ; then                  # to tmp/hdrs/${f_file}
+            file=`echo "$line" | sed 's/.*"\(.*\.f\).*/\1/'`
+            processHeader ${file} ${dest}
+        else                                    # no: copy the line itself
+            echo "$line" >> ${dest}
+       fi
+    
+    done < ${f_file}
+}
+
+    # process the header file in directory 'dir', also named 'dir':
+    # handle its .f inclusions and write the output to tmp/hdrs/'dir'
+makeHeaders()
+{
+        # destination for the headers (including the .f files) construction
+    mkdir -p ${tmpDir}/hdrs
+
+    ifs=$IFS
+
+        # all directories to process: prepare the header files
+    IFS=' '
+    for dir in $dirs
+    do
+        cd $dir
+
+        echo Preparing the bobcat/${dir} header in ${tmpDir}/hdrs
+
+        IFS=''
+        processHeader $dir ${tmpDir}/hdrs/${dir}  # construct the header file
+        IFS=' '
+
+        cd ..
+    done
+
+    IFS=$ifs
+}
+
+compile()
+{
+    ifs=$IFS
+
+    count=0     # use o-file numbers to avoid name collisions
+
+        # all directories to process
+    IFS=' '
+    for dir in $dirs
+    do
+        cd $dir
+    
+        echo
+        echo "compiling files in $dir, count = $count"
+    
+        for file in *.cc            # compile all .cc files in $dir
+        do
+                                     # define the object file's name
+            object=${tmpDir}/$count`basename $file .cc`.o
+    
+            if [ $file -nt $object ] ; then     #compile new(er) files
+                echo g++ -O2 -o ${tmpDir}/$count`basename $file .cc`.o -c $file
+                g++ -O2 -o ${tmpDir}/$count`basename $file .cc`.o -c $file  || 
+                                                                        exit 1
+            fi
+        done    
+        
+        cd ..
+        let count=$count+1          # next directory nr.
+    done
+
+    IFS=${ifs}
+}
+
+makeBobcatLib()
+{
+    echo
+    echo "ar cr ${tmpDir}/libbobcat.a ${tmpDir}/\*.o > ${tmpDir}/ar.list"
+    ar cr ${tmpDir}/libbobcat.a ${tmpDir}/*.o > ${tmpDir}/ar.list   || exit 1
+}
+
+installHeaders()
+{
+    echo
+    echo Enter y to install the bobcat header files at ${hdrDest}
+    read cmd
+    
+    [ "$cmd" != "y" ] && return
+    
+    mkdir -p ${hdrDest} || exit 1
+    
+    echo cp ${tmpDir}/hdrs/\* ${hdrDest}
+    cp ${tmpDir}/hdrs/* ${hdrDest} || exit 1
+}
+
+installBobcatLib()
+{
+    echo
+    echo Enter y to install libbobcat.a at ${libDest}
+    read cmd
+    
+    [ "$cmd" != "y" ] && return
+    
+    mkdir -p ${libDest} || exit 1
+    
+    echo cp ${tmpDir}/libbobcat.a ${libDest}
+    cp ${tmpDir}/libbobcat.a ${libDest}
+}
+
+####################################################################
+# main:
+
+if [ -e /usr/lib/libbobcat.a -o -e /usr/include/bobcat ] ; then
+    echo '
+/usr/lib/libbobcat.a and/or /usr/include/bobcat are already available
+executing this script should not be required.
+'
+    exit 0
+fi
+
+rm -rf ${tmpDir}
+mkdir -p ${tmpDir} || exit 1
+
+makeHeaders
+installHeaders
+
+compile
+makeBobcatLib
+installBobcatLib
+
+rm -rf ${tmpDir}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

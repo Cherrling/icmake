@@ -38,6 +38,14 @@ bf(SYSTEM FUNCTIONS:)
     printf << eval("ls");   // prints the elements in the current 
                             // directory 
         )
+       As mentioned at the backtick operator: the elements of the list contain
+        the subsequent lines of output (including a final newline, if present)
+        produced by `cmd'. A command that could be executed but that did not
+        produce any output returns a list containing one string element, which
+        is empty.
+
+        An empty list indicates that the command could not be executed.
+
 
     itt(int exec([int check,] string cmd, argument(s)))nl()
        Executes the command tt(cmd) with (optional) arguments. Each argument

@@ -1,3 +1,7 @@
+#include "../c++std"
+
+#define PRECOMP             "-x c++-header"
+
 #define CLS
 #define LIBRARY           "modules"
 #define MAIN                "main.cc"
@@ -10,10 +14,9 @@
 
 #define CXX                 "g++"
 
-#define CXXFLAGS            " --std=c++2a -Wall -O2" \
+#define CXXFLAGS            ${CPPSTD} " -Werror -Wall -O2" \
                             " -fdiagnostics-color=never "
 #define IH                  ".ih"
-#define PRECOMP             "-x c++-header"
 #define REFRESH
 #define LDFLAGS             "-s"
 #define ADD_LIBRARIES       "support bobcat"

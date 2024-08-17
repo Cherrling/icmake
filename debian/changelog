@@ -1,8 +1,67 @@
-icmake (10.01.01.1-deepin1) unstable; urgency=medium
+icmake (10.03.03-2) unstable; urgency=medium
 
-  * fix build failure on deepin riscv
+  * Update autopkgtext for updated shunit2
+  * Bump Standards-Version to 4.6.2
+  * Freshen years in debian/copyright
 
- -- Zhengjie-Niu <niuzj0@gmail.com>  Fri, 02 Dec 2022 01:41:08 +0000
+ -- tony mancill <tmancill@debian.org>  Thu, 09 Feb 2023 17:04:35 -0800
+
+icmake (10.03.03-1) unstable; urgency=medium
+
+  * Updated the /usr/share/icmake skeleton files
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 10 Dec 2022 10:44:28 +0100
+
+icmake (10.03.02-1) unstable; urgency=medium
+
+  [ Frank B. Brokken ]
+  * New upstream version 10.03.02 adds bobcatbootstrap to build icmake
+    on systems that haven't installed the bobcat library
+  * Debian packaging branch is now debian/latest (DEP-14)
+
+  [ Jelmer Vernooĳ ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse. (Debian janitor)
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 09 Nov 2022 21:14:57 +0100
+
+icmake (10.03.01-1) unstable; urgency=medium
+
+  * New upstream version 10.03.01
+  * debian/rules determines the C++ version to use from upstream's 'c++std'
+    file
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 14 Sep 2022 15:08:02 +0200
+
+icmake (10.03.00-2) unstable; urgency=medium
+
+  * New debian release using libbobcat6
+
+  * Bump Standards-Version to 4.6.1
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 10 Sep 2022 16:14:48 +0200
+
+icmake (10.03.00-1) unstable; urgency=medium
+
+  [ Frank B. Brokken ]
+  * New upstream version 10.03.00
+  * The FTBFS error (bug #1004986) was caused by icmake not handling
+    big-endian architectures when writing/reading its .bim files. This problem
+    was fixed in the upstream 10.02.00 release.  (Closes: #1004986)
+  * Upstream repaired a error in writing .bim files on little-endian
+    architectures in the 10.03.00 release.
+
+  [ tony mancill ]
+  * Add autopkgtest for icmake compile, execute and disassemble
+
+ -- tony mancill <tmancill@debian.org>  Sun, 20 Feb 2022 10:18:09 -0800
+
+icmake (10.01.01-3) unstable; urgency=medium
+
+  * Check for invalid read in lex.cc causing FTBFS of bobcat on s390x.
+    (Closes: #1004986)
+
+ -- tony mancill <tmancill@debian.org>  Fri, 04 Feb 2022 17:29:26 -0800
 
 icmake (10.01.01-2) unstable; urgency=medium
 

@@ -1,8 +1,52 @@
-icmake (10.01.01)
+icmake (10.03.03)
 
-  * Removed leftover debug message in icmake/icmake/main.cc
+  * Updated the usr/share/icmake files: the parser/ and scanner/ files are
+    now more in line with the current versions of bisonc++ and flexc++
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 03 Jul 2021 12:41:09 +0200
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 10 Dec 2022 10:36:44 +0100
+
+icmake (10.03.02)
+
+  * Added the 'bobcatbootstrap' script to perform an initial installation of
+    icmake when the bobcat library isn't yet available. See the
+    README.bobcatbootstrap file and/or the usage info at the top of the
+    'bobcatbootstrap' script
+
+  * The bootstrap/flags file now loads the standard specified in 'c++std'
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 09 Nov 2022 20:40:46 +0100
+
+icmake (10.03.01)
+
+  * Ready for libbobcat6
+
+  * Added 'c++std' defining the c++ standard to use for
+    compilation. Compilation commands also use -Werror
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 14 Sep 2022 14:05:00 +0200
+
+icmake (10.03.00)
+
+  * On little-engine architectures icmake 10.02.00 should not be used as it
+    only writes the least significant bytes of multi-byte values to its .bim
+    files. This error was repaired in version 10.03.00
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 19 Feb 2022 20:38:21 +0100
+
+icmake (10.02.00)
+
+  * Daniel Bungert noticed that icmake couldn't be used on big-endian
+    architectures (like the s390x emulator). The bug was caused by icmake
+    using little-endian number representations in its .bim files. Starting
+    this version little-endian number representations are still used in the
+    .bim files, but on big-endian acrchitectures numbers are converted to
+    little-endian representations before writing them to the .bim files and
+    converted to big-endian representations when reading numbers from .bim
+    files.
+
+  * A cosmetic flaw was fixed in the output of the icmake unassembler.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 18 Feb 2022 16:47:01 +0100
 
 icmake (10.01.00)
 

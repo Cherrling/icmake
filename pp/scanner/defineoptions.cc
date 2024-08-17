@@ -17,6 +17,6 @@ void Scanner::defineOptions()
         if (d_symtab.contains(id))
             error() << '`' << id << "' multiply defined\n";
         else
-            d_symtab[id] = "1";
+            d_symtab[id] = "1"s;
     }
 }

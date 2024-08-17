@@ -10,7 +10,8 @@ SemVal Parser::defineVar(SemVal &lhs, SemVal &expr)
 {
     SemVal ret{lhs.assign(move(expr), Opcode::pop_var) };
 
-    if (as<short>(ret.value()) >= 0)        // global variables have pos. 
+    if (static_cast<short>(ret.value()) >= 0)  // global variables have pos. 
+//    if (as<short>(ret.value()) >= 0)        // global variables have pos. 
         d_symtab.globalCode(ret.code());    // index values
 
     return ret;

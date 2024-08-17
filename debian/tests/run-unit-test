@@ -1,0 +1,45 @@
+#!/bin/bash
+
+#set -e
+# no set -e because icmake can exit non-zero when successful
+# see: https://gitlab.com/fbb-git/icmake/-/issues/4
+
+exec 2>&1
+
+oneTimeSetUp() {
+    #echo "SHUNIT_TMPDIR=${SHUNIT_TMPDIR}"
+    cat > ${SHUNIT_TMPDIR}/demo.im <<EOF
+void main()
+{
+    printf << "hello world\n";
+    printf << "And another 'hello world'\n";
+}
+EOF
+}
+
+testGenerateByteCode() {
+    # use icmake to generate byte-code for our test
+    icmake -c ${SHUNIT_TMPDIR}/demo.im
+
+    if [ ! -f "${SHUNIT_TMPDIR}/demo.bim" ]; then
+      fail "demo.bim byte-code output not found"
+    fi
+}
+
+testExecuteByteCode() {
+    # icmake executor should be able to run resulting byte-code
+    local OUT=$(icmake -e ${SHUNIT_TMPDIR}/demo.bim)
+
+    assertNotSame "missing output from icmake -e" "" "${OUT}"
+    assertTrue $(echo "${OUT}" | grep -q "And another 'hello world'"; echo $?)
+}
+
+testDisassembleByteCode() {
+    # icmake unassembler should be able to disassemble resulting byte-code
+    local OUT=$(icmake -u ${SHUNIT_TMPDIR}/demo.bim)
+
+    assertNotSame "missing output from icmake -u" "" "${OUT}"
+    assertTrue $(echo "${OUT}" | grep -q "push string \"And another 'hello world'.\""; echo $?)
+}
+
+. shunit2

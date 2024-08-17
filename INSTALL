@@ -3,6 +3,13 @@ INSTALLING ICMAKE
 
                           Version 10.00.00 (and beyond).
 
+Icmake's programs are C++ programs since version 10.00.00.  Valentin Lefebvre
+noticed that in order to build icmake the bobcat library must be available,
+but icmake is used to construct the bobcat library. If neither icmake nor
+bobcat is available a bootstrapping procedure must be used. For this the
+'bobcatbootstrap' script can be used. See README.bobcatbootstrap for details.
+
+
 1. Unpack the archive:
 ======================
 

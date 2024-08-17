@@ -2,13 +2,16 @@
 #include "tools.ih"
 
 // static
-ostream &Tools::usageTop(string const &progname)
+ostream &Tools::usageTop(string const &progname, bool showUsage)
 {
-    return
-        cout << '\n' <<
-            progname << " by " AUTHOR "\n" <<
-            progname << " V" VERSION "\n"
-            "Copyright (c) GPL " YEARS ". NO WARRANTY.\n"
-            "\n"
-            "Usage: " << progname;
+    cout << '\n' <<
+        progname << " by " AUTHOR "\n" <<
+        progname << " V" VERSION "\n"
+        "Copyright (c) GPL " YEARS ". NO WARRANTY.\n"
+        "\n";
+
+    if (showUsage)
+        cout << "Usage: " << progname;
+
+    return cout;
 }

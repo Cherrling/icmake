@@ -42,7 +42,9 @@ bool Generator::backend()
     filenames();                                // write the used filenames
 
     d_bim.seekp(0);                             // rewind d_bim
-                                                // and write the header
+
+    if (not littleEndian())                     // and write the header
+        d_header.endian();
     d_bim.write(reinterpret_cast<char *>(&d_header), sizeof(Header));
 
     return true;

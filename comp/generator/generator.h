@@ -14,14 +14,15 @@
 
 #include <fstream>
 
-#include "../header/header.h"
+#include "../../support/endian/endian.h"
+#include "../../support/header/header.h"
 
 class Parser;
 class Scanner;
 class Functions;
 class Symtab;
 
-class Generator
+class Generator: private Endian
 {
     Header d_header;
 

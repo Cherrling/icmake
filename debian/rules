@@ -1,13 +1,16 @@
 #!/usr/bin/make -f
 
-# Uncomment this to turn on verbose mode.
+# Uncommented to turn on verbose mode.
 export DH_VERBOSE=1
 
 export DEB_BUILD_HARDENING=1
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
 export CXXFLAGS = $(shell dpkg-buildflags --get CXXFLAGS)
-export CXXFLAGS += --std=c++2a -Wall -D_FORTIFY_SOURCE=2
+export CXXFLAGS += -Wall -D_FORTIFY_SOURCE=2
+
+# Define the c++std to use by processing the upstream 'c++std' file
+export CXXFLAGS += $(shell cat c++std|sed -e 's/#define CPPSTD "//' -e 's/"//')
 
 export LDFLAGS = $(shell dpkg-buildflags --get LDFLAGS)
 # export LDFLAGS += -Wl,bindnow

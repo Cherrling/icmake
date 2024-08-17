@@ -10,6 +10,8 @@ BimHeader::BimHeader(char const *fname, char const *version,
     if (not d_in.read(reinterpret_cast<char *>(&d_hdr), sizeof(Header)))
         throw Exception{} << "cannot read header from " << d_bimName;
 
+    d_hdr.endian();                 // if necessary, convert to big endian
+
     if (versionCheck)
     {
         unsigned bimNr = Tools::versionNr(d_hdr.version);

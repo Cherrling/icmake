@@ -3,6 +3,9 @@
 //%interactive
 //%debug
 
+//  When using tokens defined by a bisonc++ generated parser then 
+//  return tokens as 'Tokens::TOKEN_NAME'
+
 %%
 
 [ \t]+                          // Often used: skip white space

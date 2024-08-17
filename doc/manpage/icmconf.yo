@@ -120,7 +120,7 @@ as commented tt(#defines) (e.g., tt(//#define REFRESH)).
         environment variables. If only bf(C) files are compiled then
         tt(#define CXX) can be omitted;
 
-    itb(#define CXXFLAGS "--std=c++2a -Wall -O2")
+    itb(#define CXXFLAGS "--std=c++20 -Wall -O2")
        bf(C++) compiler options to use (here showing the default
         options). When the bf(C) compiler is used, use tt(#define CFLAGS)
         rather than tt(CXXFLAGS). Their settings are overruled by identically

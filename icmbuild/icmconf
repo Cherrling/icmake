@@ -1,3 +1,5 @@
+#include "../c++std"
+
 #define CLS
 #define MAIN                "main.cc"
 #define SOURCES             "*.cc"
@@ -8,7 +10,7 @@
 #define IH                  ".ih"
 
 #define CXX                 "g++"
-#define CXXFLAGS            " --std=c++2a -Wall -O2 " \
+#define CXXFLAGS            ${CPPSTD} " -Werror -Wall -O2 " \
                                 " -fdiagnostics-color=never "
 
 #define REFRESH

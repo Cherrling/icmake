@@ -1,0 +1,53 @@
+If your system already has the bobcat library installed
+(e.g. /usr/lib/libbobcat.a) then running the 'bobcatbootstrap' script is not
+required, and the remainder of this README file can be skipped.
+
+-----------------------------------------------------------------------------
+
+Icmake's programs are C++ programs since version 10.00.00.  Valentin Lefebvre
+noticed that in order to build icmake the bobcat library must be available,
+but icmake is used to construct the bobcat library. If neither icmake nor
+bobcat is available a bootstrapping procedure must be used. For this the
+'bobcatbootstrap' script can be used. See README.bobcatbootstrap for details.
+
+By default 'bobcatbootstrap' installs /usr/lib/libbobcat.a, and installs
+header files in /usr/include/bobcat/. The directories /usr/lib and
+/usr/include/ usually have drwxr-xr-x root:root permissions, in which case
+'bobcatbootstrap' must be run as root.
+
+The 'bobcatbootstrap' script only needs to be run once. Once it has run a
+minimal bobcat library has been installed and the icmake programs are
+available, which can then be used to build the complete (shared) bobcat
+library and to rebuild icmake, depending on the shared bobcat libray using the
+description provided in QUICKINSTALL
+
+To build the minimal bobcat library and statically linked icmake programs
+perform the following steps:
+
+    1. extract the bobcat tar to its construction directory
+    2. copy this file to that directory
+    3. chdir to bobcat's construction directory
+    4. check, and if needed modify, the specifications of 
+            hdrDest (default /usr/include/bobcat), 
+            libDest (default /usr/lib),  
+       and
+            tmpDir (default /tmp/bobcat)
+       below bobcatbootstrap's comment-section
+    5. call ./bobcatbootstrap
+       this constructs ${libDest}/libbobcat.a 
+       and installs the bobcat header files in 
+       ${hdrDest}
+    6. chdir to icmake's construction directory
+    7. run ./icm_prepare ./icm_bootstrap, and ./icm_install as described in 
+       icmake's QUICKINSTALL
+    
+Once the above steps have been completed, icmake is available, using its
+dedicated bobcat library. Next construct and install the bobcat (shared)
+library as described in bobcat's INSTALL file. When the full library is
+installed, rebuild icmake so it'll use the shared bobcat library by executing,
+in icmake's construction directory:
+    ./build distclean
+    ./icm_prepare /
+    ./build                     (uses icmake, or use ./icm_bootstrap x)
+    ./icm_install strip all
+as described in icmake's QUICKINSTALL file.

@@ -37,7 +37,8 @@ class Tools
         template <typename UseType, typename Type>                      // 2.f
         static void append(std::string &dest, Type value);
 
-        static std::ostream &usageTop(std::string const &progname);
+        static std::ostream &usageTop(std::string const &progname, 
+                                      bool showUsage = true);
                                                     
     private:
                                         // determine last modification seconds

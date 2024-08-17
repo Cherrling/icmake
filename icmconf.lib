@@ -1,3 +1,5 @@
+#include "c++std"
+
 #define CLS
 #define SOURCES             "*.cc"
 #define OBJ_EXT             ".o"
@@ -5,7 +7,7 @@
 #define USE_ECHO              ON
 #define IH                  ".ih"
 #define CXX                 "g++"
-#define CXXFLAGS            " --std=c++2a -Wall -O2 " \
+#define CXXFLAGS            ${CPPSTD} " -Werror -Wall -O2 " \
                                 " -fdiagnostics-color=never "
 #define ADD_LIBRARIES       "bobcat"
 #define ADD_LIBRARY_PATHS   ""

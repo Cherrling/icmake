@@ -4,7 +4,9 @@
 
 #include "scanner.h"
 
-//#include "../parser/parserbase.h"
+//  When using tokens defined by a bisonc++ generated parser then 
+//  uncomment the following, and use Tokens::TOKEN_NAME in 'lexer'
+//#include "../tokens/tokens.h"
 
 // end of scanner.ih
 

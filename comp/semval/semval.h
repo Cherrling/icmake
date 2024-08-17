@@ -10,6 +10,7 @@
 #include "../stringstore/stringstore.h"
 #include "../tokens/tokens.h"
 #include "../../support/as/as.h"
+#include "../../support/endian/endian.h"
 
 // e_int const values are directly stored in d_value
 // e_str const values are the offsets of strings in the string section
@@ -19,12 +20,12 @@
 // ExprType type values (e.g., e_int == 1, e_str == 2, e_list == 4)
 
 
-class SemVal
+class SemVal: private Endian
 {
     friend SemVal &operator<<(SemVal &semVal, uint8_t opcode);      // 1.f
     friend SemVal &operator<<(SemVal &semVal, short value);         // 2.f
     friend SemVal &operator<<(SemVal &lhs,    SemVal &rhs);         // 3.f
-    friend SemVal &operator<<(SemVal &semVal, Opcode::Byte opcode); // 4.f
+    friend SemVal &operator<<(SemVal &semVal, Opcode::Byte opcode); // 4.cc
 
     ExprType d_type = e_null;       // type of the expression
 

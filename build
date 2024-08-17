@@ -4,8 +4,8 @@
 action=$1
 
 if [ "$action" == "distclean" ] ; then
-    echo rm -rf tmp
-    rm -rf tmp
+    echo 'rm -rf tmp doc/*.[17]'
+    rm -rf tmp doc/*.[17]
     action=clean
 fi
 

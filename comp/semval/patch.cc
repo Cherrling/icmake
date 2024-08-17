@@ -24,10 +24,7 @@ void SemVal::patch(vector<unsigned> &list, PatchDest dest)
         short jumpSize = patchDest - offset;
 //cerr << "jump size: " << hex << jumpSize << dec << '\n';
 
-        char *destPos = &d_code[offset - 2];
-
-        *destPos = as<uint8_t>(jumpSize);
-        *(destPos + 1) = as<uint8_t>(jumpSize >> 8);
+        endian(&d_code[offset - 2], jumpSize);
     }
 //cerr << '\n';
     list.clear();               // this patch is completed, code may be 

@@ -1,3 +1,4 @@
+header
 bimheader
 opcodes
 builtinfunctions
@@ -17,3 +18,4 @@ tools
 # opcode
 # builtindata
 # findidx
+endian

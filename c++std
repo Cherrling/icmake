@@ -1,0 +1,2 @@
+#define CPPSTD "--std=c++20"
+
